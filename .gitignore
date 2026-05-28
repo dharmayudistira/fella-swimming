@@ -44,3 +44,6 @@ next-env.d.ts
 
 # supabase cli scratch
 supabase/.temp
+
+# claude code mcp (contains tokens)
+.mcp.json
