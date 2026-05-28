@@ -104,7 +104,7 @@ export async function TestimoniSection() {
           sub="Cerita asli dari orang tua anak-anak kami. Kami tampilkan apa adanya."
         />
 
-        <ul className="-mx-5 grid snap-x snap-mandatory auto-cols-[85%] grid-flow-col gap-4 overflow-x-auto px-5 pb-2 md:mx-0 md:auto-cols-auto md:grid-flow-row md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0">
+        <ul className="-mx-5 grid snap-x snap-mandatory auto-cols-[82%] grid-flow-col gap-4 overflow-x-auto scroll-pl-7 px-7 pb-2 md:mx-0 md:auto-cols-auto md:grid-flow-row md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0">
           {testimonials.map((t, i) => {
             const s = cardStyles[i % cardStyles.length];
             return (
