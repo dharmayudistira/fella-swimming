@@ -351,85 +351,52 @@ Defensibility is built into the strategy. The articles, once published, continue
 
 ## 5. Design Direction
 
-> **Hi-fi visual source of truth:** `docs/design/` (HTML/CSS prototype bundle from Claude Design). Treat those `.html` files as the definitive renders. The tokens, components, and motion below match those prototypes.
-
 ### Design Philosophy
 
 1. **Readability is the primary aesthetic.** This is a content site for parents reading on phones in low light. Type size, line height, contrast, and whitespace are tuned for sustained reading before they are tuned for visual flourish.
 2. **The page is a guided scroll, not a dense dashboard.** Public surfaces have one purpose per section, generous vertical rhythm, and clear stopping points. Information density is the wrong metaphor; pace is the right one.
-3. **Soft and joyful, not sterile and not loud.** The brand is warm and tactile. Warmth comes from rounded corners, gentle warm-tinted shadows, off-white backgrounds, chunky 3D button feedback, and small playful flourishes (subtle card rotations, wavy underline on accent words, confetti in the final CTA). Avoid both the coldness of pure white + sharp corners + generic drop-shadows, and the over-stimulation of neon palettes + mascot characters.
-4. **Admin is data-first.** The admin philosophy inverts the public one: density is OK, table-first layouts are fine, fewer rotated flourishes, faster scan. Bu Sari processes leads, she doesn't browse. Admin gets a dark-navy sidebar (the one exception to light-mode) against the same warm-sand content area, and reuses chunky button + bottom-color accent patterns at smaller scale.
-5. **Signature flourishes are seasoning, not the meal.** Each signature device — card rotation, wavy underline, spinning dashed ring, confetti, wave divider — should appear once per visual moment at most. If three are competing in the same eye-shot, remove two.
+3. **Soft, not sterile.** The brand is warm, not minimalist-cold. Visual softness comes from rounded corners, gentle shadows, slightly off-white backgrounds, and small playful details. Avoid the visual coldness of pure white + sharp corners.
+4. **Admin is data-first.** The admin philosophy inverts the public one: density is OK, table-first layouts are fine, fewer visual flourishes, faster scan. Bu Sari processes leads, she doesn't browse.
 
 ### Visual Mood
 
-**Soft Aquatic, Joyful (v2).** Think of an Indonesian parenting magazine that decided to be a website and learned a few tactile tricks from Duolingo. Colors evoke water and sun: cool sky blues and soft turquoises against warm sandy beige, with soft coral and warm sun-yellow as accents. Typography is rounded and unintimidating but disciplined enough for long-form articles. Energy is calm-with-moments-of-warmth — restraint of Headspace and Notion at the base layer, with tactile press feedback and small hand-arranged rotations as the seasoning.
-
-**Reference brands the audience recognizes:**
-- **Halodoc** — clean modern Indonesian healthcare. Clarity, trust, friendly-without-clinical.
-- **Headspace** — calm wellness. Generous whitespace, restrained illustration, approachable type. Our base layer.
-- **Duolingo** (buttons only) — chunky 3D button press feedback is borrowed deliberately. We do NOT borrow Duolingo's mascots, neon greens, gamified streaks, or carnival type.
-- **@keluargakita** — Indonesian parenting voice. Educational, warm Bahasa Indonesia, respectful of reader's intelligence.
-- **Delta app by eToro** — polished, data-dense premium UX for admin surfaces.
-
-Avoid Disney-bright kids-brand visuals; avoid corporate-blue health-tech visuals; avoid the full Duolingo aesthetic (only the button press is borrowed).
+Soft Aquatic with editorial structure. Think of a parenting magazine that decided to be a website. Colors evoke water and sun: cool sky blues and soft turquoises against warm sandy beige, with a soft coral that signals "this is a friendly place, not a clinic." Typography is rounded and unintimidating but disciplined enough for long-form articles. Energy is calm and inviting — closer to Headspace and Notion than to Duolingo. Reference brands the audience recognizes: @keluargakita's warmth, Halodoc's clarity, Notion's spacing discipline. Avoid Disney-bright kids-brand visuals; avoid corporate-blue health-tech visuals.
 
 ### Color Palette
 
-All colors specified as OKLCH per Tailwind v4 best practice, with hex fallback for reference. CSS variables follow Tailwind v4 `@theme` naming. Light mode for public + admin content; dark navy (`#1A2332`) reserved for the admin sidebar shell only. Dark theme considered as Phase 2.
-
-Each brand color ships with **four variants** to support the v2 layered card and button system:
-- **base** — solid fill (button background, dot, primary card border)
-- **dark** — under-shadow of chunky buttons; readable text on tint backgrounds
-- **soft** — transparent overlay (~10–14% alpha) for badge backgrounds
-- **tint** — ~96% lightness for soft section/card fills
+All colors specified as OKLCH per Tailwind v4 best practice, with hex fallback for reference. CSS variables follow Tailwind v4 `@theme` naming. Light mode primary; dark mode considered as Phase 2.
 
 **Brand colors.**
 
 | Token | Hex (approx) | OKLCH | CSS Variable | Use |
 |---|---|---|---|---|
 | Primary (Sky) | `#0EA5E9` | `oklch(0.71 0.14 230)` | `--color-primary` | Main brand color, primary buttons, key links, focus rings |
-| Primary Dark | — | `oklch(0.55 0.16 230)` | `--color-primary-dark` | Chunky button under-shadow, dark text on tint |
-| Primary Soft | — | `oklch(0.71 0.14 230 / 0.10)` | `--color-primary-soft` | Badge backgrounds, icon tile backgrounds |
-| Primary Tint | — | `oklch(0.96 0.03 230)` | `--color-primary-tint` | Soft section/card fill (featured kelas card, testimoni-1) |
-| Secondary (Turquoise) | `#14B8A6` | `oklch(0.73 0.13 184)` | `--color-secondary` | Secondary accents, supporting elements, info badges, wavy underline |
-| Secondary Dark | — | `oklch(0.55 0.13 184)` | `--color-secondary-dark` | Under-shadow, dark text on tint |
-| Secondary Soft | — | `oklch(0.73 0.13 184 / 0.14)` | `--color-secondary-soft` | Badge / icon backgrounds |
-| Secondary Tint | — | `oklch(0.96 0.03 184)` | `--color-secondary-tint` | Soft fills |
-| Accent (Coral) | `#FB7185` | `oklch(0.72 0.16 15)` | `--color-accent` | Warmth touches, featured testimonial highlight, popular-badge |
-| Accent Dark | — | `oklch(0.56 0.16 15)` | `--color-accent-dark` | Under-shadow |
-| Accent Soft | — | `oklch(0.72 0.16 15 / 0.14)` | `--color-accent-soft` | Badge / icon backgrounds |
-| Accent Tint | — | `oklch(0.96 0.03 15)` | `--color-accent-tint` | Soft fills (testimoni cards) |
-| **Sun (new)** | — | `oklch(0.84 0.13 80)` | `--color-sun` | Star ratings, hero badge background, "Cara Daftar" eyebrow, sparing highlights |
-| Sun Dark | — | `oklch(0.55 0.14 80)` | `--color-sun-dark` | Dark text on sun tint |
-| Sun Tint | — | `oklch(0.97 0.04 80)` | `--color-sun-tint` | Soft yellow card fill |
+| Primary Hover | `#0284C7` | `oklch(0.62 0.15 230)` | `--color-primary-hover` | Button hover states |
+| Secondary (Turquoise) | `#14B8A6` | `oklch(0.73 0.13 184)` | `--color-secondary` | Secondary accents, supporting elements, info badges |
+| Accent (Coral) | `#FB7185` | `oklch(0.72 0.16 15)` | `--color-accent` | Warmth touches, featured testimonial highlight, soft callouts |
 
 **Neutrals.**
 
-| Token | Hex | CSS Variable | Use |
+| Token | Hex (approx) | CSS Variable | Use |
 |---|---|---|---|
 | Background (Sand) | `#FAF8F5` | `--color-background` | Body background |
 | Surface | `#FFFFFF` | `--color-surface` | Cards, modals, elevated areas |
-| Surface Muted | `#F5F1EC` | `--color-surface-muted` | Subtle section backgrounds (intro, pelatih, galeri, lokasi) |
-| Border | `#E7E2DA` | `--color-border` | Default 2px card borders |
-| Foreground (Text) | `#1A2332` | `--color-foreground` | Primary text; admin sidebar background |
+| Surface Muted | `#F5F1EC` | `--color-surface-muted` | Subtle section backgrounds |
+| Border | `#E7E2DA` | `--color-border` | Default borders |
+| Foreground (Text) | `#1A2332` | `--color-foreground` | Primary text |
 | Foreground Muted | `#5C6573` | `--color-foreground-muted` | Secondary text, captions |
 | Foreground Subtle | `#8C95A3` | `--color-foreground-subtle` | Placeholders, tertiary text |
-| Sidebar Foreground | `rgba(255,255,255,0.85)` | `--color-sidebar-fg` | Default sidebar nav text |
-| Sidebar Foreground Muted | `rgba(255,255,255,0.55)` | `--color-sidebar-fg-muted` | Sidebar section labels |
 
 **Semantic colors.**
 
-| Token | OKLCH / Hex | CSS Variable | Use |
+| Token | Hex | CSS Variable | Use |
 |---|---|---|---|
-| Success | `oklch(0.66 0.16 150)` ≈ `#10B981` | `--color-success` | Successful registration, status badges, hero "check" icon |
-| Success Dark | `oklch(0.45 0.16 150)` | `--color-success-dark` | Check icon foreground on tint |
-| Success Tint | `oklch(0.95 0.06 150)` | `--color-success-tint` | Soft fill behind check |
+| Success | `#10B981` | `--color-success` | Successful registration, status badges |
 | Warning | `#F59E0B` | `--color-warning` | Cautions, pending status |
 | Error | `#EF4444` | `--color-error` | Form validation errors, destructive confirms |
 | Info | `#3B82F6` | `--color-info` | Informational banners |
 
-**Dark mode considerations (Phase 2).** Invert background and foreground; reduce saturation of primary and secondary by ~10%; keep accent and sun at full saturation for moments of warmth. Not in MVP scope.
+**Dark mode considerations (Phase 2).** Invert background and foreground; reduce saturation of primary and secondary by ~10%; keep accent at full saturation for moments of warmth. Not in MVP scope.
 
 ### Typography
 
@@ -498,37 +465,25 @@ Each brand color ships with **four variants** to support the v2 layered card and
 
 ### Component Philosophy
 
-**Border radius (v2 — bigger, friendlier).**
-- 12px (`--radius-sm`) — inputs, small chips, kbd hints
-- 18px (`--radius`) — default card, search input, eyebrow pill
-- 24px (`--radius-lg`) — large kelas / pelatih / step cards, hero photos
-- 32px (`--radius-xl`) — footer CTA panel, hero callouts
-- 9999px (`--radius-full`) — status badges, eyebrow pills, popular badge
-- Avoid sharp corners entirely; even input fields get a 12px rounding.
-- **Organic blob radii** for gallery photo placeholders (see Signature Patterns).
+**Border radius.** Default: 12px (`--radius`) for cards, modals, large surfaces. Small: 8px for buttons, inputs, badges. Large: 16px for hero callouts. Pill: 9999px for status badges and chips. Avoid sharp corners entirely; even input fields get a slight rounding.
 
-**Shadows.** Warm-tinted on `rgba(26, 35, 50, ...)`. Four levels:
-- `--shadow-sm`: `0 1px 2px rgba(26, 35, 50, 0.05)` — subtle elevation on cards.
-- `--shadow-md`: `0 6px 16px -6px rgba(26, 35, 50, 0.10), 0 2px 4px -2px rgba(26, 35, 50, 0.05)` — card hover, modals.
-- `--shadow-lg`: `0 18px 36px -14px rgba(26, 35, 50, 0.14), 0 6px 10px -4px rgba(26, 35, 50, 0.06)` — hero photo, popovers.
-- `--shadow-pop`: `0 24px 48px -16px oklch(0.71 0.14 230 / 0.28)` — featured card (Semi-Privat) hover; colored glow.
+**Shadows.** Three levels.
 
-**Borders.** The signature device. Cards use **2px** solid `--color-border` with **4–6px** colored `border-bottom` (per the card's role color). This is the brand's elevation mechanism — it replaces the older soft shadow approach. Side-stripe borders (`border-left:` colored) remain banned.
+- `--shadow-sm`: `0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 1px rgba(15, 23, 42, 0.04)` — subtle elevation on cards.
+- `--shadow-md`: `0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04)` — modals, dropdowns.
+- `--shadow-lg`: `0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.06)` — popovers, hero callouts on hover.
 
-**Buttons — chunky 3D press (brand signature).** All variants share the press-feedback motion: solid color + under-shadow that collapses on `:active` so the button physically presses.
+**Borders.** Subtle. Default 1px solid `--color-border`. Avoid heavy borders; rely on shadows or background contrast to define edges.
 
-- **Primary**: `--color-primary` background, white text, 16px radius (default size), 700 weight. Under-shadow `0 4px 0 0 --color-primary-dark, 0 8px 16px -6px <colored-glow>`. On `:active`: `translateY(3px)` + collapsed shadow.
-- **Secondary**: `--color-surface` background, `--color-foreground` text, no border, under-shadow `0 3px 0 0 --color-border, 0 1px 2px rgba(26,35,50,0.04)`. Hover `--color-surface-muted`. Press as above.
-- **Accent**: same pattern with accent / accent-dark.
-- **Ghost**: transparent + primary text, no shadow, `hover:bg-primary/8`.
-- **Inverted (on dark gradient CTA panel)**: white background, primary text, under-shadow uses a lighter primary-tint so the press effect still reads against the dark gradient.
-- Sizes: `sm` (42px tall), default (52px), `lg` (60px).
+**Buttons.** Three variants.
 
-**Inputs.** 1.5px border `--color-border` (12px radius), 12px vertical padding, 16px font, `bg-surface`, `focus:ring-2 focus:ring-primary/30 focus:border-primary`. Label above input, small helper text below. The page-level "back" button reuses the chunky-press pattern (1.5px border + 3px bottom border).
+- **Primary**: `--color-primary` background, white text, 8px radius, 12px vertical / 24px horizontal padding, 500 weight, hover state shifts to `--color-primary-hover`, focus ring at `--color-primary` with 30% opacity.
+- **Secondary**: `--color-surface` background, `--color-foreground` text, 1px border at `--color-border`, hover background `--color-surface-muted`.
+- **Ghost**: transparent background, `--color-primary` text, no border, hover background `--color-primary` at 8% opacity.
 
-**Cards.** Surface background, **2px border** `--color-border` with **4–6px colored bottom border**, 24px radius, optional **±0.4–1.2° rotation** on nth-child for hand-arranged grids. `transform: rotate(0)` on `:hover`. Hover lifts via `translateY(-4px)` + `--shadow-md`. The **featured card** uses a primary-tinted gradient background, full primary border, slight scale-up, and `--shadow-pop`.
+**Inputs.** 1px border `--color-border`, 8px radius, 12px vertical padding, 16px font, focus ring matches primary with 30% opacity. Label above input, small helper text below.
 
-**Eyebrow pills.** Above every section heading: pill with surface background, 1.5px border with 3px colored bottom border, pulsing colored dot, uppercase mono text (0.74rem, 0.12em tracking). The dot color signals the section role (primary / accent / turquoise / sun).
+**Cards.** Surface background, 12px radius, `--shadow-sm` default, optional hover state with `--shadow-md` lift on interactive cards.
 
 ### Iconography & Imagery
 
@@ -556,43 +511,17 @@ Each brand color ships with **four variants** to support the v2 layered card and
 
 ### Motion & Interaction
 
-**Defaults.** Transition duration 150ms for filter/transform on buttons; 200ms for hover state changes; 250ms for card transforms; 300ms for modals/drawers; 400ms for page-level transitions. Easing: cubic-bezier(0.4, 0, 0.2, 1) — the standard ease-out for forward motion. A snappier curve (`cubic-bezier(0.2, 0, 0, 1)`) is available as `--ease-snappy` for the press-feedback if needed.
+**Defaults.** Transition duration 200ms for hovers and small state changes; 300ms for modals, drawers, and larger reveals; 400ms for page-level transitions. Easing: cubic-bezier(0.4, 0, 0.2, 1) — the standard ease-out for forward motion.
 
-**Hover.**
-- Buttons: `filter: brightness(1.04)` (subtle lift, not color shift).
-- Cards: `translateY(-4px)` + `--shadow-md`; rotation resets to 0deg.
-- Anchor links: gap between text and arrow icon widens from 6px to 10px.
+**Hover.** Subtle. Buttons darken on hover by ~8% lightness. Cards optionally lift via shadow change. No scaling, no rotation, no dramatic shifts.
 
 **Focus.** Always visible. 2px ring at `--color-primary` 30% opacity. Never `outline: none` without a replacement focus style.
 
-**Active (button press — brand signature).** Buttons `translateY(2–3px)` and the under-shadow collapses from `0 4px 0 ...` to `0 1px 0 ...`. This physical-press feedback is on by default for all chunky button variants — it is the brand. Also applies to back-buttons, icon-buttons, and admin search/icon controls.
+**Active.** Slight scale down to 0.98 on button press for tactile feedback. Only on touch surfaces.
 
-**Decorative motion.**
-- Hero spinning dashed ring: `animation: spin 26s linear infinite`.
-- Eyebrow pulsing dot: `animation: pulse 2.4s ease-in-out infinite` (opacity + scale 1 → 0.6/1.3 → 1).
-- Map pin bob: `animation: bob 3.6s ease-in-out infinite` (translateY 0 → -8% → 0).
-- All of these obey `prefers-reduced-motion: reduce` and freeze.
+**Loading states.** Skeleton screens for content sections during initial load (articles list, admin tables). Spinner only for transient actions under 1 second (form submission button). Never an indeterminate spinner blocking the entire page.
 
-**Loading states.** Skeleton screens (`bg-surface-muted animate-pulse`) for content sections during initial load. Spinner only for transient actions under 1 second (form submission button). Never an indeterminate spinner blocking the entire page.
-
-**Animation philosophy.** Motion serves comprehension and tactile feedback. The chunky button press is functional (signals tap success). Card rotations are static (not animated in). Reduced motion turns off all infinite-loop decorative motion (spin, pulse, bob) and keeps only press feedback and hover lifts.
-
-### Signature Patterns (v2)
-
-The deliberate flourishes that define the brand. Implementation reference: `docs/design/project/landing.html`. Use each one **at most once per visual moment**.
-
-1. **Chunky 3D button press** — solid color + under-shadow that collapses on `:active`. Brand-defining tactile feedback.
-2. **Bottom-color accent on cards** — 2px border + 4–6px colored bottom border per role. Replaces side-stripe accents (which are banned).
-3. **Subtle card rotations** — ±0.4°–1.2° on nth-child, reset to 0° on hover. Never exceed ±1.5°.
-4. **Wave SVG dividers** between major sections (sand → muted → sand). 56px tall, single quadratic-bezier path.
-5. **Wavy/squiggle underlines** on accent words in hero headings (turquoise for primary accent, coral for accent).
-6. **Eyebrow pills** above every section heading, with pulsing colored dot and uppercase mono micro-label.
-7. **Confetti dots** inside the footer CTA gradient panel only. Never elsewhere.
-8. **Organic blob radii** on gallery photo placeholders (blob-a/b/c/d / circle).
-9. **Spinning dashed ring + floating bubble decorations** at low opacity near hero imagery.
-10. **Functional backdrop blur** permitted on sticky headers/topbars only. Not glassmorphism on cards.
-11. **Dashed connector lines** between numbered steps on desktop.
-12. **Mono micro-labels** for placeholders, kbd hints, `display_id`, `step-card__meta`, footer version stamp.
+**Animation philosophy.** Motion serves comprehension. Modals slide in from a direction, list items can stagger in on first load, but animations do not exist for their own sake. Reduced motion turns off all non-essential motion.
 
 ### Design Tokens
 
@@ -601,20 +530,9 @@ Consolidated single-source-of-truth for implementation. All tokens map to Tailwi
 | Category | Token | CSS Variable | Tailwind Class | Value |
 |---|---|---|---|---|
 | Color | Primary | `--color-primary` | `bg-primary`, `text-primary` | `oklch(0.71 0.14 230)` |
-| Color | Primary Dark | `--color-primary-dark` | `bg-primary-dark` | `oklch(0.55 0.16 230)` |
-| Color | Primary Soft | `--color-primary-soft` | `bg-primary-soft` | `oklch(0.71 0.14 230 / 0.10)` |
-| Color | Primary Tint | `--color-primary-tint` | `bg-primary-tint` | `oklch(0.96 0.03 230)` |
+| Color | Primary Hover | `--color-primary-hover` | `bg-primary-hover` | `oklch(0.62 0.15 230)` |
 | Color | Secondary | `--color-secondary` | `bg-secondary`, `text-secondary` | `oklch(0.73 0.13 184)` |
-| Color | Secondary Dark | `--color-secondary-dark` | `bg-secondary-dark` | `oklch(0.55 0.13 184)` |
-| Color | Secondary Soft | `--color-secondary-soft` | `bg-secondary-soft` | `oklch(0.73 0.13 184 / 0.14)` |
-| Color | Secondary Tint | `--color-secondary-tint` | `bg-secondary-tint` | `oklch(0.96 0.03 184)` |
 | Color | Accent | `--color-accent` | `bg-accent`, `text-accent` | `oklch(0.72 0.16 15)` |
-| Color | Accent Dark | `--color-accent-dark` | `bg-accent-dark` | `oklch(0.56 0.16 15)` |
-| Color | Accent Soft | `--color-accent-soft` | `bg-accent-soft` | `oklch(0.72 0.16 15 / 0.14)` |
-| Color | Accent Tint | `--color-accent-tint` | `bg-accent-tint` | `oklch(0.96 0.03 15)` |
-| Color | Sun | `--color-sun` | `bg-sun`, `text-sun` | `oklch(0.84 0.13 80)` |
-| Color | Sun Dark | `--color-sun-dark` | `bg-sun-dark` | `oklch(0.55 0.14 80)` |
-| Color | Sun Tint | `--color-sun-tint` | `bg-sun-tint` | `oklch(0.97 0.04 80)` |
 | Color | Background | `--color-background` | `bg-background` | `#FAF8F5` |
 | Color | Surface | `--color-surface` | `bg-surface` | `#FFFFFF` |
 | Color | Surface Muted | `--color-surface-muted` | `bg-surface-muted` | `#F5F1EC` |
@@ -622,28 +540,28 @@ Consolidated single-source-of-truth for implementation. All tokens map to Tailwi
 | Color | Foreground | `--color-foreground` | `text-foreground` | `#1A2332` |
 | Color | Foreground Muted | `--color-foreground-muted` | `text-foreground-muted` | `#5C6573` |
 | Color | Foreground Subtle | `--color-foreground-subtle` | `text-foreground-subtle` | `#8C95A3` |
-| Color | Sidebar BG | `--color-sidebar-bg` | `bg-sidebar` | `#1A2332` |
-| Color | Sidebar FG | `--color-sidebar-fg` | `text-sidebar-fg` | `rgba(255,255,255,0.85)` |
-| Color | Sidebar FG Muted | `--color-sidebar-fg-muted` | `text-sidebar-fg-muted` | `rgba(255,255,255,0.55)` |
-| Color | Success | `--color-success` | `text-success`, `bg-success` | `oklch(0.66 0.16 150)` |
-| Color | Success Dark | `--color-success-dark` | `text-success-dark` | `oklch(0.45 0.16 150)` |
-| Color | Success Tint | `--color-success-tint` | `bg-success-tint` | `oklch(0.95 0.06 150)` |
+| Color | Success | `--color-success` | `text-success`, `bg-success` | `#10B981` |
 | Color | Warning | `--color-warning` | `text-warning`, `bg-warning` | `#F59E0B` |
 | Color | Error | `--color-error` | `text-error`, `bg-error` | `#EF4444` |
 | Color | Info | `--color-info` | `text-info`, `bg-info` | `#3B82F6` |
-| Typography | Heading font | `--font-heading` | `font-heading` | `"General Sans", "Nunito", system-ui, sans-serif` |
-| Typography | Body font | `--font-body` | `font-body` | `"Nunito", system-ui, sans-serif` |
-| Typography | Mono font | `--font-mono` | `font-mono` | `"JetBrains Mono", ui-monospace, monospace` |
-| Spacing | 1 / 2 / 4 / 6 / 8 | `--spacing` × N | `p-N`, `gap-N`, etc. | base `0.25rem` × N |
-| Spacing | 12 / 16 / 24 | — | `p-12` / `p-16` / `p-24` | `3rem` / `4rem` / `6rem` |
-| Radius | Small | `--radius-sm` | `rounded-xl` | `12px` |
-| Radius | Default | `--radius` | `rounded-2xl` | `18px` |
-| Radius | Large | `--radius-lg` | `rounded-3xl` | `24px` |
-| Radius | XL | `--radius-xl` | `rounded-[32px]` | `32px` |
+| Typography | Heading font | `--font-heading` | `font-heading` | `"General Sans", sans-serif` |
+| Typography | Body font | `--font-body` | `font-body` | `"Nunito", sans-serif` |
+| Typography | Mono font | `--font-mono` | `font-mono` | `"JetBrains Mono", monospace` |
+| Spacing | 1 | `--space-1` | `p-1`, `m-1`, `gap-1` | `0.25rem` |
+| Spacing | 2 | `--space-2` | `p-2`, `m-2`, `gap-2` | `0.5rem` |
+| Spacing | 4 | `--space-4` | `p-4`, `m-4`, `gap-4` | `1rem` |
+| Spacing | 6 | `--space-6` | `p-6`, `m-6`, `gap-6` | `1.5rem` |
+| Spacing | 8 | `--space-8` | `p-8`, `m-8`, `gap-8` | `2rem` |
+| Spacing | 12 | `--space-12` | `p-12`, `m-12`, `gap-12` | `3rem` |
+| Spacing | 16 | `--space-16` | `p-16`, `m-16`, `gap-16` | `4rem` |
+| Spacing | 24 | `--space-24` | `p-24`, `m-24`, `gap-24` | `6rem` |
+| Radius | Small | `--radius-sm` | `rounded-sm` | `8px` |
+| Radius | Default | `--radius` | `rounded` | `12px` |
+| Radius | Large | `--radius-lg` | `rounded-lg` | `16px` |
 | Radius | Full | `--radius-full` | `rounded-full` | `9999px` |
-| Shadow | Small | `--shadow-sm` | `shadow-sm` | `0 1px 2px rgba(26,35,50,0.05)` |
-| Shadow | Medium | `--shadow-md` | `shadow-md` | `0 6px 16px -6px rgba(26,35,50,0.10), 0 2px 4px -2px rgba(26,35,50,0.05)` |
-| Shadow | Large | `--shadow-lg` | `shadow-lg` | `0 18px 36px -14px rgba(26,35,50,0.14), 0 6px 10px -4px rgba(26,35,50,0.06)` |
-| Shadow | Pop (featured) | `--shadow-pop` | `shadow-[var(--shadow-pop)]` | `0 24px 48px -16px oklch(0.71 0.14 230 / 0.28)` |
-| Transition | Fluid | `--ease-fluid` | `ease-[cubic-bezier(0.4,0,0.2,1)]` | `cubic-bezier(0.4, 0, 0.2, 1)` |
-| Transition | Snappy | `--ease-snappy` | `ease-[cubic-bezier(0.2,0,0,1)]` | `cubic-bezier(0.2, 0, 0, 1)` |
+| Shadow | Small | `--shadow-sm` | `shadow-sm` | `0 1px 2px rgba(15,23,42,0.04), 0 1px 1px rgba(15,23,42,0.04)` |
+| Shadow | Medium | `--shadow-md` | `shadow-md` | `0 4px 6px -1px rgba(15,23,42,0.06), 0 2px 4px -2px rgba(15,23,42,0.04)` |
+| Shadow | Large | `--shadow-lg` | `shadow-lg` | `0 10px 15px -3px rgba(15,23,42,0.08), 0 4px 6px -4px rgba(15,23,42,0.06)` |
+| Transition | Fast | `--ease-fast` | `transition duration-200` | `200ms cubic-bezier(0.4,0,0.2,1)` |
+| Transition | Default | `--ease-default` | `transition duration-300` | `300ms cubic-bezier(0.4,0,0.2,1)` |
+| Transition | Slow | `--ease-slow` | `transition duration-400` | `400ms cubic-bezier(0.4,0,0.2,1)` |

@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fellaswimming — Landing Page Design</title>
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; background: #f0eee9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+  #root { height: 100vh; }
+  /* Frame chrome for the artboards */
+  .frame { background: #FAF8F5; border-radius: 6px; overflow: hidden; }
+  .frame iframe { display: block; border: 0; width: 100%; }
+  .device-bar {
+    height: 28px; display: flex; align-items: center; gap: 6px;
+    padding: 0 14px; background: #1A2332; color: #fff;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 0.04em;
+    border-radius: 6px 6px 0 0;
+  }
+  .device-bar .dots { display: flex; gap: 5px; }
+  .device-bar .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.35); }
+  .device-bar .url { opacity: 0.7; margin-left: 8px; }
+  .device-bar .right { margin-left: auto; opacity: 0.5; }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+// An artboard whose inner iframe height is measured after load so the
+// artboard fits the entire landing page with no scrolling within it.
+function LandingFrame({ src, width, height, deviceLabel, urlLabel }) {
+  const barHeight = 28;
+  return (
+    <div className="frame" style={{ width, height: height + barHeight }}>
+      <div className="device-bar">
+        <div className="dots"><span className="dot"/><span className="dot"/><span className="dot"/></div>
+        <span>{deviceLabel}</span>
+        <span className="url">· {urlLabel}</span>
+        <span className="right">{width}px</span>
+      </div>
+      <iframe
+        src={src}
+        style={{ height, width: '100%' }}
+        scrolling="no"
+        title={`landing-${width}`}
+      />
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <DesignCanvas>
+      <DCSection
+        id="landing-mobile"
+        title="Landing · Mobile"
+        subtitle="390px · Mama Risa scrolls one-handed at 22:30. Mobile is the only assumption."
+      >
+        <DCArtboard
+          id="landing-mobile-390"
+          label="Landing · 390 · iPhone"
+          width={390}
+          height={13550}
+        >
+          <LandingFrame
+            src="landing.html"
+            width={390}
+            height={13515}
+            deviceLabel="iPhone 14"
+            urlLabel="fellaswimming.com"
+          />
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="landing-desktop"
+        title="Landing · Desktop"
+        subtitle="1280px · Pak Andi's 8-minute validation scan between meetings."
+      >
+        <DCArtboard
+          id="landing-desktop-1280"
+          label="Landing · 1280 · Desktop"
+          width={1280}
+          height={8760}
+        >
+          <LandingFrame
+            src="landing.html"
+            width={1280}
+            height={8724}
+            deviceLabel="Desktop"
+            urlLabel="fellaswimming.com"
+          />
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="daftar-mobile"
+        title="Daftar · Mobile · 3-step wizard"
+        subtitle="390px · max-width 480 centered. Each step + confirmation as its own frame."
+      >
+        <DCArtboard
+          id="daftar-step1"
+          label="Step 1 · Info Anak"
+          width={390}
+          height={1460}
+        >
+          <LandingFrame
+            src="daftar.html?step=1"
+            width={390}
+            height={1431}
+            deviceLabel="iPhone 14"
+            urlLabel="fellaswimming.com/daftar"
+          />
+        </DCArtboard>
+        <DCArtboard
+          id="daftar-step2"
+          label="Step 2 · Pilih Kelas"
+          width={390}
+          height={1310}
+        >
+          <LandingFrame
+            src="daftar.html?step=2"
+            width={390}
+            height={1276}
+            deviceLabel="iPhone 14"
+            urlLabel="fellaswimming.com/daftar"
+          />
+        </DCArtboard>
+        <DCArtboard
+          id="daftar-step3"
+          label="Step 3 · Kontak"
+          width={390}
+          height={1135}
+        >
+          <LandingFrame
+            src="daftar.html?step=3"
+            width={390}
+            height={1103}
+            deviceLabel="iPhone 14"
+            urlLabel="fellaswimming.com/daftar"
+          />
+        </DCArtboard>
+        <DCArtboard
+          id="daftar-done"
+          label="Konfirmasi · FS-2026-0438"
+          width={390}
+          height={1110}
+        >
+          <LandingFrame
+            src="daftar.html?step=done"
+            width={390}
+            height={1075}
+            deviceLabel="iPhone 14"
+            urlLabel="fellaswimming.com/daftar/sukses"
+          />
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="daftar-desktop"
+        title="Daftar · Desktop"
+        subtitle="1280px · same wizard, max-width 480 centered on warm sand."
+      >
+        <DCArtboard
+          id="daftar-step2-desktop"
+          label="Step 2 · Pilih Kelas · Desktop"
+          width={1280}
+          height={1335}
+        >
+          <LandingFrame
+            src="daftar.html?step=2"
+            width={1280}
+            height={1299}
+            deviceLabel="Desktop"
+            urlLabel="fellaswimming.com/daftar"
+          />
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="artikel-mobile"
+        title="Artikel · Mobile"
+        subtitle="390px · index (browse) + detail (read). Magic-moment loop: article → landing."
+      >
+        <DCArtboard
+          id="artikel-index-mobile"
+          label="Artikel Index"
+          width={390}
+          height={7090}
+        >
+          <LandingFrame
+            src="artikel.html"
+            width={390}
+            height={7057}
+            deviceLabel="iPhone 14"
+            urlLabel="fellaswimming.com/artikel"
+          />
+        </DCArtboard>
+        <DCArtboard
+          id="artikel-detail-mobile"
+          label="Artikel · Usia Ideal"
+          width={390}
+          height={7520}
+        >
+          <LandingFrame
+            src="artikel-detail.html"
+            width={390}
+            height={7490}
+            deviceLabel="iPhone 14"
+            urlLabel="fellaswimming.com/artikel/usia-ideal-les-renang"
+          />
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="artikel-desktop"
+        title="Artikel · Desktop"
+        subtitle="1280px · 3-col grid for index, 760px reading column for detail."
+      >
+        <DCArtboard
+          id="artikel-index-desktop"
+          label="Artikel Index · Desktop"
+          width={1280}
+          height={3400}
+        >
+          <LandingFrame
+            src="artikel.html"
+            width={1280}
+            height={3366}
+            deviceLabel="Desktop"
+            urlLabel="fellaswimming.com/artikel"
+          />
+        </DCArtboard>
+        <DCArtboard
+          id="artikel-detail-desktop"
+          label="Artikel Detail · Desktop"
+          width={1280}
+          height={4850}
+        >
+          <LandingFrame
+            src="artikel-detail.html"
+            width={1280}
+            height={4813}
+            deviceLabel="Desktop"
+            urlLabel="fellaswimming.com/artikel/usia-ideal-les-renang"
+          />
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="admin-auth"
+        title="Admin · Login"
+        subtitle="1280px · Bu Sari signs in. Centered card on warm sand."
+      >
+        <DCArtboard
+          id="admin-login"
+          label="Login"
+          width={1280}
+          height={880}
+        >
+          <LandingFrame
+            src="admin-login.html"
+            width={1280}
+            height={846}
+            deviceLabel="Desktop"
+            urlLabel="fellaswimming.com/admin/login"
+          />
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="admin-dashboard"
+        title="Admin · Dashboard"
+        subtitle="1280px · Bu Sari's morning view. Stats, chart, status breakdown, recent leads, quick actions."
+      >
+        <DCArtboard
+          id="admin-home"
+          label="Dashboard"
+          width={1280}
+          height={1460}
+        >
+          <LandingFrame
+            src="admin.html"
+            width={1280}
+            height={1430}
+            deviceLabel="Desktop"
+            urlLabel="fellaswimming.com/admin"
+          />
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="admin-pendaftaran"
+        title="Admin · Pendaftaran"
+        subtitle="1280px · Triage flow. List view + modal-open detail view."
+      >
+        <DCArtboard
+          id="admin-pendaftaran-list"
+          label="Lead List"
+          width={1280}
+          height={1440}
+        >
+          <LandingFrame
+            src="admin-pendaftaran.html"
+            width={1280}
+            height={1407}
+            deviceLabel="Desktop"
+            urlLabel="fellaswimming.com/admin/pendaftaran"
+          />
+        </DCArtboard>
+        <DCArtboard
+          id="admin-pendaftaran-modal"
+          label="Modal · FS-2026-0438"
+          width={1280}
+          height={1440}
+        >
+          <LandingFrame
+            src="admin-pendaftaran.html?modal=open"
+            width={1280}
+            height={1407}
+            deviceLabel="Desktop"
+            urlLabel="fellaswimming.com/admin/pendaftaran"
+          />
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="admin-artikel"
+        title="Admin · Artikel CMS"
+        subtitle="1280px · Manage articles + Tiptap-style editor with cover, slug, SEO preview, history."
+      >
+        <DCArtboard
+          id="admin-artikel-list"
+          label="Article List"
+          width={1280}
+          height={1645}
+        >
+          <LandingFrame
+            src="admin-artikel.html"
+            width={1280}
+            height={1611}
+            deviceLabel="Desktop"
+            urlLabel="fellaswimming.com/admin/artikel"
+          />
+        </DCArtboard>
+        <DCArtboard
+          id="admin-artikel-editor"
+          label="Editor · Tanda Pelatih"
+          width={1280}
+          height={2930}
+        >
+          <LandingFrame
+            src="admin-artikel-editor.html"
+            width={1280}
+            height={2895}
+            deviceLabel="Desktop"
+            urlLabel="fellaswimming.com/admin/artikel/tanda-pelatih-renang/edit"
+          />
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="admin-testimoni"
+        title="Admin · Testimoni CMS"
+        subtitle="1280px · Sortable list with drag handles + featured toggle. Click any row for edit modal."
+      >
+        <DCArtboard
+          id="admin-testimoni-list"
+          label="Testimoni List"
+          width={1280}
+          height={1335}
+        >
+          <LandingFrame
+            src="admin-testimoni.html"
+            width={1280}
+            height={1301}
+            deviceLabel="Desktop"
+            urlLabel="fellaswimming.com/admin/testimoni"
+          />
+        </DCArtboard>
+        <DCArtboard
+          id="admin-testimoni-modal"
+          label="Edit Modal · Bunda Lala"
+          width={1280}
+          height={1335}
+        >
+          <LandingFrame
+            src="admin-testimoni.html?modal=edit"
+            width={1280}
+            height={1301}
+            deviceLabel="Desktop"
+            urlLabel="fellaswimming.com/admin/testimoni"
+          />
+        </DCArtboard>
+      </DCSection>
+
+      <DCPostIt x={40} y={120}>
+        <strong>Brand:</strong> Soft Aquatic ·
+        General Sans + Nunito · Bahasa Indonesia ·
+        Friendly Guide voice. No hard-sell, no fake urgency, no stock photos.
+      </DCPostIt>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

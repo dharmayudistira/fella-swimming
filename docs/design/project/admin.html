@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dashboard — Fellaswimming Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --c-primary: oklch(0.71 0.14 230); --c-primary-dark: oklch(0.55 0.16 230); --c-primary-soft: oklch(0.71 0.14 230 / 0.10); --c-primary-tint: oklch(0.96 0.03 230);
+    --c-secondary: oklch(0.73 0.13 184); --c-secondary-dark: oklch(0.55 0.13 184); --c-secondary-soft: oklch(0.73 0.13 184 / 0.14); --c-secondary-tint: oklch(0.96 0.03 184);
+    --c-accent: oklch(0.72 0.16 15); --c-accent-dark: oklch(0.56 0.16 15); --c-accent-soft: oklch(0.72 0.16 15 / 0.14); --c-accent-tint: oklch(0.96 0.03 15);
+    --c-sun: oklch(0.84 0.13 80); --c-sun-dark: oklch(0.55 0.14 80); --c-sun-tint: oklch(0.97 0.04 80);
+    --c-success: oklch(0.66 0.16 150); --c-success-dark: oklch(0.45 0.16 150); --c-success-tint: oklch(0.95 0.06 150);
+    --c-bg: #FAF8F5; --c-surface: #FFFFFF; --c-muted: #F5F1EC; --c-border: #E7E2DA;
+    --c-fg: #1A2332; --c-fg-muted: #5C6573; --c-fg-subtle: #8C95A3;
+    --c-sidebar-bg: #1A2332;
+    --c-sidebar-fg: rgba(255,255,255,0.85);
+    --c-sidebar-fg-muted: rgba(255,255,255,0.55);
+    --font-heading: "General Sans", "Nunito", system-ui, sans-serif;
+    --font-body: "Nunito", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    --sb-w: 240px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body); color: var(--c-fg); background: var(--c-bg);
+    font-size: 15px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 700; line-height: 1.18; letter-spacing: -0.015em; margin: 0; color: var(--c-fg); }
+  p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ====== SHELL ====== */
+  .shell { display: grid; grid-template-columns: var(--sb-w) 1fr; min-height: 100vh; }
+
+  /* ====== SIDEBAR ====== */
+  .sb {
+    background: var(--c-sidebar-bg);
+    color: var(--c-sidebar-fg);
+    padding: 22px 16px;
+    display: flex; flex-direction: column;
+    position: sticky; top: 0; height: 100vh;
+  }
+  .sb__brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-heading); font-weight: 700; font-size: 1rem;
+    color: #fff;
+    padding: 0 8px 8px;
+    margin-bottom: 14px;
+  }
+  .sb__mark {
+    width: 32px; height: 32px; border-radius: 10px;
+    background: radial-gradient(circle at 28% 28%, oklch(0.92 0.07 200), var(--c-primary) 70%);
+    position: relative;
+  }
+  .sb__mark::after { content: ""; position: absolute; right: 4px; top: 4px; width: 7px; height: 7px; border-radius: 50%; background: oklch(0.95 0.04 80); }
+  .sb__badge {
+    margin-left: auto;
+    font-family: var(--font-mono); font-size: 0.65rem;
+    padding: 3px 7px; border-radius: 5px;
+    background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.65);
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+
+  .sb__section {
+    font-family: var(--font-mono); font-size: 0.66rem;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--c-sidebar-fg-muted);
+    padding: 14px 12px 6px;
+  }
+  .sb__nav { display: flex; flex-direction: column; gap: 2px; }
+  .sb__item {
+    display: flex; align-items: center; gap: 11px;
+    padding: 9px 12px;
+    border-radius: 10px;
+    font-size: 0.92rem; font-weight: 500;
+    color: var(--c-sidebar-fg);
+    cursor: pointer;
+    transition: background .15s, color .15s;
+  }
+  .sb__item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+  .sb__item.is-active {
+    background: oklch(0.71 0.14 230 / 0.22);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: inset 0 0 0 1px oklch(0.71 0.14 230 / 0.4);
+  }
+  .sb__item .ic {
+    width: 22px; height: 22px;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .sb__item .ic svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .sb__item .count {
+    margin-left: auto;
+    font-family: var(--font-mono); font-size: 0.72rem;
+    background: rgba(255,255,255,0.08);
+    padding: 2px 7px; border-radius: 6px;
+    color: rgba(255,255,255,0.7); font-weight: 600;
+  }
+  .sb__item.is-active .count { background: var(--c-primary); color: #fff; }
+  .sb__item .count--warn { background: var(--c-accent); color: #fff; }
+
+  .sb__user {
+    margin-top: auto;
+    padding: 12px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .sb__user-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, oklch(0.78 0.14 15), oklch(0.78 0.12 30));
+    color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 0.84rem;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .sb__user-meta { flex: 1; min-width: 0; }
+  .sb__user-name { font-size: 0.88rem; font-weight: 700; color: #fff; line-height: 1.1; }
+  .sb__user-role { font-size: 0.74rem; color: var(--c-sidebar-fg-muted); margin-top: 2px; }
+  .sb__user-menu {
+    width: 30px; height: 30px; border-radius: 8px;
+    border: 0; background: transparent; color: var(--c-sidebar-fg-muted);
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .sb__user-menu:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+  /* ====== TOPBAR ====== */
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(250,248,245,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--c-border);
+    display: flex; align-items: center; gap: 18px;
+    padding: 16px 28px;
+  }
+  .topbar__title { font-size: 1.4rem; letter-spacing: -0.02em; }
+  .topbar__sub { color: var(--c-fg-muted); font-size: 0.86rem; margin-top: 1px; }
+  .topbar__right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  .search {
+    width: 280px; max-width: 28vw;
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 12px;
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 3px;
+    border-radius: 11px;
+    font-size: 0.88rem; color: var(--c-fg-subtle);
+  }
+  .search svg { width: 16px; height: 16px; stroke: var(--c-fg-subtle); stroke-width: 2; fill: none; }
+  .search input {
+    flex: 1; border: 0; outline: 0; background: transparent;
+    font: inherit; color: var(--c-fg);
+  }
+  .search kbd {
+    font-family: var(--font-mono); font-size: 0.7rem;
+    padding: 2px 7px; border-radius: 5px;
+    background: var(--c-muted); color: var(--c-fg-muted);
+    border: 1px solid var(--c-border); border-bottom-width: 2px;
+  }
+  .icon-btn {
+    width: 38px; height: 38px; border-radius: 11px;
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 3px;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer; position: relative;
+    transition: transform .08s;
+  }
+  .icon-btn:active { transform: translateY(2px); border-bottom-width: 1.5px; }
+  .icon-btn svg { width: 16px; height: 16px; stroke: var(--c-fg); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .icon-btn .dot {
+    position: absolute; top: 8px; right: 9px;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--c-accent); border: 2px solid var(--c-surface);
+  }
+
+  /* ====== MAIN ====== */
+  .main { padding: 28px 28px 48px; }
+
+  /* ====== WELCOME ====== */
+  .welcome {
+    background: linear-gradient(135deg, var(--c-primary-tint), var(--c-secondary-tint));
+    border: 1.5px solid oklch(0.86 0.06 200);
+    border-bottom-width: 4px;
+    border-bottom-color: var(--c-primary);
+    border-radius: 20px;
+    padding: 24px 28px;
+    display: flex; align-items: center; gap: 24px;
+    margin-bottom: 24px;
+    position: relative; overflow: hidden;
+  }
+  .welcome::before {
+    content: ""; position: absolute; top: -60px; right: -40px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: radial-gradient(circle, oklch(0.85 0.10 200 / 0.4), transparent 70%);
+  }
+  .welcome__body { flex: 1; position: relative; z-index: 1; }
+  .welcome__greeting {
+    font-family: var(--font-mono); font-size: 0.74rem;
+    color: var(--c-primary-dark); font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .welcome__title {
+    font-size: 1.45rem; line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .welcome__sub { color: var(--c-fg-muted); font-size: 0.94rem; }
+  .welcome__streak {
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 3px;
+    border-radius: 14px;
+    padding: 12px 16px;
+    text-align: center;
+    position: relative; z-index: 1;
+  }
+  .welcome__streak .n { font-family: var(--font-heading); font-weight: 700; font-size: 1.6rem; color: var(--c-accent); display: block; line-height: 1; }
+  .welcome__streak .l { font-size: 0.74rem; color: var(--c-fg-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 6px; display: block; }
+
+  /* ====== STAT GRID ====== */
+  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .stat-card {
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 4px;
+    border-radius: 16px;
+    padding: 20px 22px;
+    position: relative;
+    transition: transform .15s;
+  }
+  .stat-card:hover { transform: translateY(-2px); }
+  .stat-card--primary { border-bottom-color: var(--c-primary); }
+  .stat-card--secondary { border-bottom-color: var(--c-secondary); }
+  .stat-card--accent { border-bottom-color: var(--c-accent); }
+  .stat-card__head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .stat-card__ic {
+    width: 36px; height: 36px; border-radius: 11px;
+    background: var(--c-primary-tint); color: var(--c-primary-dark);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .stat-card--secondary .stat-card__ic { background: var(--c-secondary-tint); color: var(--c-secondary-dark); }
+  .stat-card--accent .stat-card__ic { background: var(--c-accent-tint); color: var(--c-accent-dark); }
+  .stat-card__ic svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .stat-card__label { font-size: 0.84rem; color: var(--c-fg-muted); font-weight: 600; }
+  .stat-card__num { font-family: var(--font-heading); font-weight: 700; font-size: 2.2rem; line-height: 1; letter-spacing: -0.025em; color: var(--c-fg); margin-bottom: 8px; }
+  .stat-card__delta {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 0.78rem; font-weight: 700;
+    padding: 3px 9px; border-radius: 999px;
+    background: var(--c-success-tint); color: var(--c-success-dark);
+  }
+  .stat-card__delta.is-down { background: var(--c-accent-soft); color: var(--c-accent-dark); }
+  .stat-card__delta svg { width: 11px; height: 11px; fill: currentColor; }
+  .stat-card__hint { color: var(--c-fg-muted); font-size: 0.8rem; margin-left: 8px; }
+
+  /* ====== TWO-COL LAYOUT ====== */
+  .two-col {
+    display: grid; grid-template-columns: 1.55fr 1fr; gap: 16px;
+    margin-bottom: 24px;
+  }
+  .panel {
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-radius: 18px;
+    padding: 20px 22px;
+  }
+  .panel__head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; gap: 12px; }
+  .panel__title { font-size: 1.05rem; letter-spacing: -0.01em; }
+  .panel__sub { color: var(--c-fg-muted); font-size: 0.82rem; }
+  .panel__action {
+    font-family: var(--font-body); font-size: 0.84rem; font-weight: 700;
+    color: var(--c-primary); display: inline-flex; align-items: center; gap: 4px;
+    cursor: pointer;
+  }
+  .panel__action:hover { gap: 7px; }
+
+  /* ====== CHART (chunky bars) ====== */
+  .chart {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px;
+    height: 160px; align-items: end;
+    margin-bottom: 14px;
+  }
+  .chart__bar {
+    background: linear-gradient(180deg, var(--c-primary), var(--c-primary-dark));
+    border-radius: 10px 10px 4px 4px;
+    box-shadow: 0 3px 0 var(--c-primary-dark);
+    position: relative;
+    transition: filter .15s;
+  }
+  .chart__bar:hover { filter: brightness(1.06); }
+  .chart__bar--today {
+    background: linear-gradient(180deg, var(--c-accent), var(--c-accent-dark));
+    box-shadow: 0 3px 0 var(--c-accent-dark);
+  }
+  .chart__bar .v {
+    position: absolute; top: -22px; left: 50%; transform: translateX(-50%);
+    font-family: var(--font-heading); font-weight: 700;
+    font-size: 0.82rem; color: var(--c-fg);
+  }
+  .chart__bar--today .v { color: var(--c-accent-dark); }
+  .chart__axis {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px;
+    font-family: var(--font-mono); font-size: 0.7rem;
+    color: var(--c-fg-muted);
+    text-align: center;
+  }
+  .chart__axis .today { color: var(--c-accent-dark); font-weight: 700; }
+
+  /* ====== STATUS BREAKDOWN ====== */
+  .status-list {
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .status-row {
+    display: grid; grid-template-columns: 100px 1fr 50px; gap: 10px; align-items: center;
+  }
+  .status-row__label {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 0.84rem; font-weight: 600;
+  }
+  .status-row__dot { width: 9px; height: 9px; border-radius: 50%; }
+  .status-row__bar {
+    height: 8px; background: var(--c-muted); border-radius: 999px; overflow: hidden;
+  }
+  .status-row__bar-fill {
+    height: 100%; border-radius: 999px;
+  }
+  .status-row__num {
+    font-family: var(--font-mono); font-size: 0.84rem; font-weight: 700;
+    color: var(--c-fg); text-align: right;
+  }
+  .s-baru .status-row__dot, .s-baru .status-row__bar-fill { background: var(--c-primary); }
+  .s-dihubungi .status-row__dot, .s-dihubungi .status-row__bar-fill { background: var(--c-sun); }
+  .s-trial .status-row__dot, .s-trial .status-row__bar-fill { background: var(--c-secondary); }
+  .s-daftar .status-row__dot, .s-daftar .status-row__bar-fill { background: var(--c-success); }
+  .s-tdkl .status-row__dot, .s-tdkl .status-row__bar-fill { background: var(--c-fg-subtle); }
+
+  /* ====== TABLE ====== */
+  .table-wrap {
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .table-wrap__head {
+    padding: 18px 22px 12px;
+    display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    border-bottom: 1px solid var(--c-border);
+  }
+  table.tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  .tbl thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-family: var(--font-mono); font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--c-fg-muted); font-weight: 700;
+    background: var(--c-muted);
+    border-bottom: 1px solid var(--c-border);
+    white-space: nowrap;
+  }
+  .tbl tbody td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--c-border);
+    color: var(--c-fg);
+    vertical-align: middle;
+  }
+  .tbl tbody tr:last-child td { border-bottom: 0; }
+  .tbl tbody tr { cursor: pointer; transition: background .12s; }
+  .tbl tbody tr:hover { background: var(--c-muted); }
+  .tbl .mono { font-family: var(--font-mono); font-size: 0.82rem; color: var(--c-fg-muted); }
+  .tbl .name { font-weight: 700; color: var(--c-fg); display: flex; align-items: center; gap: 10px; }
+  .tbl .avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, oklch(0.78 0.12 230), oklch(0.78 0.12 184));
+    color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 0.72rem;
+    display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .tbl .avatar--coral { background: linear-gradient(135deg, oklch(0.80 0.14 15), oklch(0.80 0.10 30)); }
+  .tbl .avatar--sun { background: linear-gradient(135deg, oklch(0.84 0.13 80), oklch(0.80 0.10 50)); }
+  .tbl .avatar--turq { background: linear-gradient(135deg, oklch(0.78 0.12 184), oklch(0.82 0.10 200)); }
+  .tbl .meta-sub { color: var(--c-fg-muted); font-size: 0.78rem; font-weight: 500; }
+
+  /* ====== STATUS BADGE ====== */
+  .pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 999px;
+    font-size: 0.74rem; font-weight: 700;
+    line-height: 1;
+  }
+  .pill .d { width: 6px; height: 6px; border-radius: 50%; }
+  .pill--baru { background: var(--c-primary-soft); color: var(--c-primary-dark); }
+  .pill--baru .d { background: var(--c-primary); }
+  .pill--dihubungi { background: var(--c-sun-tint); color: var(--c-sun-dark); }
+  .pill--dihubungi .d { background: var(--c-sun); }
+  .pill--trial { background: var(--c-secondary-soft); color: var(--c-secondary-dark); }
+  .pill--trial .d { background: var(--c-secondary); }
+  .pill--daftar { background: var(--c-success-tint); color: var(--c-success-dark); }
+  .pill--daftar .d { background: var(--c-success); }
+  .pill--tdkl { background: var(--c-muted); color: var(--c-fg-muted); }
+  .pill--tdkl .d { background: var(--c-fg-subtle); }
+
+  /* ====== QUICK ACTIONS ====== */
+  .quick {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  }
+  .quick-card {
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 4px;
+    border-radius: 16px;
+    padding: 18px 18px;
+    display: flex; align-items: center; gap: 14px;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .quick-card:hover { transform: translateY(-2px); box-shadow: 0 6px 14px -6px rgba(26,35,50,.1); }
+  .quick-card--primary { border-bottom-color: var(--c-primary); }
+  .quick-card--secondary { border-bottom-color: var(--c-secondary); }
+  .quick-card--accent { border-bottom-color: var(--c-accent); }
+  .quick-card__ic {
+    width: 40px; height: 40px; border-radius: 12px;
+    background: var(--c-primary-tint); color: var(--c-primary-dark);
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .quick-card--secondary .quick-card__ic { background: var(--c-secondary-tint); color: var(--c-secondary-dark); }
+  .quick-card--accent .quick-card__ic { background: var(--c-accent-tint); color: var(--c-accent-dark); }
+  .quick-card__ic svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .quick-card__title { font-weight: 700; font-size: 0.95rem; margin-bottom: 2px; }
+  .quick-card__sub { color: var(--c-fg-muted); font-size: 0.8rem; }
+  .quick-card__arrow {
+    margin-left: auto;
+    color: var(--c-fg-subtle);
+  }
+  .quick-card__arrow svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2.2; fill: none; stroke-linecap: round; }
+
+  /* ====== BTNS ====== */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    height: 38px; padding: 0 14px;
+    border-radius: 11px;
+    font-family: var(--font-body); font-weight: 700;
+    font-size: 0.86rem; cursor: pointer; border: none;
+    transition: filter .15s, transform .08s;
+  }
+  .btn--primary {
+    background: var(--c-primary); color: #fff;
+    box-shadow: 0 3px 0 var(--c-primary-dark);
+  }
+  .btn--primary:hover { filter: brightness(1.04); }
+  .btn--primary:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--c-primary-dark); }
+  .btn--secondary {
+    background: var(--c-surface); color: var(--c-fg);
+    box-shadow: 0 3px 0 var(--c-border);
+  }
+  .btn--secondary:hover { background: var(--c-muted); }
+  .btn--secondary:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--c-border); }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sb">
+    <div class="sb__brand">
+      <span class="sb__mark" aria-hidden="true"></span>
+      Fellaswimming
+      <span class="sb__badge">Admin</span>
+    </div>
+
+    <div class="sb__section">Operasional</div>
+    <nav class="sb__nav">
+      <a class="sb__item is-active" href="#">
+        <span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></span>
+        Dashboard
+      </a>
+      <a class="sb__item" href="#">
+        <span class="ic"><svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M8 12h8M8 16h5"/></svg></span>
+        Pendaftaran
+        <span class="count count--warn">6</span>
+      </a>
+    </nav>
+
+    <div class="sb__section">Konten</div>
+    <nav class="sb__nav">
+      <a class="sb__item" href="#">
+        <span class="ic"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg></span>
+        Artikel
+        <span class="count">17</span>
+      </a>
+      <a class="sb__item" href="#">
+        <span class="ic"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H8l-5 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>
+        Testimoni
+        <span class="count">12</span>
+      </a>
+    </nav>
+
+    <div class="sb__section">Akun</div>
+    <nav class="sb__nav">
+      <a class="sb__item" href="#">
+        <span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></span>
+        Pengaturan
+      </a>
+    </nav>
+
+    <div class="sb__user">
+      <div class="sb__user-avatar">SR</div>
+      <div class="sb__user-meta">
+        <div class="sb__user-name">Bu Sari</div>
+        <div class="sb__user-role">Admin Staff</div>
+      </div>
+      <button class="sb__user-menu" aria-label="Menu akun">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div>
+    <header class="topbar">
+      <div>
+        <h1 class="topbar__title">Dashboard</h1>
+        <div class="topbar__sub">Kamis · 28 Mei 2026</div>
+      </div>
+      <div class="topbar__right">
+        <div class="search">
+          <svg viewBox="0 0 24 24" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input placeholder="Cari pendaftaran, artikel..." />
+          <kbd>⌘K</kbd>
+        </div>
+        <button class="icon-btn" aria-label="Notifikasi">
+          <svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M18 16v-5a6 6 0 00-12 0v5l-2 2v1h16v-1l-2-2zM10 21h4"/></svg>
+          <span class="dot"></span>
+        </button>
+      </div>
+    </header>
+
+    <main class="main">
+
+      <!-- WELCOME -->
+      <section class="welcome">
+        <div class="welcome__body">
+          <div class="welcome__greeting">Selamat sore, Bu Sari</div>
+          <h2 class="welcome__title">Ada 6 lead baru menunggu di-follow-up hari ini.</h2>
+          <p class="welcome__sub">Rata-rata respons kamu minggu ini: 4 jam 22 menit. Lebih cepat dari target 1×24 jam — keep it up!</p>
+        </div>
+        <div class="welcome__streak">
+          <span class="n">14</span>
+          <span class="l">Hari kerja beruntun</span>
+        </div>
+      </section>
+
+      <!-- STATS -->
+      <section class="stat-grid">
+        <div class="stat-card stat-card--primary">
+          <div class="stat-card__head">
+            <span class="stat-card__ic">
+              <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg>
+            </span>
+            <span class="stat-card__label">Pendaftaran bulan ini</span>
+          </div>
+          <div class="stat-card__num">47</div>
+          <span class="stat-card__delta">
+            <svg viewBox="0 0 12 12"><path d="M6 2l4 5H8v3H4V7H2z"/></svg>
+            +18%
+          </span>
+          <span class="stat-card__hint">vs April</span>
+        </div>
+
+        <div class="stat-card stat-card--secondary">
+          <div class="stat-card__head">
+            <span class="stat-card__ic">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            </span>
+            <span class="stat-card__label">Lead baru hari ini</span>
+          </div>
+          <div class="stat-card__num">6</div>
+          <span class="stat-card__delta">
+            <svg viewBox="0 0 12 12"><path d="M6 2l4 5H8v3H4V7H2z"/></svg>
+            +2 vs kemarin
+          </span>
+        </div>
+
+        <div class="stat-card stat-card--accent">
+          <div class="stat-card__head">
+            <span class="stat-card__ic">
+              <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M12 8v4M12 16h.01"/></svg>
+            </span>
+            <span class="stat-card__label">Menunggu follow-up</span>
+          </div>
+          <div class="stat-card__num">12</div>
+          <span class="stat-card__delta is-down">
+            <svg viewBox="0 0 12 12"><path d="M6 10L2 5h2V2h4v3h2z"/></svg>
+            -3 vs minggu lalu
+          </span>
+        </div>
+      </section>
+
+      <!-- TWO COL: chart + status -->
+      <section class="two-col">
+        <div class="panel">
+          <div class="panel__head">
+            <div>
+              <div class="panel__title">Lead masuk · 7 hari terakhir</div>
+              <div class="panel__sub">Total: 32 pendaftaran · Rata-rata 4.6/hari</div>
+            </div>
+            <a class="panel__action" href="#">Lihat detail
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+          <div class="chart">
+            <div class="chart__bar" style="height: 38%"><span class="v">3</span></div>
+            <div class="chart__bar" style="height: 50%"><span class="v">4</span></div>
+            <div class="chart__bar" style="height: 75%"><span class="v">6</span></div>
+            <div class="chart__bar" style="height: 38%"><span class="v">3</span></div>
+            <div class="chart__bar" style="height: 63%"><span class="v">5</span></div>
+            <div class="chart__bar" style="height: 63%"><span class="v">5</span></div>
+            <div class="chart__bar chart__bar--today" style="height: 75%"><span class="v">6</span></div>
+          </div>
+          <div class="chart__axis">
+            <span>Jum</span><span>Sab</span><span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span><span class="today">Kam</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head">
+            <div>
+              <div class="panel__title">Status pendaftaran</div>
+              <div class="panel__sub">Bulan Mei 2026</div>
+            </div>
+          </div>
+          <div class="status-list">
+            <div class="status-row s-baru">
+              <div class="status-row__label"><span class="status-row__dot"></span> Baru</div>
+              <div class="status-row__bar"><div class="status-row__bar-fill" style="width: 28%"></div></div>
+              <div class="status-row__num">13</div>
+            </div>
+            <div class="status-row s-dihubungi">
+              <div class="status-row__label"><span class="status-row__dot"></span> Dihubungi</div>
+              <div class="status-row__bar"><div class="status-row__bar-fill" style="width: 38%"></div></div>
+              <div class="status-row__num">18</div>
+            </div>
+            <div class="status-row s-trial">
+              <div class="status-row__label"><span class="status-row__dot"></span> Trial</div>
+              <div class="status-row__bar"><div class="status-row__bar-fill" style="width: 21%"></div></div>
+              <div class="status-row__num">10</div>
+            </div>
+            <div class="status-row s-daftar">
+              <div class="status-row__label"><span class="status-row__dot"></span> Daftar</div>
+              <div class="status-row__bar"><div class="status-row__bar-fill" style="width: 13%"></div></div>
+              <div class="status-row__num">6</div>
+            </div>
+            <div class="status-row s-tdkl">
+              <div class="status-row__label"><span class="status-row__dot"></span> Tidak Lanjut</div>
+              <div class="status-row__bar"><div class="status-row__bar-fill" style="width: 8%"></div></div>
+              <div class="status-row__num">4</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RECENT LEADS -->
+      <section class="table-wrap" style="margin-bottom: 24px;">
+        <div class="table-wrap__head">
+          <div>
+            <div class="panel__title">Pendaftaran terbaru</div>
+            <div class="panel__sub">5 lead paling baru hari ini · klik untuk detail</div>
+          </div>
+          <a class="panel__action" href="#">Lihat semua →</a>
+        </div>
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Anak / Orang Tua</th>
+              <th>Kelas</th>
+              <th>WhatsApp</th>
+              <th>Status</th>
+              <th>Masuk</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="mono">FS-2026-0438</td>
+              <td>
+                <div class="name"><span class="avatar avatar--turq">AP</span> Arif Pratama, 6 thn</div>
+                <div class="meta-sub">Bunda Risa Wahyuni</div>
+              </td>
+              <td>Semi-Privat</td>
+              <td class="mono">+62 812-3456-7890</td>
+              <td><span class="pill pill--baru"><span class="d"></span> Baru</span></td>
+              <td class="mono">2 menit lalu</td>
+            </tr>
+            <tr>
+              <td class="mono">FS-2026-0437</td>
+              <td>
+                <div class="name"><span class="avatar">DN</span> Dini Nuraini, 5 thn</div>
+                <div class="meta-sub">Ayah Bagus Setiawan</div>
+              </td>
+              <td>Privat</td>
+              <td class="mono">+62 815-7788-1122</td>
+              <td><span class="pill pill--baru"><span class="d"></span> Baru</span></td>
+              <td class="mono">28 menit lalu</td>
+            </tr>
+            <tr>
+              <td class="mono">FS-2026-0436</td>
+              <td>
+                <div class="name"><span class="avatar avatar--coral">KH</span> Kayla Hanifa, 8 thn</div>
+                <div class="meta-sub">Bunda Vina Lestari</div>
+              </td>
+              <td>Grup</td>
+              <td class="mono">+62 821-2233-4455</td>
+              <td><span class="pill pill--dihubungi"><span class="d"></span> Dihubungi</span></td>
+              <td class="mono">1 jam lalu</td>
+            </tr>
+            <tr>
+              <td class="mono">FS-2026-0435</td>
+              <td>
+                <div class="name"><span class="avatar avatar--sun">RA</span> Rama Adyatma, 7 thn</div>
+                <div class="meta-sub">Bunda Sari Mahesa</div>
+              </td>
+              <td>Semi-Privat</td>
+              <td class="mono">+62 813-9988-7766</td>
+              <td><span class="pill pill--trial"><span class="d"></span> Trial</span></td>
+              <td class="mono">3 jam lalu</td>
+            </tr>
+            <tr>
+              <td class="mono">FS-2026-0434</td>
+              <td>
+                <div class="name"><span class="avatar avatar--turq">NF</span> Nadia Felicia, 4 thn</div>
+                <div class="meta-sub">Bunda Putri Anggraini</div>
+              </td>
+              <td>Privat</td>
+              <td class="mono">+62 819-5566-3344</td>
+              <td><span class="pill pill--daftar"><span class="d"></span> Daftar</span></td>
+              <td class="mono">5 jam lalu</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- QUICK ACTIONS -->
+      <section class="quick">
+        <a class="quick-card quick-card--primary" href="#">
+          <span class="quick-card__ic">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+          <div>
+            <div class="quick-card__title">Artikel baru</div>
+            <div class="quick-card__sub">Tulis artikel edukasi untuk parents</div>
+          </div>
+          <span class="quick-card__arrow"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="quick-card quick-card--secondary" href="#">
+          <span class="quick-card__ic">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H8l-5 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </span>
+          <div>
+            <div class="quick-card__title">Tambah testimoni</div>
+            <div class="quick-card__sub">Input testimoni baru dari ortu</div>
+          </div>
+          <span class="quick-card__arrow"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="quick-card quick-card--accent" href="#">
+          <span class="quick-card__ic">
+            <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M12 8v4l3 2"/></svg>
+          </span>
+          <div>
+            <div class="quick-card__title">Follow-up overdue</div>
+            <div class="quick-card__sub">3 lead belum dihubungi > 24 jam</div>
+          </div>
+          <span class="quick-card__arrow"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
+        </a>
+      </section>
+
+    </main>
+  </div>
+
+</div>
+
+</body>
+</html>

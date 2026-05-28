@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Daftar — Fellaswimming</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --c-primary:        oklch(0.71 0.14 230);
+    --c-primary-dark:   oklch(0.55 0.16 230);
+    --c-primary-soft:   oklch(0.71 0.14 230 / 0.10);
+    --c-primary-tint:   oklch(0.96 0.03 230);
+    --c-secondary:      oklch(0.73 0.13 184);
+    --c-secondary-dark: oklch(0.55 0.13 184);
+    --c-secondary-soft: oklch(0.73 0.13 184 / 0.14);
+    --c-secondary-tint: oklch(0.96 0.03 184);
+    --c-accent:         oklch(0.72 0.16 15);
+    --c-accent-dark:    oklch(0.56 0.16 15);
+    --c-accent-soft:    oklch(0.72 0.16 15 / 0.14);
+    --c-accent-tint:    oklch(0.96 0.03 15);
+    --c-sun:            oklch(0.84 0.13 80);
+    --c-sun-tint:       oklch(0.97 0.04 80);
+    --c-success:        oklch(0.66 0.16 150);
+    --c-success-tint:   oklch(0.95 0.06 150);
+
+    --c-bg:        #FAF8F5;
+    --c-surface:   #FFFFFF;
+    --c-muted:     #F5F1EC;
+    --c-border:    #E7E2DA;
+    --c-fg:        #1A2332;
+    --c-fg-muted:  #5C6573;
+    --c-fg-subtle: #8C95A3;
+
+    --font-heading: "General Sans", "Nunito", system-ui, sans-serif;
+    --font-body:    "Nunito", system-ui, sans-serif;
+    --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+
+    --r-sm: 12px;
+    --r:    18px;
+    --r-lg: 24px;
+    --r-xl: 32px;
+
+    --sh-sm: 0 1px 2px rgba(26,35,50,.05);
+    --sh-md: 0 6px 16px -6px rgba(26,35,50,.10), 0 2px 4px -2px rgba(26,35,50,.05);
+    --sh-lg: 0 18px 36px -14px rgba(26,35,50,.14), 0 6px 10px -4px rgba(26,35,50,.06);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body);
+    color: var(--c-fg);
+    background: var(--c-bg);
+    font-size: 16px;
+    line-height: 1.55;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3 { font-family: var(--font-heading); font-weight: 700; line-height: 1.15; letter-spacing: -0.015em; margin: 0; color: var(--c-fg); }
+  p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ====== PAGE FRAME ====== */
+  .page {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Soft background blobs — same vocabulary as landing */
+  .page::before {
+    content: ""; position: absolute; top: -120px; left: -80px;
+    width: 320px; height: 320px; border-radius: 50%;
+    background: radial-gradient(circle, oklch(0.92 0.06 230 / 0.55), transparent 70%);
+    z-index: 0; pointer-events: none;
+  }
+  .page::after {
+    content: ""; position: absolute; bottom: -80px; right: -80px;
+    width: 260px; height: 260px; border-radius: 50%;
+    background: radial-gradient(circle, oklch(0.92 0.06 80 / 0.45), transparent 70%);
+    z-index: 0; pointer-events: none;
+  }
+
+  /* ====== HEADER ====== */
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(250,248,245,0.92);
+    backdrop-filter: saturate(140%) blur(8px);
+    border-bottom: 1px solid var(--c-border);
+  }
+  .topbar__inner {
+    max-width: 720px; margin: 0 auto;
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+  }
+  .back-btn {
+    width: 42px; height: 42px; border-radius: 12px;
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border); border-bottom-width: 3px;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer; flex-shrink: 0;
+    transition: transform .08s;
+  }
+  .back-btn:active { transform: translateY(2px); border-bottom-width: 1.5px; }
+  .back-btn svg { width: 18px; height: 18px; stroke: var(--c-fg); stroke-width: 2.4; fill: none; stroke-linecap: round; }
+  .topbar__logo {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-heading); font-weight: 700; font-size: 0.98rem;
+  }
+  .topbar__logo .mark {
+    width: 26px; height: 26px; border-radius: 9px;
+    background: radial-gradient(circle at 28% 28%, oklch(0.92 0.07 200), var(--c-primary) 70%);
+    box-shadow: 0 3px 8px -2px oklch(0.71 0.14 230 / 0.4);
+  }
+  .step-tag {
+    margin-left: auto;
+    font-family: var(--font-mono); font-size: 0.78rem;
+    color: var(--c-fg-muted); font-weight: 500;
+    padding: 5px 10px; border-radius: 999px;
+    background: var(--c-muted);
+  }
+  .step-tag strong { color: var(--c-primary); font-weight: 700; }
+
+  /* ====== PROGRESS BAR ====== */
+  .progress {
+    max-width: 720px; margin: 0 auto;
+    padding: 16px 16px 0;
+    display: flex; gap: 8px;
+  }
+  .progress__seg {
+    flex: 1; height: 8px; border-radius: 999px;
+    background: var(--c-border);
+    overflow: hidden;
+    position: relative;
+  }
+  .progress__seg.is-done { background: var(--c-primary); }
+  .progress__seg.is-current {
+    background: linear-gradient(90deg, var(--c-primary) 50%, var(--c-border) 50%);
+    background-size: 200% 100%;
+    background-position: 0 0;
+  }
+
+  /* ====== WIZARD CARD ====== */
+  .wizard {
+    flex: 1;
+    max-width: 480px; width: 100%;
+    margin: 0 auto;
+    padding: 24px 16px 100px;
+    position: relative; z-index: 1;
+  }
+  .step-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 14px; border-radius: 999px;
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    font-family: var(--font-mono); font-size: 0.74rem;
+    text-transform: uppercase; letter-spacing: 0.10em;
+    color: var(--c-fg-muted); font-weight: 500;
+    margin-bottom: 14px;
+  }
+  .step-eyebrow .e-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--c-primary);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.3); } }
+  .step-title {
+    font-size: 1.7rem;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    text-wrap: balance;
+  }
+  .step-sub {
+    color: var(--c-fg-muted);
+    font-size: 0.98rem;
+    margin-bottom: 26px;
+    text-wrap: pretty;
+  }
+
+  /* ====== FORM FIELDS ====== */
+  .field { margin-bottom: 20px; }
+  .field__label {
+    display: block;
+    font-weight: 700; font-size: 0.92rem;
+    margin-bottom: 8px;
+    color: var(--c-fg);
+  }
+  .field__label .opt {
+    font-weight: 500; font-size: 0.82rem;
+    color: var(--c-fg-subtle); margin-left: 6px;
+  }
+  .field__hint {
+    margin-top: 6px;
+    font-size: 0.82rem; color: var(--c-fg-muted);
+  }
+  .input, .textarea {
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 3px;
+    border-radius: 14px;
+    font-family: var(--font-body);
+    font-size: 1rem; font-weight: 500;
+    color: var(--c-fg);
+    outline: none;
+    transition: border-color .15s;
+  }
+  .input::placeholder, .textarea::placeholder { color: var(--c-fg-subtle); font-weight: 400; }
+  .input:focus, .textarea:focus { border-color: var(--c-primary); border-bottom-color: var(--c-primary); }
+  .input.is-filled { border-bottom-color: var(--c-secondary); }
+  .textarea { min-height: 96px; resize: vertical; }
+
+  /* Number input with units */
+  .input-with-unit { position: relative; }
+  .input-with-unit .input { padding-right: 70px; }
+  .input-with-unit .unit {
+    position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+    color: var(--c-fg-subtle); font-weight: 500; font-size: 0.92rem;
+    pointer-events: none;
+  }
+
+  /* WhatsApp prefix input */
+  .input-with-prefix { display: flex; align-items: stretch; gap: 0; }
+  .input-with-prefix .prefix {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 0 14px;
+    background: var(--c-muted);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 3px;
+    border-right: 0;
+    border-radius: 14px 0 0 14px;
+    font-weight: 700; font-size: 0.95rem;
+    color: var(--c-fg);
+  }
+  .input-with-prefix .prefix svg { width: 18px; height: 18px; }
+  .input-with-prefix .input {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left-width: 1px;
+  }
+
+  /* ====== RADIO PILL ROW (gender) ====== */
+  .radio-pills {
+    display: flex; gap: 10px;
+  }
+  .radio-pill {
+    flex: 1;
+    padding: 14px 12px;
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 3px;
+    border-radius: 14px;
+    font-weight: 600; font-size: 0.95rem;
+    color: var(--c-fg);
+    cursor: pointer; text-align: center;
+    transition: transform .08s, background .15s, border-color .15s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .radio-pill .ic {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--c-muted);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .radio-pill .ic svg { width: 12px; height: 12px; }
+  .radio-pill.is-checked {
+    background: var(--c-primary-tint);
+    border-color: var(--c-primary);
+    border-bottom-color: var(--c-primary);
+    color: var(--c-primary-dark);
+  }
+  .radio-pill.is-checked .ic { background: var(--c-primary); color: #fff; }
+
+  /* ====== RADIO CARDS (experience, class) ====== */
+  .radio-stack { display: flex; flex-direction: column; gap: 10px; }
+  .radio-card {
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 3px;
+    border-radius: 16px;
+    padding: 16px 18px;
+    cursor: pointer;
+    display: flex; align-items: flex-start; gap: 14px;
+    transition: transform .08s, background .15s, border-color .15s;
+  }
+  .radio-card__dot {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 2px solid var(--c-border);
+    flex-shrink: 0; margin-top: 2px;
+    background: var(--c-surface);
+    position: relative;
+    transition: background .15s, border-color .15s;
+  }
+  .radio-card__dot::after {
+    content: ""; position: absolute; inset: 4px; border-radius: 50%;
+    background: transparent;
+    transition: background .15s;
+  }
+  .radio-card__body { flex: 1; }
+  .radio-card__title {
+    font-weight: 700; font-size: 1rem; line-height: 1.25;
+    display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  }
+  .radio-card__price {
+    font-family: var(--font-mono); font-size: 0.82rem;
+    color: var(--c-fg-muted); font-weight: 600;
+    white-space: nowrap;
+  }
+  .radio-card__desc {
+    color: var(--c-fg-muted); font-size: 0.88rem;
+    margin-top: 4px; line-height: 1.45;
+  }
+  .radio-card.is-checked {
+    background: var(--c-primary-tint);
+    border-color: var(--c-primary);
+    border-bottom-color: var(--c-primary);
+  }
+  .radio-card.is-checked .radio-card__dot {
+    background: var(--c-primary);
+    border-color: var(--c-primary);
+  }
+  .radio-card.is-checked .radio-card__dot::after { background: #fff; }
+  .radio-card.is-checked .radio-card__title { color: var(--c-primary-dark); }
+
+  /* Variant tints for class radio cards */
+  .radio-card--privat.is-checked { background: var(--c-secondary-tint); border-color: var(--c-secondary); border-bottom-color: var(--c-secondary); }
+  .radio-card--privat.is-checked .radio-card__dot { background: var(--c-secondary); border-color: var(--c-secondary); }
+  .radio-card--privat.is-checked .radio-card__title { color: var(--c-secondary-dark); }
+  .radio-card--grup.is-checked { background: var(--c-accent-tint); border-color: var(--c-accent); border-bottom-color: var(--c-accent); }
+  .radio-card--grup.is-checked .radio-card__dot { background: var(--c-accent); border-color: var(--c-accent); }
+  .radio-card--grup.is-checked .radio-card__title { color: var(--c-accent-dark); }
+
+  .radio-card__tag {
+    display: inline-block;
+    background: var(--c-accent);
+    color: #fff;
+    font-size: 0.66rem; font-weight: 800; letter-spacing: 0.05em;
+    padding: 3px 8px; border-radius: 999px;
+    margin-left: 8px;
+    vertical-align: middle;
+    box-shadow: 0 2px 0 var(--c-accent-dark);
+  }
+
+  /* ====== ACTION BAR ====== */
+  .action-bar {
+    position: sticky; bottom: 0; z-index: 10;
+    margin-top: 24px;
+    background: linear-gradient(180deg, rgba(250,248,245,0), rgba(250,248,245,0.95) 30%);
+    padding: 24px 16px 20px;
+  }
+  .action-bar__inner {
+    max-width: 480px; margin: 0 auto;
+    display: flex; gap: 10px;
+  }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    height: 54px; padding: 0 22px;
+    border-radius: 16px;
+    font-family: var(--font-body); font-weight: 700;
+    font-size: 1rem; cursor: pointer; border: none;
+    position: relative;
+    transition: filter .15s, transform .08s;
+  }
+  .btn--primary {
+    flex: 1;
+    background: var(--c-primary); color: #fff;
+    box-shadow: 0 4px 0 0 var(--c-primary-dark), 0 8px 16px -6px oklch(0.71 0.14 230 / 0.4);
+  }
+  .btn--primary:hover { filter: brightness(1.04); }
+  .btn--primary:active { transform: translateY(3px); box-shadow: 0 1px 0 0 var(--c-primary-dark); }
+  .btn--secondary {
+    background: var(--c-surface); color: var(--c-fg);
+    box-shadow: 0 3px 0 0 var(--c-border), 0 1px 2px rgba(26,35,50,.04);
+  }
+  .btn--secondary:hover { background: var(--c-muted); }
+  .btn--secondary:active { transform: translateY(2px); box-shadow: 0 1px 0 0 var(--c-border); }
+
+  /* Disabled state */
+  .btn[aria-disabled="true"] { opacity: 0.55; pointer-events: none; }
+
+  /* ====== STEP-SPECIFIC NICETIES ====== */
+  /* Info aside at bottom of step */
+  .step-info {
+    display: flex; gap: 12px;
+    background: var(--c-secondary-tint);
+    border: 1.5px solid oklch(0.85 0.07 184);
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-top: 4px;
+    align-items: flex-start;
+  }
+  .step-info__ic {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--c-secondary);
+    color: #fff;
+    display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+    font-weight: 800; font-size: 0.92rem;
+    font-family: var(--font-heading);
+  }
+  .step-info__body { font-size: 0.9rem; line-height: 1.5; color: var(--c-fg); }
+  .step-info__body strong { color: var(--c-secondary-dark); }
+
+  /* ====== CONFIRMATION (step=done) ====== */
+  .confirm {
+    flex: 1;
+    max-width: 520px; width: 100%;
+    margin: 0 auto;
+    padding: 32px 16px 64px;
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: stretch;
+  }
+  .confirm__hero {
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 5px; border-bottom-color: var(--c-success);
+    border-radius: var(--r-lg);
+    padding: 36px 24px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 16px;
+    box-shadow: var(--sh-md);
+  }
+  /* confetti dots */
+  .confirm__hero::before, .confirm__hero::after {
+    content: ""; position: absolute; border-radius: 50%;
+  }
+  .confirm__hero::before { top: 20px; left: 18px; width: 10px; height: 10px; background: var(--c-sun); }
+  .confirm__hero::after  { top: 30px; right: 24px; width: 14px; height: 14px; background: var(--c-secondary); }
+  .confirm__check {
+    width: 84px; height: 84px;
+    border-radius: 50%;
+    background: var(--c-success-tint);
+    border: 3px solid var(--c-success);
+    color: var(--c-success);
+    display: inline-flex; align-items: center; justify-content: center;
+    margin: 0 auto 18px;
+    box-shadow: 0 4px 0 var(--c-success);
+  }
+  .confirm__check svg { width: 38px; height: 38px; stroke: currentColor; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .confirm__title {
+    font-size: 1.7rem; margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .confirm__sub {
+    color: var(--c-fg-muted); font-size: 1rem;
+    margin-bottom: 22px; text-wrap: pretty;
+  }
+  .confirm__id-label {
+    font-size: 0.78rem; color: var(--c-fg-subtle);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .confirm__id {
+    display: inline-block;
+    padding: 12px 22px; border-radius: 14px;
+    background: var(--c-bg);
+    border: 1.5px dashed var(--c-border);
+    font-family: var(--font-mono); font-size: 1.2rem;
+    font-weight: 600; color: var(--c-primary);
+    letter-spacing: 0.06em;
+  }
+
+  /* Next steps card */
+  .next-steps {
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-radius: var(--r-lg);
+    padding: 22px 22px 26px;
+    margin-bottom: 16px;
+  }
+  .next-steps h3 {
+    font-size: 1.05rem; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .next-steps h3 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c-secondary); }
+  .next-steps ol {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .next-steps li {
+    display: flex; gap: 12px; align-items: flex-start;
+    font-size: 0.95rem;
+  }
+  .next-steps li .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--c-primary-tint);
+    color: var(--c-primary-dark);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-heading); font-weight: 700;
+    font-size: 0.86rem; flex-shrink: 0;
+  }
+  .next-steps li:nth-child(2) .step-num { background: var(--c-secondary-tint); color: var(--c-secondary-dark); }
+  .next-steps li:nth-child(3) .step-num { background: var(--c-accent-tint); color: var(--c-accent-dark); }
+  .next-steps li .body { flex: 1; }
+  .next-steps li .ttl { font-weight: 700; margin-bottom: 2px; }
+  .next-steps li .sub { color: var(--c-fg-muted); font-size: 0.88rem; line-height: 1.45; }
+
+  /* WA quick action */
+  .confirm__actions { display: flex; gap: 10px; flex-direction: column; }
+  .btn--whatsapp {
+    background: oklch(0.72 0.18 145);
+    color: #fff;
+    box-shadow: 0 4px 0 oklch(0.55 0.18 145), 0 8px 16px -6px oklch(0.72 0.18 145 / 0.4);
+  }
+  .btn--whatsapp:active { transform: translateY(3px); box-shadow: 0 1px 0 oklch(0.55 0.18 145); }
+
+  /* ====== DESKTOP TWEAKS ====== */
+  @media (min-width: 768px) {
+    .topbar__inner { padding: 18px 24px; }
+    .progress { padding: 20px 24px 0; }
+    .wizard { padding-top: 36px; padding-bottom: 120px; }
+    .step-title { font-size: 2rem; }
+    .action-bar { padding: 28px 24px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <button class="back-btn" aria-label="Kembali">
+        <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="topbar__logo">
+        <span class="mark" aria-hidden="true"></span>
+        <span>Fellaswimming</span>
+      </div>
+      <span class="step-tag" id="stepTag"><strong>1</strong> / 3</span>
+    </div>
+    <div class="progress" id="progressBar">
+      <div class="progress__seg" data-seg="1"></div>
+      <div class="progress__seg" data-seg="2"></div>
+      <div class="progress__seg" data-seg="3"></div>
+    </div>
+  </header>
+
+  <!-- ============ STEP 1 — INFO ANAK ============ -->
+  <main class="wizard" data-step="1">
+    <span class="step-eyebrow"><span class="e-dot"></span> Langkah 1 dari 3</span>
+    <h1 class="step-title">Cerita sedikit soal anak kamu, ya.</h1>
+    <p class="step-sub">Info ini bantu kami merekomendasikan kelas yang paling pas. Cuma 60 detik.</p>
+
+    <form>
+      <div class="field">
+        <label class="field__label" for="s-name">Nama anak</label>
+        <input class="input is-filled" id="s-name" type="text" value="Arif Pratama" autocomplete="off" />
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="s-age">Umur anak</label>
+        <div class="input-with-unit">
+          <input class="input is-filled" id="s-age" type="number" value="6" min="3" max="18" />
+          <span class="unit">tahun</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field__label">Jenis kelamin</label>
+        <div class="radio-pills">
+          <label class="radio-pill is-checked">
+            <span class="ic"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6.5l2.5 2.5L10 3"/></svg></span>
+            Laki-laki
+          </label>
+          <label class="radio-pill">
+            <span class="ic"></span>
+            Perempuan
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field__label">Pengalaman renang</label>
+        <div class="radio-stack">
+          <label class="radio-card">
+            <span class="radio-card__dot"></span>
+            <div class="radio-card__body">
+              <div class="radio-card__title">Belum bisa, masih takut air</div>
+              <div class="radio-card__desc">Belum pernah les renang. Mulai dari nol.</div>
+            </div>
+          </label>
+          <label class="radio-card is-checked">
+            <span class="radio-card__dot"></span>
+            <div class="radio-card__body">
+              <div class="radio-card__title">Sudah berani di air, belum bisa berenang</div>
+              <div class="radio-card__desc">Pernah main di kolam, belum belajar teknik formal.</div>
+            </div>
+          </label>
+          <label class="radio-card">
+            <span class="radio-card__dot"></span>
+            <div class="radio-card__body">
+              <div class="radio-card__title">Sudah bisa dasar (mengapung, freestyle)</div>
+              <div class="radio-card__desc">Mau improve teknik dan stamina.</div>
+            </div>
+          </label>
+          <label class="radio-card">
+            <span class="radio-card__dot"></span>
+            <div class="radio-card__body">
+              <div class="radio-card__title">Mahir</div>
+              <div class="radio-card__desc">Sudah bisa beberapa gaya, mau training lanjutan.</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="step-info">
+        <span class="step-info__ic">i</span>
+        <div class="step-info__body">
+          Belum yakin? Pilih yang paling mendekati. <strong>Pelatih kami akan asesmen lagi pas trial pertama.</strong>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <!-- ============ STEP 2 — KELAS ============ -->
+  <main class="wizard" data-step="2" style="display:none">
+    <span class="step-eyebrow"><span class="e-dot" style="background:var(--c-secondary)"></span> Langkah 2 dari 3</span>
+    <h1 class="step-title">Kelas mana yang menarik untuk Arif?</h1>
+    <p class="step-sub">Boleh "belum yakin" — kami bantu tentukan saat WhatsApp balik nanti.</p>
+
+    <form>
+      <div class="field">
+        <label class="field__label">Pilihan kelas</label>
+        <div class="radio-stack">
+          <label class="radio-card radio-card--privat">
+            <span class="radio-card__dot"></span>
+            <div class="radio-card__body">
+              <div class="radio-card__title">
+                Privat
+                <span class="radio-card__price">Rp 250rb / sesi</span>
+              </div>
+              <div class="radio-card__desc">1 anak, 1 pelatih. Cocok untuk anak yang perlu adaptasi pelan.</div>
+            </div>
+          </label>
+          <label class="radio-card is-checked">
+            <span class="radio-card__dot"></span>
+            <div class="radio-card__body">
+              <div class="radio-card__title">
+                Semi-Privat
+                <span class="radio-card__tag">POPULER</span>
+                <span class="radio-card__price">Rp 150rb / anak</span>
+              </div>
+              <div class="radio-card__desc">2–3 anak, 1 pelatih. Cocok untuk kakak-adik atau teman sebaya.</div>
+            </div>
+          </label>
+          <label class="radio-card radio-card--grup">
+            <span class="radio-card__dot"></span>
+            <div class="radio-card__body">
+              <div class="radio-card__title">
+                Grup
+                <span class="radio-card__price">Rp 100rb / anak</span>
+              </div>
+              <div class="radio-card__desc">4–6 anak, 1–2 pelatih. Cocok untuk anak yang sudah berani di air.</div>
+            </div>
+          </label>
+          <label class="radio-card">
+            <span class="radio-card__dot"></span>
+            <div class="radio-card__body">
+              <div class="radio-card__title">Belum yakin, bantu pilihkan</div>
+              <div class="radio-card__desc">Tim kami akan rekomendasi pas WhatsApp.</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="s-sched">Preferensi jadwal <span class="opt">(opsional)</span></label>
+        <input class="input is-filled" id="s-sched" type="text" value="Sabtu pagi atau Minggu sore" />
+        <div class="field__hint">Contoh: "Sabtu pagi", "weekday sore setelah 16:00", "fleksibel".</div>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="s-loc">Lokasi yang dituju <span class="opt">(opsional)</span></label>
+        <input class="input" id="s-loc" type="text" placeholder="Kolam Anggrek, Sidoarjo" />
+      </div>
+    </form>
+  </main>
+
+  <!-- ============ STEP 3 — KONTAK ============ -->
+  <main class="wizard" data-step="3" style="display:none">
+    <span class="step-eyebrow"><span class="e-dot" style="background:var(--c-accent)"></span> Langkah 3 dari 3</span>
+    <h1 class="step-title">Terakhir — biar kami bisa hubungi.</h1>
+    <p class="step-sub">Kami WhatsApp balik dalam 1×24 jam. Nomor cuma dipakai tim kami, tidak dibagikan.</p>
+
+    <form>
+      <div class="field">
+        <label class="field__label" for="p-name">Nama Bunda/Ayah</label>
+        <input class="input is-filled" id="p-name" type="text" value="Risa Wahyuni" />
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="p-wa">Nomor WhatsApp</label>
+        <div class="input-with-prefix">
+          <span class="prefix">
+            <svg viewBox="0 0 24 24" fill="oklch(0.72 0.18 145)"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.4c1.5.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+            +62
+          </span>
+          <input class="input is-filled" id="p-wa" type="tel" value="812-3456-7890" />
+        </div>
+        <div class="field__hint">Tanpa awalan 0. Contoh: 812-3456-7890.</div>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="p-email">Email <span class="opt">(opsional)</span></label>
+        <input class="input" id="p-email" type="email" placeholder="kalau perlu kirim invoice" />
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="p-notes">Catatan tambahan <span class="opt">(opsional)</span></label>
+        <textarea class="textarea" id="p-notes" placeholder="Ada kondisi khusus? Asma, alergi, atau preferensi pelatih perempuan/laki?"></textarea>
+      </div>
+
+      <div class="step-info" style="background: var(--c-sun-tint); border-color: oklch(0.86 0.08 80);">
+        <span class="step-info__ic" style="background: var(--c-sun); color: oklch(0.30 0.10 80);">✓</span>
+        <div class="step-info__body">
+          <strong style="color: oklch(0.42 0.13 80);">Tanpa bayar di muka.</strong> Trial pertama gratis. Kalau cocok, baru lanjut.
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <!-- ============ CONFIRMATION (step=done) ============ -->
+  <main class="confirm" data-step="done" style="display:none">
+    <div class="confirm__hero">
+      <div class="confirm__check">
+        <svg viewBox="0 0 36 36"><path d="M8 18.5l6.5 6.5L28 12"/></svg>
+      </div>
+      <h1 class="confirm__title">Pendaftaran terkirim, Bunda Risa!</h1>
+      <p class="confirm__sub">
+        Tim kami akan WhatsApp kamu dalam 1×24 jam untuk atur trial Arif.
+      </p>
+      <div class="confirm__id-label">Nomor referensi</div>
+      <div class="confirm__id">FS-2026-0438</div>
+    </div>
+
+    <div class="next-steps">
+      <h3><span class="dot"></span> Yang akan terjadi selanjutnya</h3>
+      <ol>
+        <li>
+          <span class="step-num">1</span>
+          <div class="body">
+            <div class="ttl">Kami WhatsApp kamu (≤ 24 jam)</div>
+            <div class="sub">Konfirmasi pilihan kelas Semi-Privat dan tawarkan 2-3 slot jadwal trial.</div>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <div class="body">
+            <div class="ttl">Arif ikut trial gratis di kolam Anggrek</div>
+            <div class="sub">Pelatih akan asesmen langsung. Kamu boleh nungguin dari pinggir kolam.</div>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <div class="body">
+            <div class="ttl">Cocok? Lanjut daftar penuh. Kurang cocok? Boleh ganti pelatih.</div>
+            <div class="sub">Pembayaran setelah trial pertama. Kami nggak pernah minta DP.</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="confirm__actions">
+      <a class="btn btn--whatsapp" href="#">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.4c1.5.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+        Chat tim kami sekarang
+      </a>
+      <a class="btn btn--secondary" href="#">Kembali ke beranda</a>
+    </div>
+  </main>
+
+  <!-- ============ ACTION BAR (steps 1-3 only) ============ -->
+  <div class="action-bar" id="actionBar">
+    <div class="action-bar__inner">
+      <button class="btn btn--secondary" type="button">Kembali</button>
+      <button class="btn btn--primary" type="button" id="nextBtn">
+        Lanjut
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Show the step indicated by ?step=N (1, 2, 3, or done)
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    const step = params.get('step') || '1';
+
+    // Hide all steps
+    document.querySelectorAll('[data-step]').forEach(el => {
+      el.style.display = (el.getAttribute('data-step') === step) ? '' : 'none';
+    });
+
+    // Update progress + step tag
+    const segs = document.querySelectorAll('.progress__seg');
+    const tag = document.getElementById('stepTag');
+    const actionBar = document.getElementById('actionBar');
+    const nextBtn = document.getElementById('nextBtn');
+
+    if (step === 'done') {
+      tag.style.display = 'none';
+      // mark all segs done
+      segs.forEach(s => s.classList.add('is-done'));
+      actionBar.style.display = 'none';
+    } else {
+      const n = parseInt(step, 10);
+      tag.innerHTML = `<strong>${n}</strong> / 3`;
+      segs.forEach((s, i) => {
+        s.classList.remove('is-done', 'is-current');
+        if (i + 1 < n) s.classList.add('is-done');
+        else if (i + 1 === n) s.classList.add('is-current');
+      });
+      // Update next button label on step 3
+      if (n === 3) {
+        nextBtn.innerHTML = 'Kirim Pendaftaran <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+      }
+    }
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Artikel — Fellaswimming</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --c-primary:        oklch(0.71 0.14 230);
+    --c-primary-dark:   oklch(0.55 0.16 230);
+    --c-primary-soft:   oklch(0.71 0.14 230 / 0.10);
+    --c-primary-tint:   oklch(0.96 0.03 230);
+    --c-secondary:      oklch(0.73 0.13 184);
+    --c-secondary-dark: oklch(0.55 0.13 184);
+    --c-secondary-soft: oklch(0.73 0.13 184 / 0.14);
+    --c-secondary-tint: oklch(0.96 0.03 184);
+    --c-accent:         oklch(0.72 0.16 15);
+    --c-accent-dark:    oklch(0.56 0.16 15);
+    --c-accent-soft:    oklch(0.72 0.16 15 / 0.14);
+    --c-accent-tint:    oklch(0.96 0.03 15);
+    --c-sun:            oklch(0.84 0.13 80);
+    --c-sun-dark:       oklch(0.55 0.14 80);
+    --c-sun-tint:       oklch(0.97 0.04 80);
+
+    --c-bg:        #FAF8F5;
+    --c-surface:   #FFFFFF;
+    --c-muted:     #F5F1EC;
+    --c-border:    #E7E2DA;
+    --c-fg:        #1A2332;
+    --c-fg-muted:  #5C6573;
+    --c-fg-subtle: #8C95A3;
+
+    --font-heading: "General Sans", "Nunito", system-ui, sans-serif;
+    --font-body:    "Nunito", system-ui, sans-serif;
+    --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+
+    --r-sm: 12px;
+    --r:    18px;
+    --r-lg: 24px;
+    --r-xl: 32px;
+
+    --sh-sm: 0 1px 2px rgba(26,35,50,.05);
+    --sh-md: 0 6px 16px -6px rgba(26,35,50,.10), 0 2px 4px -2px rgba(26,35,50,.05);
+    --sh-lg: 0 18px 36px -14px rgba(26,35,50,.14), 0 6px 10px -4px rgba(26,35,50,.06);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body);
+    color: var(--c-fg);
+    background: var(--c-bg);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 700; line-height: 1.15; letter-spacing: -0.015em; margin: 0; color: var(--c-fg); }
+  p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 20px; position: relative; }
+  @media (min-width: 768px) { .wrap { padding: 0 40px; } }
+  @media (min-width: 1024px) { .wrap { padding: 0 64px; } }
+
+  /* ====== HEADER (shared) ====== */
+  .header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(250,248,245,0.88);
+    backdrop-filter: saturate(140%) blur(8px);
+    border-bottom: 1px solid var(--c-border);
+  }
+  .header__inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px;
+  }
+  @media (min-width: 768px) { .header__inner { padding: 16px 40px; } }
+  @media (min-width: 1024px) { .header__inner { padding: 18px 64px; } }
+  .logo { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem; }
+  .logo__mark {
+    width: 34px; height: 34px; border-radius: 12px;
+    background: radial-gradient(circle at 28% 28%, oklch(0.92 0.07 200), var(--c-primary) 70%);
+    position: relative; flex-shrink: 0;
+    box-shadow: 0 4px 10px -2px oklch(0.71 0.14 230 / 0.45);
+  }
+  .logo__mark::after {
+    content: ""; position: absolute; right: 5px; top: 5px;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: oklch(0.95 0.04 80);
+  }
+  .nav { display: none; gap: 28px; }
+  .nav a { color: var(--c-fg-muted); font-weight: 600; font-size: 0.95rem; }
+  .nav a.is-active { color: var(--c-primary); }
+  .nav a:hover { color: var(--c-primary); }
+  @media (min-width: 1024px) { .nav { display: flex; } }
+  .header .header__cta { display: none; }
+  @media (min-width: 1024px) { .header .header__cta { display: inline-flex; } }
+  .header__menu {
+    display: inline-flex; width: 44px; height: 44px; border-radius: 14px;
+    background: var(--c-surface); border: 1.5px solid var(--c-border);
+    border-bottom-width: 3px;
+    align-items: center; justify-content: center;
+  }
+  @media (min-width: 1024px) { .header__menu { display: none; } }
+
+  /* ====== BUTTONS ====== */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    height: 48px; padding: 0 22px;
+    border-radius: 16px;
+    font-family: var(--font-body); font-weight: 700;
+    font-size: 0.98rem; cursor: pointer; border: none;
+    position: relative;
+    transition: filter .15s, transform .08s;
+  }
+  .btn--primary {
+    background: var(--c-primary); color: #fff;
+    box-shadow: 0 4px 0 0 var(--c-primary-dark), 0 8px 16px -6px oklch(0.71 0.14 230 / 0.4);
+  }
+  .btn--primary:hover { filter: brightness(1.04); }
+  .btn--primary:active { transform: translateY(3px); box-shadow: 0 1px 0 0 var(--c-primary-dark); }
+  .btn--secondary {
+    background: var(--c-surface); color: var(--c-fg);
+    box-shadow: 0 3px 0 0 var(--c-border);
+  }
+  .btn--secondary:hover { background: var(--c-muted); }
+  .btn--secondary:active { transform: translateY(2px); box-shadow: 0 1px 0 0 var(--c-border); }
+  .btn--sm { height: 40px; padding: 0 16px; font-size: 0.88rem; border-radius: 12px; }
+  .btn--lg { height: 56px; padding: 0 28px; font-size: 1.04rem; border-radius: 18px; }
+
+  /* ====== EYEBROW ====== */
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 14px; border-radius: 999px;
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    font-family: var(--font-mono); font-size: 0.74rem;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--c-fg-muted); font-weight: 500;
+    margin-bottom: 16px;
+  }
+  .eyebrow .e-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c-primary); animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.3); } }
+
+  /* ====== PLACEHOLDERS ====== */
+  .ph {
+    position: relative; width: 100%; overflow: hidden;
+    background-color: oklch(0.92 0.02 230);
+    background-image:
+      repeating-linear-gradient(135deg,
+        oklch(0.96 0.01 230) 0 14px,
+        oklch(0.92 0.03 230) 14px 28px);
+    border-radius: var(--r-lg);
+    border: 1.5px solid var(--c-border);
+  }
+  .ph--turq { background-color: oklch(0.92 0.03 184); background-image: repeating-linear-gradient(135deg, oklch(0.96 0.01 184) 0 14px, oklch(0.92 0.03 184) 14px 28px); }
+  .ph--coral { background-color: oklch(0.93 0.03 15); background-image: repeating-linear-gradient(135deg, oklch(0.97 0.02 15) 0 14px, oklch(0.93 0.03 15) 14px 28px); }
+  .ph--sand { background-color: oklch(0.93 0.02 80); background-image: repeating-linear-gradient(135deg, oklch(0.97 0.01 80) 0 14px, oklch(0.93 0.02 80) 14px 28px); }
+  .ph--sun  { background-color: oklch(0.94 0.04 80); background-image: repeating-linear-gradient(135deg, oklch(0.97 0.02 80) 0 14px, oklch(0.94 0.05 80) 14px 28px); }
+  .ph[data-ratio="16/9"]::before { content: ""; display: block; padding-top: 56.25%; }
+  .ph[data-ratio="4/3"]::before { content: ""; display: block; padding-top: 75%; }
+  .ph[data-ratio="3/2"]::before { content: ""; display: block; padding-top: 66.66%; }
+  .ph__label {
+    position: absolute; left: 14px; bottom: 14px;
+    padding: 5px 10px; border-radius: 8px;
+    background: rgba(26,35,50,0.78); color: #fff;
+    font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.04em;
+  }
+
+  /* ====== PAGE HEADER ====== */
+  .page-hero {
+    padding: 40px 0 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (min-width: 768px) { .page-hero { padding: 64px 0 48px; } }
+  .page-hero::before {
+    content: ""; position: absolute; top: -100px; right: -80px;
+    width: 360px; height: 360px; border-radius: 50%;
+    background: radial-gradient(circle, oklch(0.92 0.06 80 / 0.55), transparent 70%);
+    z-index: 0;
+  }
+  .page-hero__inner { position: relative; z-index: 1; max-width: 720px; }
+  .page-hero__title {
+    font-size: clamp(2.1rem, 4vw + 0.5rem, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    margin-bottom: 14px;
+    text-wrap: balance;
+  }
+  .page-hero__title em {
+    font-style: normal;
+    color: var(--c-primary);
+    position: relative;
+    white-space: nowrap;
+  }
+  .page-hero__title em::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: -4px; height: 10px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'><path d='M2 6 Q 25 0, 50 5 T 100 5 T 150 5 T 198 5' stroke='%2314b8a6' stroke-width='3' fill='none' stroke-linecap='round'/></svg>") center/100% 100% no-repeat;
+  }
+  .page-hero__sub {
+    color: var(--c-fg-muted);
+    font-size: 1.08rem;
+    max-width: 56ch;
+    text-wrap: pretty;
+  }
+  @media (min-width: 768px) { .page-hero__sub { font-size: 1.18rem; } }
+
+  /* ====== CATEGORY CHIPS ====== */
+  .chips {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin: 24px 0 8px;
+  }
+  .chip {
+    padding: 9px 14px;
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 3px;
+    border-radius: 999px;
+    font-size: 0.86rem; font-weight: 600;
+    color: var(--c-fg-muted);
+    display: inline-flex; align-items: center; gap: 6px;
+    cursor: pointer;
+    transition: transform .08s, background .15s, border-color .15s, color .15s;
+  }
+  .chip:hover { background: var(--c-muted); color: var(--c-fg); }
+  .chip__count {
+    font-family: var(--font-mono); font-size: 0.74rem;
+    color: var(--c-fg-subtle); font-weight: 500;
+  }
+  .chip.is-active {
+    background: var(--c-primary);
+    border-color: var(--c-primary);
+    border-bottom-color: var(--c-primary-dark);
+    color: #fff;
+  }
+  .chip.is-active .chip__count { color: rgba(255,255,255,0.7); }
+
+  /* ====== FEATURED ARTICLE ====== */
+  .featured {
+    padding-bottom: 12px;
+  }
+  .featured-card {
+    background: var(--c-surface);
+    border: 2px solid var(--c-border);
+    border-bottom-width: 6px;
+    border-bottom-color: var(--c-primary);
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    box-shadow: var(--sh-md);
+    position: relative;
+  }
+  .featured-card__inner { display: grid; gap: 0; }
+  @media (min-width: 900px) {
+    .featured-card__inner { grid-template-columns: 1.05fr 1fr; align-items: stretch; }
+  }
+  .featured-card__cover { position: relative; overflow: hidden; }
+  .featured-card__cover .ph {
+    border-radius: 0; border: none; height: 100%;
+    aspect-ratio: 16/9;
+  }
+  @media (min-width: 900px) {
+    .featured-card__cover .ph { aspect-ratio: auto; height: 100%; min-height: 360px; }
+  }
+  .featured-card__tag {
+    position: absolute; top: 16px; left: 16px; z-index: 2;
+    padding: 7px 14px; border-radius: 999px;
+    background: var(--c-accent);
+    color: #fff;
+    font-family: var(--font-mono); font-size: 0.7rem;
+    font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    box-shadow: 0 3px 0 var(--c-accent-dark);
+  }
+  .featured-card__body {
+    padding: 26px 24px 28px;
+    display: flex; flex-direction: column;
+  }
+  @media (min-width: 900px) { .featured-card__body { padding: 40px 40px 36px; justify-content: center; } }
+  .featured-card__category {
+    display: inline-block;
+    padding: 5px 12px; border-radius: 999px;
+    background: var(--c-secondary-soft); color: var(--c-secondary-dark);
+    font-size: 0.74rem; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 14px; align-self: flex-start;
+  }
+  .featured-card__title {
+    font-size: clamp(1.5rem, 2.5vw + 0.5rem, 2.1rem);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    text-wrap: balance;
+  }
+  .featured-card__excerpt {
+    color: var(--c-fg-muted); font-size: 1rem;
+    margin-bottom: 22px; text-wrap: pretty;
+  }
+  .featured-card__meta {
+    display: flex; align-items: center; gap: 14px;
+    font-size: 0.85rem; color: var(--c-fg-muted);
+    margin-top: auto;
+  }
+  .featured-card__meta .author {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 600; color: var(--c-fg);
+  }
+  .featured-card__meta .avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, oklch(0.78 0.12 230), oklch(0.78 0.12 184));
+    color: #fff; font-family: var(--font-heading);
+    font-size: 0.74rem; font-weight: 700;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .featured-card__meta .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--c-border); }
+  .featured-card__meta .mono { font-family: var(--font-mono); font-size: 0.78rem; }
+
+  /* ====== ARTICLES GRID ====== */
+  .articles { padding: 24px 0 64px; }
+  @media (min-width: 768px) { .articles { padding: 32px 0 88px; } }
+  .articles__head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 22px; gap: 12px;
+  }
+  .articles__head h2 {
+    font-size: 1.3rem; letter-spacing: -0.01em;
+  }
+  .articles__head .count {
+    font-family: var(--font-mono); font-size: 0.8rem;
+    color: var(--c-fg-muted);
+  }
+  .articles__grid {
+    display: grid; gap: 18px;
+  }
+  @media (min-width: 640px) { .articles__grid { grid-template-columns: repeat(2, 1fr); gap: 22px; } }
+  @media (min-width: 1024px) { .articles__grid { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+
+  .article-card {
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 5px;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .article-card:nth-child(3n+1) { border-bottom-color: var(--c-primary); }
+  .article-card:nth-child(3n+2) { border-bottom-color: var(--c-secondary); }
+  .article-card:nth-child(3n+3) { border-bottom-color: var(--c-accent); }
+  .article-card:hover { transform: translateY(-4px); box-shadow: var(--sh-md); }
+
+  .article-card__cover {
+    position: relative; overflow: hidden;
+  }
+  .article-card__cover .ph {
+    border-radius: 0; border: none; border-bottom: 1.5px solid var(--c-border);
+    aspect-ratio: 4/3;
+  }
+  .article-card__cat {
+    position: absolute; top: 12px; left: 12px; z-index: 2;
+    padding: 5px 10px; border-radius: 999px;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: blur(4px);
+    color: var(--c-fg);
+    font-family: var(--font-mono); font-size: 0.68rem;
+    font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    box-shadow: var(--sh-sm);
+  }
+  .article-card__cat--turq { color: var(--c-secondary-dark); }
+  .article-card__cat--coral { color: var(--c-accent-dark); }
+  .article-card__cat--sun { color: var(--c-sun-dark); }
+
+  .article-card__body {
+    padding: 20px 22px 22px;
+    flex: 1;
+    display: flex; flex-direction: column;
+  }
+  .article-card__title {
+    font-size: 1.18rem; line-height: 1.25;
+    letter-spacing: -0.015em;
+    margin-bottom: 8px;
+    text-wrap: balance;
+  }
+  .article-card__excerpt {
+    color: var(--c-fg-muted); font-size: 0.92rem;
+    line-height: 1.5;
+    margin-bottom: 16px; text-wrap: pretty;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .article-card__meta {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1.5px dashed var(--c-border);
+    display: flex; align-items: center; gap: 10px;
+    color: var(--c-fg-muted); font-size: 0.8rem;
+  }
+  .article-card__meta .mono { font-family: var(--font-mono); }
+  .article-card__meta .dot { width: 3.5px; height: 3.5px; border-radius: 50%; background: var(--c-border); }
+
+  /* ====== LOAD MORE ====== */
+  .load-more {
+    display: flex; flex-direction: column; align-items: center;
+    margin-top: 36px; gap: 12px;
+  }
+  .load-more .meta {
+    font-family: var(--font-mono); font-size: 0.78rem;
+    color: var(--c-fg-subtle);
+  }
+
+  /* ====== NEWSLETTER / FOOTER CTA ====== */
+  .news {
+    background: linear-gradient(135deg, var(--c-secondary), oklch(0.55 0.14 184));
+    color: #fff;
+    border-radius: var(--r-xl);
+    margin: 0 20px 40px;
+    padding: 36px 24px;
+    position: relative; overflow: hidden;
+    box-shadow: 0 18px 36px -16px oklch(0.55 0.14 184 / 0.4);
+  }
+  @media (min-width: 768px) { .news { margin: 0 40px 56px; padding: 48px 40px; } }
+  @media (min-width: 1024px) {
+    .news { margin: 0 64px 72px; padding: 64px 56px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+  }
+  .news::before, .news::after {
+    content: ""; position: absolute; border-radius: 50%;
+  }
+  .news::before { top: -60px; right: -40px; width: 200px; height: 200px; background: radial-gradient(circle, oklch(0.85 0.12 200 / 0.45), transparent 70%); }
+  .news::after { bottom: -80px; left: -40px; width: 220px; height: 220px; background: radial-gradient(circle, oklch(0.85 0.13 80 / 0.35), transparent 70%); }
+  .news__body { position: relative; z-index: 1; max-width: 460px; }
+  .news__title {
+    color: #fff; font-size: clamp(1.4rem, 2vw + 0.5rem, 1.8rem);
+    margin-bottom: 8px; line-height: 1.2; letter-spacing: -0.015em;
+  }
+  .news__sub {
+    color: rgba(255,255,255,0.85); font-size: 0.98rem; margin-bottom: 22px;
+  }
+  @media (min-width: 1024px) { .news__sub { margin-bottom: 0; } }
+  .news__actions { display: flex; gap: 10px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .news .btn--primary { background: #fff; color: var(--c-secondary-dark); box-shadow: 0 4px 0 oklch(0.86 0.04 184), 0 8px 18px -4px rgba(26,35,50,.3); }
+  .news .btn--primary:active { box-shadow: 0 1px 0 oklch(0.86 0.04 184); }
+
+  /* ====== FOOTER ====== */
+  .footer { padding: 48px 0 32px; border-top: 1px solid var(--c-border); }
+  .footer__grid { display: grid; gap: 32px; }
+  @media (min-width: 768px) { .footer__grid { grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; } }
+  .footer__brand p { color: var(--c-fg-muted); font-size: 0.92rem; margin-top: 12px; max-width: 28ch; }
+  .footer__col h5 { font-family: var(--font-body); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-fg-subtle); margin-bottom: 14px; }
+  .footer__col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .footer__col li a { font-size: 0.94rem; color: var(--c-fg); font-weight: 500; }
+  .footer__col li a:hover { color: var(--c-primary); }
+  .footer__bottom {
+    margin-top: 40px; padding-top: 24px;
+    border-top: 1.5px dashed var(--c-border);
+    display: flex; flex-direction: column; gap: 12px;
+    color: var(--c-fg-muted); font-size: 0.85rem;
+  }
+  @media (min-width: 768px) { .footer__bottom { flex-direction: row; justify-content: space-between; align-items: center; } }
+  .footer__bottom .mono { font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+
+<!-- ================== HEADER ================== -->
+<header class="header">
+  <div class="header__inner">
+    <a class="logo" href="#">
+      <span class="logo__mark" aria-hidden="true"></span>
+      <span>Fellaswimming</span>
+    </a>
+    <nav class="nav" aria-label="Utama">
+      <a href="#">Kelas</a>
+      <a href="#">Pelatih</a>
+      <a href="#">Galeri</a>
+      <a href="#">Lokasi</a>
+      <a href="#" class="is-active">Artikel</a>
+    </nav>
+    <a class="btn btn--primary btn--sm header__cta" href="#">Daftar Sekarang</a>
+    <button class="header__menu" aria-label="Menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ================== PAGE HERO ================== -->
+<section class="page-hero">
+  <div class="wrap">
+    <div class="page-hero__inner">
+      <span class="eyebrow"><span class="e-dot" style="background:var(--c-sun);"></span> Belajar dulu, baru daftar</span>
+      <h1 class="page-hero__title">
+        Artikel praktis untuk <em>Bunda &amp; Ayah</em>.
+      </h1>
+      <p class="page-hero__sub">
+        Pertanyaan-pertanyaan yang sering kami dengar — usia ideal mulai les renang, beda jenis kelas, anak takut air, dan apa yang harus dipersiapkan. Ditulis dengan jujur, tanpa hard-sell.
+      </p>
+    </div>
+
+    <div class="chips" role="tablist" aria-label="Kategori artikel">
+      <button class="chip is-active">Semua <span class="chip__count">· 18</span></button>
+      <button class="chip">Kesiapan Anak <span class="chip__count">· 6</span></button>
+      <button class="chip">Jenis Kelas <span class="chip__count">· 4</span></button>
+      <button class="chip">Tips Praktis <span class="chip__count">· 5</span></button>
+      <button class="chip">Keamanan <span class="chip__count">· 3</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ================== FEATURED ================== -->
+<section class="featured">
+  <div class="wrap">
+    <article class="featured-card">
+      <div class="featured-card__inner">
+        <div class="featured-card__cover">
+          <span class="featured-card__tag">⭐ Paling dibaca</span>
+          <div class="ph ph--turq">
+            <span class="ph__label">cover · usia ideal les renang</span>
+          </div>
+        </div>
+        <div class="featured-card__body">
+          <span class="featured-card__category">Kesiapan Anak</span>
+          <h2 class="featured-card__title">
+            Kapan usia ideal anak mulai les renang?
+          </h2>
+          <p class="featured-card__excerpt">
+            Salah satu pertanyaan paling sering kami dengar dari orang tua. Jawaban singkatnya: tergantung. Jawaban panjangnya — tiga tanda kesiapan, pilihan kelas per kelompok usia, dan tiga hal yang penting dipersiapkan sebelum sesi pertama.
+          </p>
+          <div class="featured-card__meta">
+            <span class="author">
+              <span class="avatar">RP</span>
+              Coach Rendra
+            </span>
+            <span class="dot"></span>
+            <span class="mono">24 Mei 2026</span>
+            <span class="dot"></span>
+            <span class="mono">8 menit baca</span>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ================== ARTICLES GRID ================== -->
+<section class="articles">
+  <div class="wrap">
+    <div class="articles__head">
+      <h2>Semua Artikel</h2>
+      <span class="count">17 artikel lainnya</span>
+    </div>
+
+    <div class="articles__grid">
+
+      <article class="article-card">
+        <div class="article-card__cover">
+          <span class="article-card__cat article-card__cat--turq">Jenis Kelas</span>
+          <div class="ph"><span class="ph__label">cover · privat vs semi vs grup</span></div>
+        </div>
+        <div class="article-card__body">
+          <h3 class="article-card__title">Beda privat, semi-privat, dan grup — yang mana cocok untuk anak kamu?</h3>
+          <p class="article-card__excerpt">Tiap tipe kelas punya pace yang berbeda. Kerangka praktis memilih, tanpa harus tanya satu-satu.</p>
+          <div class="article-card__meta">
+            <span class="mono">22 Mei 2026</span>
+            <span class="dot"></span>
+            <span class="mono">6 menit</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="article-card">
+        <div class="article-card__cover">
+          <span class="article-card__cat article-card__cat--coral">Tips Praktis</span>
+          <div class="ph ph--coral"><span class="ph__label">cover · anak takut air</span></div>
+        </div>
+        <div class="article-card__body">
+          <h3 class="article-card__title">Anak takut air? Ini cara adaptasinya — pelan, tanpa paksa.</h3>
+          <p class="article-card__excerpt">Yang penting bukan teknik dulu — tapi membangun hubungan positif dengan air. Step demi step.</p>
+          <div class="article-card__meta">
+            <span class="mono">19 Mei 2026</span>
+            <span class="dot"></span>
+            <span class="mono">5 menit</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="article-card">
+        <div class="article-card__cover">
+          <span class="article-card__cat">Kesiapan Anak</span>
+          <div class="ph ph--sun"><span class="ph__label">cover · pertanyaan ortu</span></div>
+        </div>
+        <div class="article-card__body">
+          <h3 class="article-card__title">5 pertanyaan yang sering ditanyakan orang tua sebelum daftar.</h3>
+          <p class="article-card__excerpt">Soal usia, harga, jadwal, pelatih, dan apakah les renang aman. Kami jawab apa adanya.</p>
+          <div class="article-card__meta">
+            <span class="mono">15 Mei 2026</span>
+            <span class="dot"></span>
+            <span class="mono">4 menit</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="article-card">
+        <div class="article-card__cover">
+          <span class="article-card__cat article-card__cat--turq">Jenis Kelas</span>
+          <div class="ph ph--turq"><span class="ph__label">cover · waktu belajar</span></div>
+        </div>
+        <div class="article-card__body">
+          <h3 class="article-card__title">Berapa lama waktu yang dibutuhkan anak untuk bisa berenang?</h3>
+          <p class="article-card__excerpt">Range realistis — bukan janji. Tergantung umur, frekuensi, dan tipe kelas yang dipilih.</p>
+          <div class="article-card__meta">
+            <span class="mono">12 Mei 2026</span>
+            <span class="dot"></span>
+            <span class="mono">7 menit</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="article-card">
+        <div class="article-card__cover">
+          <span class="article-card__cat article-card__cat--coral">Tips Praktis</span>
+          <div class="ph"><span class="ph__label">cover · perlengkapan sesi pertama</span></div>
+        </div>
+        <div class="article-card__body">
+          <h3 class="article-card__title">Apa yang harus dibawa ke sesi renang pertama.</h3>
+          <p class="article-card__excerpt">Checklist singkat — kacamata yang fit, pelampung lengan, dan satu hal yang sering dilupakan.</p>
+          <div class="article-card__meta">
+            <span class="mono">8 Mei 2026</span>
+            <span class="dot"></span>
+            <span class="mono">3 menit</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="article-card">
+        <div class="article-card__cover">
+          <span class="article-card__cat article-card__cat--sun">Keamanan</span>
+          <div class="ph ph--sand"><span class="ph__label">cover · tanda pelatih bagus</span></div>
+        </div>
+        <div class="article-card__body">
+          <h3 class="article-card__title">Tanda-tanda pelatih renang yang bagus untuk anak.</h3>
+          <p class="article-card__excerpt">Sertifikasi penting, tapi ada hal-hal yang nggak ada di sertifikat. Apa yang harus diperhatikan saat trial.</p>
+          <div class="article-card__meta">
+            <span class="mono">5 Mei 2026</span>
+            <span class="dot"></span>
+            <span class="mono">6 menit</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="article-card">
+        <div class="article-card__cover">
+          <span class="article-card__cat">Kesiapan Anak</span>
+          <div class="ph ph--coral"><span class="ph__label">cover · renang vs olahraga lain</span></div>
+        </div>
+        <div class="article-card__body">
+          <h3 class="article-card__title">Renang vs olahraga lain — manfaat khusus untuk anak.</h3>
+          <p class="article-card__excerpt">Bukan cuma "bagus untuk kesehatan." Apa yang renang lakukan yang olahraga lain nggak bisa.</p>
+          <div class="article-card__meta">
+            <span class="mono">1 Mei 2026</span>
+            <span class="dot"></span>
+            <span class="mono">5 menit</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="article-card">
+        <div class="article-card__cover">
+          <span class="article-card__cat article-card__cat--turq">Jenis Kelas</span>
+          <div class="ph ph--sun"><span class="ph__label">cover · pilih jadwal</span></div>
+        </div>
+        <div class="article-card__body">
+          <h3 class="article-card__title">Sabtu pagi atau weekday sore — mana yang ideal untuk anak?</h3>
+          <p class="article-card__excerpt">Pertimbangan kelelahan, kualitas kolam, dan ritme anak per kelompok usia.</p>
+          <div class="article-card__meta">
+            <span class="mono">28 April 2026</span>
+            <span class="dot"></span>
+            <span class="mono">4 menit</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="article-card">
+        <div class="article-card__cover">
+          <span class="article-card__cat article-card__cat--coral">Tips Praktis</span>
+          <div class="ph ph--turq"><span class="ph__label">cover · evaluasi progres</span></div>
+        </div>
+        <div class="article-card__body">
+          <h3 class="article-card__title">Cara mengukur progres renang anak — tanpa harus jago dulu.</h3>
+          <p class="article-card__excerpt">Tiga indikator kecil yang menunjukkan anak kamu sudah maju, bahkan kalau belum bisa freestyle.</p>
+          <div class="article-card__meta">
+            <span class="mono">23 April 2026</span>
+            <span class="dot"></span>
+            <span class="mono">5 menit</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="load-more">
+      <button class="btn btn--secondary btn--lg">Lihat 8 artikel lainnya
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <span class="meta">Menampilkan 9 dari 17</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================== NEWSLETTER CTA ================== -->
+<section class="news">
+  <div class="news__body">
+    <h2 class="news__title">Mau dapat artikel baru lewat WhatsApp?</h2>
+    <p class="news__sub">
+      1-2 artikel per bulan. Tanpa promo, tanpa spam — cuma tulisan baru yang kami pikir bermanfaat.
+    </p>
+  </div>
+  <div class="news__actions">
+    <a class="btn btn--primary btn--lg" href="#">Berlangganan via WhatsApp</a>
+  </div>
+</section>
+
+<!-- ================== FOOTER ================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a class="logo" href="#">
+          <span class="logo__mark" aria-hidden="true"></span>
+          <span>Fellaswimming</span>
+        </a>
+        <p>Sekolah renang Sidoarjo yang menulis dulu, baru jualan. Untuk anak 4–12 tahun.</p>
+      </div>
+      <div class="footer__col">
+        <h5>Kelas</h5>
+        <ul><li><a href="#">Privat</a></li><li><a href="#">Semi-Privat</a></li><li><a href="#">Grup</a></li><li><a href="#">Jadwal</a></li></ul>
+      </div>
+      <div class="footer__col">
+        <h5>Belajar</h5>
+        <ul><li><a href="#">Artikel</a></li><li><a href="#">Profil pelatih</a></li><li><a href="#">Testimoni</a></li><li><a href="#">FAQ</a></li></ul>
+      </div>
+      <div class="footer__col">
+        <h5>Hubungi</h5>
+        <ul><li><a href="#">WA · 0812-xxxx-xxxx</a></li><li><a href="#">hai@fellaswimming.com</a></li><li><a href="#">@fellaswimming</a></li><li><a href="#">Lokasi</a></li></ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Fellaswimming · Sidoarjo, Indonesia.</span>
+      <span class="mono">v2.0 · artikel</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
