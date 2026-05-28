@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { ArrowLeft, ArrowRight, Loader2, Send } from "lucide-react";
 import { useMemo, useState, useTransition, type FormEvent } from "react";
 import { useForm, type Path } from "react-hook-form";
@@ -89,7 +89,7 @@ export function RegistrationWizard() {
   }, [searchParams]);
 
   const form = useForm<RegistrationFormValues>({
-    resolver: zodResolver(RegistrationFormSchema),
+    resolver: standardSchemaResolver(RegistrationFormSchema),
     mode: "onTouched",
     defaultValues: {
       student_name: "",
