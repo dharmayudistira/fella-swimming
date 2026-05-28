@@ -1,0 +1,144 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  /* ====== Brand: Primary (Sky) ====== */
+  --color-primary: oklch(0.71 0.14 230);
+  --color-primary-foreground: #ffffff;
+  --color-primary-dark: oklch(0.55 0.16 230);
+  --color-primary-soft: oklch(0.71 0.14 230 / 0.10);
+  --color-primary-tint: oklch(0.96 0.03 230);
+
+  /* ====== Brand: Secondary (Turquoise) ====== */
+  --color-secondary: oklch(0.73 0.13 184);
+  --color-secondary-foreground: #ffffff;
+  --color-secondary-dark: oklch(0.55 0.13 184);
+  --color-secondary-soft: oklch(0.73 0.13 184 / 0.14);
+  --color-secondary-tint: oklch(0.96 0.03 184);
+
+  /* ====== Brand: Accent (Coral) ====== */
+  --color-accent: oklch(0.72 0.16 15);
+  --color-accent-foreground: #ffffff;
+  --color-accent-dark: oklch(0.56 0.16 15);
+  --color-accent-soft: oklch(0.72 0.16 15 / 0.14);
+  --color-accent-tint: oklch(0.96 0.03 15);
+
+  /* ====== Brand: Sun (Warm yellow) ====== */
+  --color-sun: oklch(0.84 0.13 80);
+  --color-sun-dark: oklch(0.55 0.14 80);
+  --color-sun-tint: oklch(0.97 0.04 80);
+
+  /* ====== Neutrals ====== */
+  --color-background: #faf8f5;
+  --color-foreground: #1a2332;
+  --color-foreground-muted: #5c6573;
+  --color-foreground-subtle: #8c95a3;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f5f1ec;
+  --color-border: #e7e2da;
+  --color-input: #e7e2da;
+  --color-ring: oklch(0.71 0.14 230 / 0.45);
+
+  /* shadcn aliases (map shadcn role tokens to brand neutrals) */
+  --color-card: #ffffff;
+  --color-card-foreground: #1a2332;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1a2332;
+  --color-muted: #f5f1ec;
+  --color-muted-foreground: #5c6573;
+
+  /* ====== Semantic ====== */
+  --color-success: oklch(0.66 0.16 150);
+  --color-success-dark: oklch(0.45 0.16 150);
+  --color-success-tint: oklch(0.95 0.06 150);
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-info: #3b82f6;
+
+  /* ====== Admin sidebar (dark navy on warm content area) ====== */
+  --color-sidebar: #1a2332;
+  --color-sidebar-foreground: rgba(255, 255, 255, 0.85);
+  --color-sidebar-foreground-muted: rgba(255, 255, 255, 0.55);
+  --color-sidebar-primary: oklch(0.71 0.14 230);
+  --color-sidebar-primary-foreground: #ffffff;
+  --color-sidebar-accent: oklch(0.71 0.14 230 / 0.22);
+  --color-sidebar-accent-foreground: #ffffff;
+  --color-sidebar-border: rgba(255, 255, 255, 0.10);
+  --color-sidebar-ring: oklch(0.71 0.14 230 / 0.45);
+
+  /* ====== Typography ====== */
+  --font-heading: var(--font-heading-loaded), "General Sans", system-ui, sans-serif;
+  --font-body: var(--font-body-loaded), "Nunito", system-ui, sans-serif;
+  --font-sans: var(--font-body-loaded), "Nunito", system-ui, sans-serif;
+  --font-mono: var(--font-mono-loaded), "JetBrains Mono", ui-monospace, monospace;
+
+  /* ====== Type scale (1.25 modular) ====== */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.563rem;
+  --text-2xl: 1.953rem;
+  --text-3xl: 2.441rem;
+  --text-4xl: 3.052rem;
+  --text-display: 3.815rem;
+
+  /* ====== Spacing base (Tailwind v4 uses --spacing as unit) ====== */
+  --spacing: 0.25rem;
+
+  /* ====== Border radius (v2 — bigger, friendlier) ====== */
+  --radius-sm: 12px;
+  --radius-md: 14px;
+  --radius: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+
+  /* ====== Shadows (soft, warm-tinted on #1A2332 rgb base) ====== */
+  --shadow-sm: 0 1px 2px rgba(26, 35, 50, 0.05);
+  --shadow-md: 0 6px 16px -6px rgba(26, 35, 50, 0.10), 0 2px 4px -2px rgba(26, 35, 50, 0.05);
+  --shadow-lg: 0 18px 36px -14px rgba(26, 35, 50, 0.14), 0 6px 10px -4px rgba(26, 35, 50, 0.06);
+  --shadow-pop: 0 24px 48px -16px oklch(0.71 0.14 230 / 0.28);
+
+  /* ====== Easing ====== */
+  --ease-fluid: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    font-family: var(--font-body);
+    color: var(--color-foreground);
+    background: var(--color-background);
+  }
+
+  body {
+    @apply bg-background text-foreground min-h-full flex flex-col;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+  }
+
+  code,
+  pre {
+    font-family: var(--font-mono);
+  }
+}
