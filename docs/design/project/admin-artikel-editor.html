@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Edit Artikel — Fellaswimming Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --c-primary: oklch(0.71 0.14 230); --c-primary-dark: oklch(0.55 0.16 230); --c-primary-soft: oklch(0.71 0.14 230 / 0.10); --c-primary-tint: oklch(0.96 0.03 230);
+    --c-secondary: oklch(0.73 0.13 184); --c-secondary-dark: oklch(0.55 0.13 184); --c-secondary-soft: oklch(0.73 0.13 184 / 0.14); --c-secondary-tint: oklch(0.96 0.03 184);
+    --c-accent: oklch(0.72 0.16 15); --c-accent-dark: oklch(0.56 0.16 15); --c-accent-soft: oklch(0.72 0.16 15 / 0.14); --c-accent-tint: oklch(0.96 0.03 15);
+    --c-sun: oklch(0.84 0.13 80); --c-sun-dark: oklch(0.55 0.14 80); --c-sun-tint: oklch(0.97 0.04 80);
+    --c-success: oklch(0.66 0.16 150); --c-success-dark: oklch(0.45 0.16 150); --c-success-tint: oklch(0.95 0.06 150);
+    --c-bg: #FAF8F5; --c-surface: #FFFFFF; --c-muted: #F5F1EC; --c-border: #E7E2DA;
+    --c-fg: #1A2332; --c-fg-muted: #5C6573; --c-fg-subtle: #8C95A3;
+    --c-sidebar-bg: #1A2332; --c-sidebar-fg: rgba(255,255,255,0.85); --c-sidebar-fg-muted: rgba(255,255,255,0.55);
+    --font-heading: "General Sans", "Nunito", system-ui, sans-serif;
+    --font-body: "Nunito", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    --sb-w: 240px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: var(--font-body); color: var(--c-fg); background: var(--c-bg); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 700; line-height: 1.18; letter-spacing: -0.015em; margin: 0; color: var(--c-fg); }
+  p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; }
+
+  .shell { display: grid; grid-template-columns: var(--sb-w) 1fr; min-height: 100vh; }
+
+  /* === SIDEBAR === */
+  .sb { background: var(--c-sidebar-bg); color: var(--c-sidebar-fg); padding: 22px 16px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+  .sb__brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-heading); font-weight: 700; font-size: 1rem; color: #fff; padding: 0 8px 8px; margin-bottom: 14px; }
+  .sb__mark { width: 32px; height: 32px; border-radius: 10px; background: radial-gradient(circle at 28% 28%, oklch(0.92 0.07 200), var(--c-primary) 70%); position: relative; }
+  .sb__mark::after { content: ""; position: absolute; right: 4px; top: 4px; width: 7px; height: 7px; border-radius: 50%; background: oklch(0.95 0.04 80); }
+  .sb__badge { margin-left: auto; font-family: var(--font-mono); font-size: 0.65rem; padding: 3px 7px; border-radius: 5px; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: 0.08em; }
+  .sb__section { font-family: var(--font-mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--c-sidebar-fg-muted); padding: 14px 12px 6px; }
+  .sb__nav { display: flex; flex-direction: column; gap: 2px; }
+  .sb__item { display: flex; align-items: center; gap: 11px; padding: 9px 12px; border-radius: 10px; font-size: 0.92rem; font-weight: 500; color: var(--c-sidebar-fg); cursor: pointer; }
+  .sb__item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+  .sb__item.is-active { background: oklch(0.71 0.14 230 / 0.22); color: #fff; font-weight: 700; box-shadow: inset 0 0 0 1px oklch(0.71 0.14 230 / 0.4); }
+  .sb__item .ic { width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .sb__item .ic svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .sb__item .count { margin-left: auto; font-family: var(--font-mono); font-size: 0.72rem; background: rgba(255,255,255,0.08); padding: 2px 7px; border-radius: 6px; color: rgba(255,255,255,0.7); font-weight: 600; }
+  .sb__item.is-active .count { background: var(--c-primary); color: #fff; }
+  .sb__item .count--warn { background: var(--c-accent); color: #fff; }
+  .sb__user { margin-top: auto; padding: 12px; background: rgba(255,255,255,0.04); border-radius: 12px; display: flex; align-items: center; gap: 10px; }
+  .sb__user-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, oklch(0.78 0.14 15), oklch(0.78 0.12 30)); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 0.84rem; display: inline-flex; align-items: center; justify-content: center; }
+  .sb__user-meta { flex: 1; min-width: 0; }
+  .sb__user-name { font-size: 0.88rem; font-weight: 700; color: #fff; line-height: 1.1; }
+  .sb__user-role { font-size: 0.74rem; color: var(--c-sidebar-fg-muted); margin-top: 2px; }
+  .sb__user-menu { width: 30px; height: 30px; border-radius: 8px; border: 0; background: transparent; color: var(--c-sidebar-fg-muted); display: inline-flex; align-items: center; justify-content: center; }
+
+  /* === EDITOR TOPBAR === */
+  .topbar {
+    position: sticky; top: 0; z-index: 30;
+    background: rgba(250,248,245,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--c-border);
+    padding: 14px 28px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .topbar__back {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 12px; border-radius: 10px;
+    color: var(--c-fg-muted);
+    font-size: 0.86rem; font-weight: 600;
+    border: 1.5px solid var(--c-border); border-bottom-width: 3px;
+    background: var(--c-surface); cursor: pointer;
+    transition: color .15s, background .15s;
+  }
+  .topbar__back:hover { color: var(--c-fg); background: var(--c-muted); }
+  .topbar__back svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2.4; fill: none; stroke-linecap: round; }
+  .topbar__crumb {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.84rem; color: var(--c-fg-muted);
+  }
+  .topbar__crumb .sep { color: var(--c-fg-subtle); }
+  .topbar__crumb strong { color: var(--c-fg); font-weight: 700; }
+  .topbar__status {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-left: auto;
+    padding: 6px 12px; border-radius: 999px;
+    background: var(--c-sun-tint); color: var(--c-sun-dark);
+    font-size: 0.78rem; font-weight: 700;
+  }
+  .topbar__status .d { width: 6px; height: 6px; border-radius: 50%; background: var(--c-sun); }
+  .topbar__autosave {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 0.78rem;
+    color: var(--c-fg-muted);
+  }
+  .topbar__autosave .d { width: 7px; height: 7px; border-radius: 50%; background: var(--c-success); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+  .topbar__actions { display: flex; gap: 8px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: 40px; padding: 0 16px; border-radius: 11px; font-family: var(--font-body); font-weight: 700; font-size: 0.88rem; cursor: pointer; border: none; transition: filter .15s, transform .08s; }
+  .btn--primary { background: var(--c-primary); color: #fff; box-shadow: 0 3px 0 var(--c-primary-dark); }
+  .btn--primary:hover { filter: brightness(1.04); }
+  .btn--primary:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--c-primary-dark); }
+  .btn--secondary { background: var(--c-surface); color: var(--c-fg); box-shadow: 0 3px 0 var(--c-border); }
+  .btn--secondary:hover { background: var(--c-muted); }
+  .btn--secondary:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--c-border); }
+  .btn--accent { background: var(--c-accent); color: #fff; box-shadow: 0 3px 0 var(--c-accent-dark); }
+
+  /* === EDITOR LAYOUT === */
+  .editor-main {
+    display: grid; grid-template-columns: 1fr 320px;
+    gap: 24px;
+    padding: 28px 28px 64px;
+    align-items: start;
+  }
+  .editor-pane {
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+
+  /* === COVER UPLOAD === */
+  .cover-upload {
+    position: relative;
+    aspect-ratio: 16/9;
+    background-color: oklch(0.92 0.03 184);
+    background-image: repeating-linear-gradient(135deg, oklch(0.96 0.01 184) 0 14px, oklch(0.92 0.03 184) 14px 28px);
+    border-bottom: 1.5px solid var(--c-border);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .cover-upload__label {
+    position: absolute; left: 14px; bottom: 14px;
+    padding: 5px 10px; border-radius: 8px;
+    background: rgba(26,35,50,0.78); color: #fff;
+    font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.04em;
+  }
+  .cover-upload__actions {
+    position: absolute; top: 14px; right: 14px;
+    display: flex; gap: 8px;
+  }
+  .cover-upload__btn {
+    background: rgba(255,255,255,0.95);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 3px;
+    padding: 7px 12px; border-radius: 10px;
+    font-size: 0.82rem; font-weight: 700;
+    color: var(--c-fg); cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .cover-upload__btn svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2.2; fill: none; stroke-linecap: round; }
+
+  .editor-body { padding: 28px 36px 32px; }
+
+  /* === TITLE INPUT === */
+  .title-input {
+    width: 100%;
+    border: 0; outline: 0; background: transparent;
+    font-family: var(--font-heading); font-weight: 700;
+    font-size: 2.2rem; line-height: 1.12;
+    letter-spacing: -0.025em;
+    color: var(--c-fg);
+    padding: 0; margin-bottom: 6px;
+    resize: none;
+  }
+  .title-input::placeholder { color: var(--c-fg-subtle); }
+  .slug {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono); font-size: 0.84rem;
+    color: var(--c-fg-muted);
+    padding: 8px 12px; border-radius: 10px;
+    background: var(--c-muted);
+    border: 1.5px dashed var(--c-border);
+    margin-bottom: 22px;
+  }
+  .slug strong { color: var(--c-fg); font-weight: 700; }
+  .slug button {
+    background: transparent; border: 0; cursor: pointer;
+    color: var(--c-primary);
+    font-size: 0.78rem; font-weight: 700;
+    padding: 0; font-family: var(--font-body);
+  }
+
+  /* === EXCERPT === */
+  .field-block { margin-bottom: 22px; }
+  .field-block__label {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono); font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--c-fg-muted); font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .field-block__hint { font-size: 0.78rem; color: var(--c-fg-subtle); margin-top: 6px; display: flex; justify-content: space-between; }
+  .excerpt {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 3px;
+    border-radius: 12px;
+    font-family: var(--font-body); font-size: 1rem; line-height: 1.55;
+    color: var(--c-fg);
+    outline: 0; resize: vertical; min-height: 76px;
+  }
+  .excerpt:focus { border-color: var(--c-primary); }
+
+  /* === TOOLBAR === */
+  .toolbar {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 4px;
+    padding: 8px;
+    background: var(--c-bg);
+    border: 1.5px solid var(--c-border);
+    border-radius: 12px;
+    margin-bottom: 18px;
+    position: sticky; top: 72px; z-index: 10;
+  }
+  .tb-btn {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: transparent; border: 0;
+    color: var(--c-fg); cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: background .12s;
+  }
+  .tb-btn:hover { background: var(--c-muted); }
+  .tb-btn.is-active { background: var(--c-primary-tint); color: var(--c-primary-dark); box-shadow: inset 0 0 0 1.5px var(--c-primary); }
+  .tb-btn svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .tb-btn .ic-bold { font-weight: 900; font-size: 0.86rem; }
+  .tb-btn .ic-italic { font-style: italic; font-weight: 700; font-family: serif; font-size: 0.88rem; }
+  .tb-sep { width: 1px; height: 22px; background: var(--c-border); margin: 0 4px; }
+
+  /* === PROSE EDIT AREA === */
+  .prose-edit {
+    font-size: 1.04rem; line-height: 1.7;
+    color: var(--c-fg);
+  }
+  .prose-edit p { margin-bottom: 1.1em; text-wrap: pretty; }
+  .prose-edit h2 {
+    font-size: 1.6rem; line-height: 1.2;
+    margin: 1.6em 0 0.4em;
+    letter-spacing: -0.015em;
+  }
+  .prose-edit h2 .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 9px;
+    background: var(--c-primary-tint);
+    color: var(--c-primary-dark);
+    font-family: var(--font-heading); font-weight: 700;
+    font-size: 0.86rem;
+    margin-right: 8px;
+    box-shadow: 0 2px 0 var(--c-primary);
+    vertical-align: middle;
+  }
+  .prose-edit strong { color: var(--c-fg); font-weight: 700; }
+  .prose-edit em { color: var(--c-secondary-dark); font-style: normal; font-weight: 600; }
+  .prose-edit ul { padding-left: 0; list-style: none; margin: 0.8em 0 1.4em; }
+  .prose-edit ul li { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .prose-edit ul li::before {
+    content: ""; display: inline-block;
+    width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; margin-top: 4px;
+    background: var(--c-secondary-soft);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%230d6e6e' stroke-width='2.4' stroke-linecap='round'><path d='M2 6.5l2.5 2.5L10 3'/></svg>");
+    background-repeat: no-repeat; background-position: center; background-size: 12px;
+  }
+
+  /* Caret / cursor indicator on currently-editing element */
+  .prose-edit .editing {
+    background: linear-gradient(180deg, transparent 0%, var(--c-primary-soft) 0%);
+    box-shadow: -3px 0 0 var(--c-primary);
+    padding-left: 12px; margin-left: -15px;
+    border-radius: 0 6px 6px 0;
+  }
+
+  /* Inline image upload "in progress" indicator */
+  .image-uploading {
+    margin: 1.2em 0;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: oklch(0.93 0.03 15);
+    background-image: repeating-linear-gradient(135deg, oklch(0.97 0.02 15) 0 14px, oklch(0.93 0.03 15) 14px 28px);
+    aspect-ratio: 3/2;
+    position: relative;
+    border: 1.5px solid var(--c-border);
+    display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px;
+  }
+  .image-uploading .spinner {
+    width: 36px; height: 36px;
+    border: 4px solid var(--c-border);
+    border-top-color: var(--c-accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .image-uploading .progress-bar {
+    width: 60%; height: 8px;
+    background: var(--c-muted);
+    border-radius: 999px; overflow: hidden;
+  }
+  .image-uploading .progress-bar > div {
+    height: 100%; width: 64%;
+    background: linear-gradient(90deg, var(--c-accent), var(--c-accent-dark));
+    border-radius: 999px;
+  }
+  .image-uploading .meta {
+    font-family: var(--font-mono); font-size: 0.78rem;
+    color: var(--c-fg-muted); font-weight: 600;
+  }
+  .image-uploading .meta strong { color: var(--c-accent-dark); font-weight: 700; }
+
+  /* ====== ASIDE (right column) ====== */
+  .aside-stack { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 72px; }
+  .aside-card {
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-radius: 14px;
+    padding: 18px 18px;
+  }
+  .aside-card__title {
+    font-family: var(--font-mono); font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--c-fg-muted); font-weight: 700;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .aside-card__title::after { content: ""; flex: 1; height: 1px; background: var(--c-border); }
+
+  .aside-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+  .aside-row__label { color: var(--c-fg-muted); font-size: 0.84rem; font-weight: 600; width: 80px; flex-shrink: 0; }
+  .aside-row__value { font-size: 0.88rem; font-weight: 600; color: var(--c-fg); }
+
+  /* Category select */
+  .select {
+    width: 100%;
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 12px; border-radius: 10px;
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border); border-bottom-width: 3px;
+    font-size: 0.92rem; font-weight: 600;
+    cursor: pointer;
+    color: var(--c-fg);
+  }
+  .select__chevron { margin-left: auto; color: var(--c-fg-muted); }
+  .select__chevron svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2.4; fill: none; stroke-linecap: round; }
+  .select .pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 9px; border-radius: 999px;
+    background: var(--c-sun-tint); color: var(--c-sun-dark);
+    font-size: 0.74rem; font-weight: 700;
+  }
+  .select .pill .d { width: 6px; height: 6px; border-radius: 50%; background: var(--c-sun); }
+
+  /* Tags chips */
+  .tag-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .tag-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 9px; border-radius: 999px;
+    background: var(--c-muted);
+    border: 1.5px solid var(--c-border);
+    font-size: 0.78rem; font-weight: 700;
+    color: var(--c-fg-muted);
+  }
+  .tag-chip button { background: transparent; border: 0; color: var(--c-fg-subtle); cursor: pointer; padding: 0; line-height: 1; }
+  .tag-add {
+    border: 1.5px dashed var(--c-border);
+    padding: 5px 11px; border-radius: 999px;
+    background: transparent; color: var(--c-fg-muted);
+    font-size: 0.78rem; font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* SEO preview */
+  .seo-preview {
+    background: var(--c-muted); border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .seo-preview__url { font-family: var(--font-mono); font-size: 0.76rem; color: var(--c-fg-muted); margin-bottom: 4px; }
+  .seo-preview__title { color: var(--c-primary-dark); font-size: 1rem; font-weight: 700; line-height: 1.3; margin-bottom: 4px; }
+  .seo-preview__desc { color: var(--c-fg-muted); font-size: 0.84rem; line-height: 1.4; }
+  .seo-meta { display: flex; gap: 12px; margin-top: 10px; font-size: 0.78rem; color: var(--c-fg-muted); }
+  .seo-meta .ok { color: var(--c-success-dark); font-weight: 700; }
+  .seo-meta .ok::before { content: "✓ "; }
+  .seo-meta .warn { color: var(--c-accent-dark); font-weight: 700; }
+  .seo-meta .warn::before { content: "! "; }
+
+  /* History */
+  .history { display: flex; flex-direction: column; gap: 10px; }
+  .history__item { display: flex; gap: 10px; font-size: 0.84rem; color: var(--c-fg-muted); }
+  .history__item .av { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, oklch(0.78 0.14 15), oklch(0.78 0.12 30)); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 0.62rem; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .history__item .av--turq { background: linear-gradient(135deg, oklch(0.78 0.12 184), oklch(0.82 0.10 200)); }
+  .history__item .body { flex: 1; }
+  .history__item .body strong { color: var(--c-fg); font-weight: 700; }
+  .history__item .time { font-family: var(--font-mono); font-size: 0.74rem; color: var(--c-fg-subtle); }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sb">
+    <div class="sb__brand">
+      <span class="sb__mark" aria-hidden="true"></span>
+      Fellaswimming
+      <span class="sb__badge">Admin</span>
+    </div>
+
+    <div class="sb__section">Operasional</div>
+    <nav class="sb__nav">
+      <a class="sb__item" href="admin.html"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></span>Dashboard</a>
+      <a class="sb__item" href="admin-pendaftaran.html"><span class="ic"><svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M8 12h8M8 16h5"/></svg></span>Pendaftaran<span class="count count--warn">6</span></a>
+    </nav>
+    <div class="sb__section">Konten</div>
+    <nav class="sb__nav">
+      <a class="sb__item is-active" href="admin-artikel.html"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg></span>Artikel<span class="count">17</span></a>
+      <a class="sb__item" href="#"><span class="ic"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H8l-5 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>Testimoni<span class="count">12</span></a>
+    </nav>
+    <div class="sb__section">Akun</div>
+    <nav class="sb__nav">
+      <a class="sb__item" href="#"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/></svg></span>Pengaturan</a>
+    </nav>
+
+    <div class="sb__user">
+      <div class="sb__user-avatar">SR</div>
+      <div class="sb__user-meta">
+        <div class="sb__user-name">Bu Sari</div>
+        <div class="sb__user-role">Admin Staff</div>
+      </div>
+      <button class="sb__user-menu" aria-label="Menu akun">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div>
+    <header class="topbar">
+      <button class="topbar__back">
+        <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+        Kembali
+      </button>
+      <div class="topbar__crumb">
+        <span>Artikel</span>
+        <span class="sep">/</span>
+        <strong>Tanda pelatih renang yang bagus</strong>
+      </div>
+
+      <div class="topbar__status">
+        <span class="d"></span> Draft · belum dipublikasikan
+      </div>
+      <div class="topbar__autosave">
+        <span class="d"></span> Tersimpan otomatis · 14:23
+      </div>
+      <div class="topbar__actions">
+        <button class="btn btn--secondary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          Preview
+        </button>
+        <button class="btn btn--primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          Publish
+        </button>
+      </div>
+    </header>
+
+    <div class="editor-main">
+
+      <!-- ============ EDITOR PANE ============ -->
+      <section class="editor-pane">
+
+        <!-- COVER -->
+        <div class="cover-upload">
+          <span class="cover-upload__label">cover · pelatih renang sedang mengajar</span>
+          <div class="cover-upload__actions">
+            <button class="cover-upload__btn">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              Ganti cover
+            </button>
+            <button class="cover-upload__btn" style="color: var(--c-accent-dark);">
+              <svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M19 6l-1 14H6L5 6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="editor-body">
+
+          <!-- TITLE -->
+          <textarea class="title-input" rows="2">Tanda-tanda pelatih renang yang bagus untuk anak.</textarea>
+
+          <!-- SLUG -->
+          <div class="slug">
+            <span>fellaswimming.com/artikel/</span>
+            <strong>tanda-pelatih-renang-bagus</strong>
+            <button>Ubah</button>
+          </div>
+
+          <!-- EXCERPT -->
+          <div class="field-block">
+            <label class="field-block__label">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h10M4 17h6"/></svg>
+              Excerpt
+            </label>
+            <textarea class="excerpt">Sertifikasi penting, tapi ada hal-hal yang nggak ada di sertifikat. Apa yang harus diperhatikan saat trial.</textarea>
+            <div class="field-block__hint">
+              <span>Muncul di hasil pencarian dan card artikel.</span>
+              <span>113 / 160 karakter</span>
+            </div>
+          </div>
+
+          <!-- TOOLBAR -->
+          <div class="toolbar" role="toolbar">
+            <button class="tb-btn" title="Heading 2"><span style="font-weight:700; font-size:0.8rem;">H2</span></button>
+            <button class="tb-btn" title="Heading 3"><span style="font-weight:700; font-size:0.78rem;">H3</span></button>
+            <div class="tb-sep"></div>
+            <button class="tb-btn is-active" title="Bold"><span class="ic-bold">B</span></button>
+            <button class="tb-btn" title="Italic"><span class="ic-italic">I</span></button>
+            <button class="tb-btn" title="Strike"><svg viewBox="0 0 24 24"><path d="M4 12h16M9 6a3 3 0 016 0M9 18a3 3 0 006 0"/></svg></button>
+            <div class="tb-sep"></div>
+            <button class="tb-btn" title="Link"><svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 005.65 0l2-2a4 4 0 00-5.65-5.65l-1 1M14 10a4 4 0 00-5.65 0l-2 2a4 4 0 005.65 5.65l1-1"/></svg></button>
+            <button class="tb-btn" title="Insert image"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="1.5"/><path d="M21 17l-5-5L5 19"/></svg></button>
+            <button class="tb-btn" title="YouTube"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="3"/><path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor"/></svg></button>
+            <div class="tb-sep"></div>
+            <button class="tb-btn" title="Bullet list"><svg viewBox="0 0 24 24"><circle cx="5" cy="6" r="1"/><circle cx="5" cy="12" r="1"/><circle cx="5" cy="18" r="1"/><path d="M10 6h11M10 12h11M10 18h11"/></svg></button>
+            <button class="tb-btn" title="Ordered list"><svg viewBox="0 0 24 24"><path d="M3 6h2v2M3 11v2h2M3 16h2M9 6h12M9 12h12M9 18h12"/></svg></button>
+            <button class="tb-btn" title="Quote"><svg viewBox="0 0 24 24"><path d="M7 7h4v4H7v3h-1V11a4 4 0 011-4zM15 7h4v4h-4v3h-1V11a4 4 0 011-4z"/></svg></button>
+            <div class="tb-sep"></div>
+            <button class="tb-btn" title="Undo"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5M4 9h11a5 5 0 010 10h-4"/></svg></button>
+            <button class="tb-btn" title="Redo"><svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5M20 9H9a5 5 0 000 10h4"/></svg></button>
+          </div>
+
+          <!-- PROSE EDIT AREA -->
+          <div class="prose-edit" contenteditable="false">
+
+            <p>Tiap orang tua yang lagi pertama kali nyari les renang untuk anak, biasanya kebingungan ngecek mana pelatih yang beneran cocok. Jawaban yang paling sering didengar — "lihat sertifikatnya" — sebenarnya cuma setengah cerita. Sertifikasi itu syarat minimum. Yang menentukan pengalaman anak adalah hal-hal yang nggak muncul di kertas.</p>
+
+            <h2><span class="num">1</span>Sertifikasi yang relevan (bukan generic)</h2>
+            <p>Pelatih renang anak yang serius punya minimal dua hal: <strong>sertifikasi PRSI Lvl 1</strong> atau setara, dan sertifikasi <strong>pertolongan pertama di kolam (CPR + lifeguarding)</strong>. Yang pertama membuktikan pelatih paham progresi teknik. Yang kedua memastikan keamanan kalau ada situasi darurat. Tanyakan kedua-duanya saat trial — pelatih yang baik akan dengan senang hati menunjukkannya.</p>
+
+            <h2><span class="num">2</span>Pengalaman spesifik dengan anak (bukan cuma renang)</h2>
+            <p>Pelatih renang dewasa belum tentu cocok untuk anak. Anak butuh pendekatan yang lebih sabar dan playful — jam terbang ngajar anak 4–10 tahun sangat menentukan. Yang ideal: pelatih yang sudah mengajar minimal 50 anak, dan masih ingat nama tiap anak terakhirnya.</p>
+
+            <!-- IMAGE UPLOAD IN PROGRESS -->
+            <div class="image-uploading">
+              <div class="spinner"></div>
+              <div class="progress-bar"><div></div></div>
+              <div class="meta">Mengunggah <strong>pelatih-anak.jpg</strong> · 1.4 / 2.2 MB · 64%</div>
+            </div>
+
+            <h2 class="editing"><span class="num">3</span>Cara dia memperlakukan anak yang ketakutan</h2>
+            <p>Ini tanda paling penting yang sering terlewat. Saat trial, perhatikan bagaimana pelatih reaksi kalau anak nangis atau menolak masuk air. <em>Pelatih yang baik tidak memaksa.</em> Dia akan duduk di pinggir kolam, ngobrol sebentar, dan mencari cara lain — bukan menyuruh anak "ayo, jangan cengeng."</p>
+            <p>Kalau pelatih kelihatan tergesa-gesa atau mengabaikan ketakutan anak, itu red flag besar. Jangan lanjut.</p>
+
+            <h2><span class="num">4</span>Punya kurikulum, bukan cuma "praktek"</h2>
+            <p>Tanya pelatih: "Untuk anak umur 6 yang belum pernah les renang, apa yang akan diajarkan di 8 sesi pertama?" Pelatih yang baik bisa menjawab secara terstruktur — adaptasi air, water comfort, mengapung pasif, mengapung aktif, gerakan dasar tangan, gerakan dasar kaki, dst. Pelatih yang cuma jawab "ya kita ajarin pelan-pelan" tanpa breakdown spesifik biasanya nggak punya rencana.</p>
+
+            <h2><span class="num">5</span>Komunikasi dengan orang tua</h2>
+            <p>Ini bagian yang sering kurang dihargai. Pelatih yang baik akan:</p>
+
+            <ul>
+              <li>Briefing singkat ke orang tua sebelum sesi pertama</li>
+              <li>Update via WhatsApp setelah tiap sesi, minimal yang penting</li>
+              <li>Jujur kalau anak kurang fokus di sesi tertentu — bukan selalu lapor "anaknya bagus banget kok"</li>
+              <li>Terbuka untuk diskusi kalau orang tua punya concern</li>
+            </ul>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ============ ASIDE ============ -->
+      <aside class="aside-stack">
+
+        <!-- META -->
+        <div class="aside-card">
+          <div class="aside-card__title">Meta</div>
+          <div class="field-block" style="margin-bottom: 16px;">
+            <label class="field-block__label" style="margin-bottom: 6px;">Kategori</label>
+            <button class="select">
+              <span class="pill" style="background: var(--c-sun-tint); color: var(--c-sun-dark);"><span class="d" style="background: var(--c-sun);"></span> Keamanan</span>
+              <span class="select__chevron"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+          </div>
+          <div class="field-block" style="margin-bottom: 4px;">
+            <label class="field-block__label" style="margin-bottom: 6px;">Tag</label>
+            <div class="tag-chips">
+              <span class="tag-chip">#pelatih-renang <button>×</button></span>
+              <span class="tag-chip">#trial <button>×</button></span>
+              <span class="tag-chip">#keamanan <button>×</button></span>
+              <button class="tag-add">+ Tag</button>
+            </div>
+          </div>
+          <div class="aside-row" style="border-top: 1.5px dashed var(--c-border); margin-top: 12px; padding-top: 10px;">
+            <div class="aside-row__label">Penulis</div>
+            <div class="aside-row__value" style="display:inline-flex; align-items:center; gap:6px;">
+              <span style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,oklch(0.78 0.12 230),oklch(0.78 0.12 184));color:#fff;font-family:var(--font-heading);font-weight:700;font-size:0.6rem;display:inline-flex;align-items:center;justify-content:center;">CR</span>
+              Coach Rendra
+            </div>
+          </div>
+          <div class="aside-row"><div class="aside-row__label">Dibuat</div><div class="aside-row__value" style="font-family:var(--font-mono); font-size:0.84rem; font-weight: 500;">28 Mei · 11:42</div></div>
+          <div class="aside-row"><div class="aside-row__label">Diubah</div><div class="aside-row__value" style="font-family:var(--font-mono); font-size:0.84rem; font-weight: 500;">5 menit lalu</div></div>
+        </div>
+
+        <!-- SEO -->
+        <div class="aside-card">
+          <div class="aside-card__title">Preview SEO</div>
+          <div class="seo-preview">
+            <div class="seo-preview__url">fellaswimming.com › artikel › tanda-pelatih...</div>
+            <div class="seo-preview__title">Tanda-tanda pelatih renang yang bagus untuk anak — Fellaswimming</div>
+            <div class="seo-preview__desc">Sertifikasi penting, tapi ada hal-hal yang nggak ada di sertifikat. Apa yang harus diperhatikan saat trial — dari sekolah renang Sidoarjo.</div>
+          </div>
+          <div class="seo-meta">
+            <span class="ok">Title 64</span>
+            <span class="ok">Desc 142</span>
+            <span class="warn">Alt 2/3</span>
+          </div>
+        </div>
+
+        <!-- VERSI -->
+        <div class="aside-card">
+          <div class="aside-card__title">Riwayat</div>
+          <div class="history">
+            <div class="history__item">
+              <span class="av">SR</span>
+              <div class="body">
+                <strong>Bu Sari</strong> — edit isi paragraf 3
+                <div class="time">5 menit lalu</div>
+              </div>
+            </div>
+            <div class="history__item">
+              <span class="av av--turq">CR</span>
+              <div class="body">
+                <strong>Coach Rendra</strong> — draft awal
+                <div class="time">28 Mei · 11:42</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

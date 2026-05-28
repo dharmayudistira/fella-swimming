@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kapan usia ideal anak mulai les renang? — Fellaswimming</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --c-primary:        oklch(0.71 0.14 230);
+    --c-primary-dark:   oklch(0.55 0.16 230);
+    --c-primary-soft:   oklch(0.71 0.14 230 / 0.10);
+    --c-primary-tint:   oklch(0.96 0.03 230);
+    --c-secondary:      oklch(0.73 0.13 184);
+    --c-secondary-dark: oklch(0.55 0.13 184);
+    --c-secondary-soft: oklch(0.73 0.13 184 / 0.14);
+    --c-secondary-tint: oklch(0.96 0.03 184);
+    --c-accent:         oklch(0.72 0.16 15);
+    --c-accent-dark:    oklch(0.56 0.16 15);
+    --c-accent-soft:    oklch(0.72 0.16 15 / 0.14);
+    --c-accent-tint:    oklch(0.96 0.03 15);
+    --c-sun:            oklch(0.84 0.13 80);
+    --c-sun-dark:       oklch(0.55 0.14 80);
+    --c-sun-tint:       oklch(0.97 0.04 80);
+
+    --c-bg:        #FAF8F5;
+    --c-surface:   #FFFFFF;
+    --c-muted:     #F5F1EC;
+    --c-border:    #E7E2DA;
+    --c-fg:        #1A2332;
+    --c-fg-muted:  #5C6573;
+    --c-fg-subtle: #8C95A3;
+
+    --font-heading: "General Sans", "Nunito", system-ui, sans-serif;
+    --font-body:    "Nunito", system-ui, sans-serif;
+    --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+
+    --r-sm: 12px;
+    --r:    18px;
+    --r-lg: 24px;
+    --r-xl: 32px;
+
+    --sh-sm: 0 1px 2px rgba(26,35,50,.05);
+    --sh-md: 0 6px 16px -6px rgba(26,35,50,.10), 0 2px 4px -2px rgba(26,35,50,.05);
+    --sh-lg: 0 18px 36px -14px rgba(26,35,50,.14), 0 6px 10px -4px rgba(26,35,50,.06);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body);
+    color: var(--c-fg);
+    background: var(--c-bg);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 700; line-height: 1.18; letter-spacing: -0.015em; margin: 0; color: var(--c-fg); }
+  p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 20px; position: relative; }
+  @media (min-width: 768px) { .wrap { padding: 0 40px; } }
+  @media (min-width: 1024px) { .wrap { padding: 0 64px; } }
+
+  /* ====== HEADER ====== */
+  .header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(250,248,245,0.88);
+    backdrop-filter: saturate(140%) blur(8px);
+    border-bottom: 1px solid var(--c-border);
+  }
+  .header__inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px;
+  }
+  @media (min-width: 768px) { .header__inner { padding: 16px 40px; } }
+  @media (min-width: 1024px) { .header__inner { padding: 18px 64px; } }
+  .logo { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem; }
+  .logo__mark {
+    width: 34px; height: 34px; border-radius: 12px;
+    background: radial-gradient(circle at 28% 28%, oklch(0.92 0.07 200), var(--c-primary) 70%);
+    position: relative; flex-shrink: 0;
+    box-shadow: 0 4px 10px -2px oklch(0.71 0.14 230 / 0.45);
+  }
+  .logo__mark::after {
+    content: ""; position: absolute; right: 5px; top: 5px;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: oklch(0.95 0.04 80);
+  }
+  .nav { display: none; gap: 28px; }
+  .nav a { color: var(--c-fg-muted); font-weight: 600; font-size: 0.95rem; }
+  .nav a.is-active { color: var(--c-primary); }
+  @media (min-width: 1024px) { .nav { display: flex; } }
+  .header .header__cta { display: none; }
+  @media (min-width: 1024px) { .header .header__cta { display: inline-flex; } }
+  .header__menu {
+    display: inline-flex; width: 44px; height: 44px; border-radius: 14px;
+    background: var(--c-surface); border: 1.5px solid var(--c-border);
+    border-bottom-width: 3px;
+    align-items: center; justify-content: center;
+  }
+  @media (min-width: 1024px) { .header__menu { display: none; } }
+
+  /* ====== BUTTONS ====== */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    height: 48px; padding: 0 22px;
+    border-radius: 16px;
+    font-family: var(--font-body); font-weight: 700;
+    font-size: 0.98rem; cursor: pointer; border: none;
+    position: relative;
+    transition: filter .15s, transform .08s;
+  }
+  .btn--primary {
+    background: var(--c-primary); color: #fff;
+    box-shadow: 0 4px 0 0 var(--c-primary-dark), 0 8px 16px -6px oklch(0.71 0.14 230 / 0.4);
+  }
+  .btn--primary:hover { filter: brightness(1.04); }
+  .btn--primary:active { transform: translateY(3px); box-shadow: 0 1px 0 0 var(--c-primary-dark); }
+  .btn--secondary {
+    background: var(--c-surface); color: var(--c-fg);
+    box-shadow: 0 3px 0 0 var(--c-border);
+  }
+  .btn--secondary:hover { background: var(--c-muted); }
+  .btn--secondary:active { transform: translateY(2px); box-shadow: 0 1px 0 0 var(--c-border); }
+  .btn--sm { height: 40px; padding: 0 16px; font-size: 0.88rem; border-radius: 12px; }
+  .btn--lg { height: 56px; padding: 0 28px; font-size: 1.04rem; border-radius: 18px; }
+
+  /* ====== BREADCRUMB / BACK ====== */
+  .back-row {
+    padding: 18px 0 6px;
+  }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--c-fg-muted); font-size: 0.92rem;
+    font-weight: 600;
+    transition: gap .15s, color .15s;
+  }
+  .back-link:hover { color: var(--c-primary); gap: 12px; }
+  .back-link svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; }
+
+  /* ====== ARTICLE LAYOUT ====== */
+  .article {
+    padding: 16px 0 64px;
+    position: relative;
+  }
+  .article__inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .article__cover {
+    position: relative; overflow: hidden;
+    margin: 0 -20px 24px;
+    aspect-ratio: 16/9;
+  }
+  @media (min-width: 768px) {
+    .article__cover { margin: 0 0 32px; border-radius: var(--r-lg); }
+  }
+  .article__cover .ph {
+    border-radius: 0; border: none; height: 100%;
+  }
+  @media (min-width: 768px) {
+    .article__cover .ph { border-radius: var(--r-lg); border: 1.5px solid var(--c-border); }
+  }
+  .article__cover-tag {
+    position: absolute; top: 16px; left: 16px;
+    padding: 7px 14px; border-radius: 999px;
+    background: var(--c-accent);
+    color: #fff;
+    font-family: var(--font-mono); font-size: 0.7rem;
+    font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    box-shadow: 0 3px 0 var(--c-accent-dark);
+  }
+  @media (min-width: 768px) { .article__cover-tag { top: 24px; left: 24px; } }
+
+  .article__category {
+    display: inline-block;
+    padding: 6px 14px; border-radius: 999px;
+    background: var(--c-secondary-soft);
+    color: var(--c-secondary-dark);
+    font-size: 0.74rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .article__title {
+    font-size: clamp(2rem, 4vw + 0.5rem, 2.9rem);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    margin-bottom: 16px;
+    text-wrap: balance;
+  }
+  .article__intro {
+    font-size: 1.16rem;
+    color: var(--c-fg-muted);
+    line-height: 1.55;
+    margin-bottom: 24px;
+    text-wrap: pretty;
+    font-weight: 500;
+  }
+  @media (min-width: 768px) { .article__intro { font-size: 1.24rem; } }
+
+  .article__meta {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 12px;
+    padding: 18px 0;
+    border-top: 1.5px dashed var(--c-border);
+    border-bottom: 1.5px dashed var(--c-border);
+    margin-bottom: 32px;
+    font-size: 0.88rem;
+    color: var(--c-fg-muted);
+  }
+  .article__meta .author {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 600; color: var(--c-fg);
+  }
+  .article__meta .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, oklch(0.78 0.12 230), oklch(0.78 0.12 184));
+    color: #fff; font-family: var(--font-heading);
+    font-size: 0.82rem; font-weight: 700;
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: var(--sh-sm);
+  }
+  .article__meta .pipe { width: 1.5px; height: 18px; background: var(--c-border); }
+  .article__meta .mono { font-family: var(--font-mono); font-size: 0.82rem; }
+  .article__meta .share {
+    margin-left: auto;
+    display: flex; gap: 6px;
+  }
+  .article__meta .share button {
+    width: 36px; height: 36px; border-radius: 12px;
+    background: var(--c-surface); border: 1.5px solid var(--c-border);
+    border-bottom-width: 3px;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: transform .08s, background .15s;
+  }
+  .article__meta .share button:active { transform: translateY(2px); border-bottom-width: 1.5px; }
+  .article__meta .share svg { width: 16px; height: 16px; stroke: var(--c-fg-muted); stroke-width: 2; fill: none; }
+
+  /* ====== PROSE ====== */
+  .prose {
+    font-size: 1.06rem;
+    line-height: 1.75;
+    color: var(--c-fg);
+  }
+  .prose p { margin-bottom: 1.2em; text-wrap: pretty; }
+  .prose h2 {
+    font-size: 1.6rem; line-height: 1.2;
+    margin: 2em 0 0.6em;
+    letter-spacing: -0.015em;
+  }
+  @media (min-width: 768px) { .prose h2 { font-size: 1.85rem; } }
+  .prose h2 .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 10px;
+    background: var(--c-primary-tint);
+    color: var(--c-primary-dark);
+    font-family: var(--font-heading); font-weight: 700;
+    font-size: 0.95rem;
+    margin-right: 10px;
+    box-shadow: 0 2px 0 var(--c-primary);
+    vertical-align: middle;
+  }
+  .prose h3 { font-size: 1.25rem; margin: 1.6em 0 0.4em; }
+  .prose strong { color: var(--c-fg); font-weight: 700; }
+  .prose em { color: var(--c-secondary-dark); font-style: normal; font-weight: 600; }
+  .prose ul { padding-left: 0; list-style: none; margin: 1em 0 1.4em; }
+  .prose ul li {
+    display: flex; align-items: flex-start; gap: 12px;
+    margin-bottom: 10px;
+  }
+  .prose ul li::before {
+    content: "";
+    display: inline-block;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--c-secondary-soft);
+    color: var(--c-secondary-dark);
+    flex-shrink: 0;
+    margin-top: 4px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%230d6e6e' stroke-width='2.4' stroke-linecap='round'><path d='M2 6.5l2.5 2.5L10 3'/></svg>");
+    background-repeat: no-repeat; background-position: center; background-size: 12px;
+  }
+  /* Pull quote */
+  .pullquote {
+    margin: 2em 0;
+    padding: 28px 28px 28px 32px;
+    background: var(--c-primary-tint);
+    border-radius: var(--r-lg);
+    border: 1.5px solid oklch(0.85 0.08 230);
+    border-bottom-width: 4px;
+    border-bottom-color: var(--c-primary);
+    position: relative;
+    overflow: hidden;
+  }
+  .pullquote::before {
+    content: """;
+    position: absolute; top: -28px; left: 16px;
+    font-family: var(--font-heading); font-weight: 700;
+    font-size: 6rem; color: var(--c-primary);
+    opacity: 0.2;
+  }
+  .pullquote p {
+    font-family: var(--font-heading); font-weight: 500;
+    font-size: 1.18rem; line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: var(--c-fg);
+    margin-bottom: 12px;
+    position: relative; z-index: 1;
+  }
+  .pullquote cite {
+    font-style: normal;
+    font-size: 0.92rem; font-weight: 600;
+    color: var(--c-primary-dark);
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .pullquote cite .avatar {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: linear-gradient(135deg, oklch(0.78 0.12 184), oklch(0.82 0.10 200));
+    color: #fff; font-family: var(--font-heading);
+    font-size: 0.7rem; font-weight: 700;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+
+  /* Inline callout */
+  .callout {
+    background: var(--c-sun-tint);
+    border: 1.5px solid oklch(0.86 0.08 80);
+    border-radius: var(--r);
+    padding: 18px 20px;
+    margin: 1.6em 0;
+    display: flex; gap: 14px;
+  }
+  .callout__ic {
+    width: 32px; height: 32px; border-radius: 10px;
+    background: var(--c-sun); color: oklch(0.30 0.10 80);
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-family: var(--font-heading); font-weight: 800;
+  }
+  .callout__body { font-size: 0.98rem; line-height: 1.55; }
+  .callout__body strong { color: oklch(0.42 0.13 80); }
+
+  /* ====== CTA BLOCK ====== */
+  .article-cta {
+    margin: 48px 0 32px;
+    background: linear-gradient(135deg, var(--c-secondary-tint), var(--c-primary-tint));
+    border: 1.5px solid oklch(0.86 0.06 200);
+    border-bottom-width: 5px;
+    border-bottom-color: var(--c-primary);
+    border-radius: var(--r-xl);
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    .article-cta { padding: 36px 36px; display: flex; align-items: center; gap: 32px; }
+  }
+  .article-cta::before {
+    content: ""; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: radial-gradient(circle, oklch(0.85 0.10 200 / 0.5), transparent 70%);
+  }
+  .article-cta__body { position: relative; z-index: 1; flex: 1; margin-bottom: 18px; }
+  @media (min-width: 768px) { .article-cta__body { margin-bottom: 0; } }
+  .article-cta__eyebrow {
+    font-family: var(--font-mono); font-size: 0.72rem;
+    color: var(--c-primary-dark); font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .article-cta__title {
+    font-size: 1.35rem; margin-bottom: 8px;
+    line-height: 1.2; letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .article-cta__sub {
+    color: var(--c-fg-muted); font-size: 0.95rem;
+  }
+  .article-cta__action { position: relative; z-index: 1; }
+
+  /* ====== TAGS ====== */
+  .article-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1.5px dashed var(--c-border);
+  }
+  .article-tag {
+    padding: 6px 12px; border-radius: 999px;
+    background: var(--c-muted); color: var(--c-fg-muted);
+    font-size: 0.82rem; font-weight: 600;
+  }
+
+  /* ====== AUTHOR BIO ====== */
+  .author-bio {
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 4px;
+    border-bottom-color: var(--c-secondary);
+    border-radius: var(--r-lg);
+    padding: 22px 22px;
+    margin: 32px 0 16px;
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .author-bio__avatar {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, oklch(0.78 0.12 230), oklch(0.78 0.12 184));
+    color: #fff; font-family: var(--font-heading);
+    font-size: 1.1rem; font-weight: 700;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: var(--sh-sm);
+  }
+  .author-bio__name { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+  .author-bio__role { font-size: 0.84rem; color: var(--c-primary); font-weight: 700; margin-bottom: 8px; }
+  .author-bio__desc { color: var(--c-fg-muted); font-size: 0.92rem; line-height: 1.55; }
+
+  /* ====== RELATED ARTICLES ====== */
+  .related {
+    background: var(--c-muted);
+    padding: 48px 0;
+    border-top: 1px solid var(--c-border);
+  }
+  .related__title {
+    font-size: 1.4rem; margin-bottom: 24px;
+    letter-spacing: -0.015em;
+  }
+  .related__grid { display: grid; gap: 16px; }
+  @media (min-width: 768px) { .related__grid { grid-template-columns: repeat(2, 1fr); gap: 22px; } }
+  .rel-card {
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 4px;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    display: grid; grid-template-columns: 120px 1fr;
+    transition: transform .2s;
+  }
+  .rel-card:hover { transform: translateY(-3px); box-shadow: var(--sh-md); }
+  .rel-card:nth-child(1) { border-bottom-color: var(--c-secondary); }
+  .rel-card:nth-child(2) { border-bottom-color: var(--c-accent); }
+  .rel-card .ph { border-radius: 0; border: none; height: 100%; min-height: 110px; }
+  .rel-card__body { padding: 16px 18px; display: flex; flex-direction: column; }
+  .rel-card__cat {
+    font-family: var(--font-mono); font-size: 0.68rem;
+    font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--c-fg-muted);
+    margin-bottom: 6px;
+  }
+  .rel-card__title {
+    font-size: 1rem; line-height: 1.25; letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  .rel-card__meta {
+    margin-top: auto;
+    font-family: var(--font-mono); font-size: 0.74rem;
+    color: var(--c-fg-subtle);
+  }
+
+  /* ====== FOOTER ====== */
+  .footer { padding: 48px 0 32px; border-top: 1px solid var(--c-border); }
+  .footer__grid { display: grid; gap: 32px; }
+  @media (min-width: 768px) { .footer__grid { grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; } }
+  .footer__brand p { color: var(--c-fg-muted); font-size: 0.92rem; margin-top: 12px; max-width: 28ch; }
+  .footer__col h5 { font-family: var(--font-body); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-fg-subtle); margin-bottom: 14px; }
+  .footer__col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .footer__col li a { font-size: 0.94rem; color: var(--c-fg); font-weight: 500; }
+  .footer__bottom {
+    margin-top: 40px; padding-top: 24px;
+    border-top: 1.5px dashed var(--c-border);
+    display: flex; flex-direction: column; gap: 12px;
+    color: var(--c-fg-muted); font-size: 0.85rem;
+  }
+  @media (min-width: 768px) { .footer__bottom { flex-direction: row; justify-content: space-between; align-items: center; } }
+  .footer__bottom .mono { font-family: var(--font-mono); }
+
+  /* ====== PLACEHOLDERS ====== */
+  .ph {
+    position: relative; width: 100%; overflow: hidden;
+    background-color: oklch(0.92 0.02 230);
+    background-image:
+      repeating-linear-gradient(135deg,
+        oklch(0.96 0.01 230) 0 14px,
+        oklch(0.92 0.03 230) 14px 28px);
+    border-radius: var(--r-lg);
+    border: 1.5px solid var(--c-border);
+  }
+  .ph--turq { background-color: oklch(0.92 0.03 184); background-image: repeating-linear-gradient(135deg, oklch(0.96 0.01 184) 0 14px, oklch(0.92 0.03 184) 14px 28px); }
+  .ph--coral { background-color: oklch(0.93 0.03 15); background-image: repeating-linear-gradient(135deg, oklch(0.97 0.02 15) 0 14px, oklch(0.93 0.03 15) 14px 28px); }
+  .ph--sun { background-color: oklch(0.94 0.04 80); background-image: repeating-linear-gradient(135deg, oklch(0.97 0.02 80) 0 14px, oklch(0.94 0.05 80) 14px 28px); }
+  .ph__label {
+    position: absolute; left: 14px; bottom: 14px;
+    padding: 5px 10px; border-radius: 8px;
+    background: rgba(26,35,50,0.78); color: #fff;
+    font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.04em;
+  }
+</style>
+</head>
+<body>
+
+<!-- ================== HEADER ================== -->
+<header class="header">
+  <div class="header__inner">
+    <a class="logo" href="#">
+      <span class="logo__mark" aria-hidden="true"></span>
+      <span>Fellaswimming</span>
+    </a>
+    <nav class="nav" aria-label="Utama">
+      <a href="#">Kelas</a>
+      <a href="#">Pelatih</a>
+      <a href="#">Galeri</a>
+      <a href="#">Lokasi</a>
+      <a href="#" class="is-active">Artikel</a>
+    </nav>
+    <a class="btn btn--primary btn--sm header__cta" href="#">Daftar Sekarang</a>
+    <button class="header__menu" aria-label="Menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ================== BACK ROW ================== -->
+<div class="back-row">
+  <div class="wrap">
+    <a class="back-link" href="artikel.html">
+      <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+      Semua artikel
+    </a>
+  </div>
+</div>
+
+<!-- ================== ARTICLE ================== -->
+<article class="article">
+  <div class="wrap">
+    <div class="article__inner">
+
+      <div class="article__cover">
+        <span class="article__cover-tag">⭐ Paling dibaca</span>
+        <div class="ph ph--turq" style="aspect-ratio:16/9; height:auto;">
+          <span class="ph__label">cover · anak belajar berenang di kolam</span>
+        </div>
+      </div>
+
+      <span class="article__category">Kesiapan Anak</span>
+      <h1 class="article__title">
+        Kapan usia ideal anak mulai les renang?
+      </h1>
+      <p class="article__intro">
+        Salah satu pertanyaan paling sering kami dengar dari Bunda dan Ayah. Jawaban singkatnya: tergantung. Jawaban panjangnya, di bawah ini.
+      </p>
+
+      <div class="article__meta">
+        <span class="author">
+          <span class="avatar">RP</span>
+          Coach Rendra
+        </span>
+        <span class="pipe"></span>
+        <span class="mono">24 Mei 2026</span>
+        <span class="pipe"></span>
+        <span class="mono">8 menit baca</span>
+        <span class="share" aria-label="Bagikan">
+          <button aria-label="Bagikan via WhatsApp">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.4c1.5.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z" stroke-linejoin="round"/></svg>
+          </button>
+          <button aria-label="Salin link">
+            <svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 005.65 0l2-2a4 4 0 00-5.65-5.65l-1 1M14 10a4 4 0 00-5.65 0l-2 2a4 4 0 005.65 5.65l1-1" stroke-linejoin="round"/></svg>
+          </button>
+        </span>
+      </div>
+
+      <div class="prose">
+
+        <p>
+          Tiap minggu, ada saja Bunda atau Ayah yang DM Fellaswimming dengan pertanyaan yang mirip-mirip: "anak saya umurnya X tahun, apakah sudah pas mulai les renang?" Kami selalu jawab dengan satu pertanyaan balik: anaknya nggak panik kalau air kena muka kan?
+        </p>
+
+        <p>
+          Pertanyaan itu yang biasanya membuka diskusi yang lebih jujur. Karena usia, ternyata, bukan faktor paling penting. Ada tiga hal yang jauh lebih menentukan apakah anak siap mulai les renang formal — terlepas umurnya 4 atau 8 tahun.
+        </p>
+
+        <h2><span class="num">1</span>Tiga tanda anak siap belajar berenang</h2>
+
+        <p>
+          <strong>Pertama,</strong> anak nggak panik kalau air mengenai wajahnya. Ini bukan soal "berani lompat ke kolam" — itu nanti. Ini soal anak yang masih bisa fokus walau ada percikan air ke muka. Kalau anak masih refleks ngusap muka panik-panik, fokus belajar belum bisa.
+        </p>
+
+        <p>
+          <strong>Kedua,</strong> anak bisa fokus pada instruksi minimal 10–15 menit. Sesi renang anak biasanya 45–60 menit, tapi dipecah jadi beberapa segmen pendek. Kalau anak susah fokus lebih dari 5 menit di aktivitas apapun, sesi pertama mungkin perlu lebih pendek dulu — kami biasanya saranin trial 30 menit untuk anak usia 4 ke bawah.
+        </p>
+
+        <p>
+          <strong>Ketiga,</strong> anak punya rasa ingin tahu — bukan terpaksa. Anak yang diajak les renang karena "ya udah, ibunya mau" akan tetap belajar, tapi prosesnya jauh lebih lambat. Anak yang penasaran, walaupun masih takut, biasanya progresnya 2-3x lebih cepat.
+        </p>
+
+        <div class="pullquote">
+          <p>"Kalau anak masih panik pas air kena muka, fokusnya bukan teknik. Fokusnya adaptasi. Itu beda kelas, beda harapan, beda timeline."</p>
+          <cite>
+            <span class="avatar">AN</span>
+            Coach Anis · Pelatih Senior Fellaswimming
+          </cite>
+        </div>
+
+        <h2><span class="num">2</span>Usia 4–5 tahun: ideal untuk privat atau semi-privat</h2>
+
+        <p>
+          Di usia ini, sebagian besar anak punya koordinasi dasar yang cukup, tapi rentang fokus masih terbatas dan sosialnya belum stabil. <em>Kelas privat (1:1) atau semi-privat (1:2–3)</em> bekerja paling baik karena anak dapat perhatian individu, dan pelatih bisa menyesuaikan pace sesuai mood anak hari itu.
+        </p>
+
+        <p>
+          Yang perlu diingat: di usia 4-5, progres nggak linear. Bisa jadi 3 sesi pertama anak cuma main-main di kolam. Itu normal, dan itu bagian dari belajar. Pelatih kami biasanya nggak buru-buru ngajarin teknik formal sampai anak benar-benar nyaman di air.
+        </p>
+
+        <h2><span class="num">3</span>Usia 6–8 tahun: cocok untuk grup</h2>
+
+        <p>
+          Mulai usia 6, anak biasanya bisa mengikuti instruksi grup dengan baik. Kelas grup juga membantu sisi sosial — anak melihat teman sebaya belajar hal yang sama, dan ini bisa memotivasi.
+        </p>
+
+        <p>
+          Tapi kalau anak shy atau perfeksionis, semi-privat tetap pilihan yang aman. Kelas grup, walaupun lebih hemat, butuh anak yang relatively confident menerima kalau temannya udah bisa duluan.
+        </p>
+
+        <div class="callout">
+          <span class="callout__ic">i</span>
+          <div class="callout__body">
+            <strong>Catatan dari kami:</strong> kalau anak kamu di usia 6–8 tapi belum pernah les renang sama sekali, mulai dari 4 sesi privat dulu sebelum pindah ke grup. Anak akan punya "modal teknik" yang membuatnya nggak ketinggalan di kelas grup.
+          </div>
+        </div>
+
+        <h2><span class="num">4</span>Usia 9+ : sesuaikan dengan tujuan</h2>
+
+        <p>
+          Untuk anak 9 ke atas, pertanyaannya bukan lagi "kapan" tapi "kenapa". Kalau tujuannya rekreasi, grup biasanya cukup. Kalau tujuannya progres cepat ke gaya formal (freestyle, breaststroke), semi-privat akan lebih efektif. Kalau anak punya tujuan kompetitif, biasanya kami rekomen langsung ke pelatih spesialis di luar — Fellaswimming fokusnya bukan jalur atlet.
+        </p>
+
+        <h2><span class="num">5</span>Yang perlu dipersiapkan sebelum sesi pertama</h2>
+
+        <p>Yang sering diabaikan tapi sebenarnya menentukan pengalaman anak di sesi pertama:</p>
+
+        <ul>
+          <li><strong>Kacamata renang yang fit.</strong> Anak yang air masuk matanya akan langsung kehilangan kepercayaan diri. Coba beberapa model di rumah dulu.</li>
+          <li><strong>Pelampung lengan (kalau anak masih baru).</strong> Bukan untuk dipakai terus, tapi untuk sesi-sesi awal supaya anak nggak takut tenggelam.</li>
+          <li><strong>Camilan ringan & minum hangat untuk setelah sesi.</strong> Anak biasanya lapar setelah berenang. Kalau dibiarkan kelaparan, asosiasi mentalnya jadi negatif.</li>
+          <li><strong>Ekspektasi yang realistis.</strong> Sesi pertama mungkin anak cuma adaptasi. Itu sukses, bukan kegagalan.</li>
+        </ul>
+
+        <h2><span class="num">6</span>Kalau anak nggak suka — apa yang harus dilakukan</h2>
+
+        <p>
+          Itu juga normal. Berikan 2-3 sesi pertama untuk anak adaptasi. Kalau setelah itu masih nggak nyaman, coba ganti pelatih atau tipe kelas dulu sebelum decide bahwa "anak nggak suka renang."
+        </p>
+
+        <p>
+          Yang penting: <em>jangan paksa.</em> Tujuan utama adalah anak punya hubungan positif dengan air. Teknik bisa nyusul kapanpun. Bahkan kalau anak baru benar-benar fokus belajar renang umur 10, itu masih fine — yang nggak fine adalah anak yang trauma karena dipaksa terlalu dini.
+        </p>
+
+        <p>
+          Kalau Bunda/Ayah masih ragu di anak sendiri, kami selalu welcome diajak ngobrol dulu via WhatsApp. Boleh share umur dan latar belakang anak, kami bantu ngasih perspektif sebelum kamu commit daftar.
+        </p>
+
+      </div>
+
+      <!-- ============ CTA ============ -->
+      <div class="article-cta">
+        <div class="article-cta__body">
+          <div class="article-cta__eyebrow">Setelah baca ini</div>
+          <h3 class="article-cta__title">Siap lihat kelas yang cocok untuk anak kamu?</h3>
+          <p class="article-cta__sub">
+            Tiga jenis kelas, harga lengkap, dan profil pelatih — semua di satu halaman.
+          </p>
+        </div>
+        <div class="article-cta__action">
+          <a class="btn btn--primary btn--lg" href="#">Lihat Jenis Kelas
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- ============ TAGS ============ -->
+      <div class="article-tags">
+        <span class="article-tag">#kesiapan-anak</span>
+        <span class="article-tag">#usia-ideal</span>
+        <span class="article-tag">#kelas-privat</span>
+        <span class="article-tag">#kelas-grup</span>
+        <span class="article-tag">#tips-orang-tua</span>
+      </div>
+
+      <!-- ============ AUTHOR BIO ============ -->
+      <div class="author-bio">
+        <div class="author-bio__avatar">RP</div>
+        <div>
+          <div class="author-bio__name">Coach Rendra Pratama</div>
+          <div class="author-bio__role">Kepala Pelatih Fellaswimming</div>
+          <p class="author-bio__desc">
+            4 tahun mengajar anak usia 4–10 di Sidoarjo. Spesialis kelas privat dan adaptasi anak yang masih takut air. Tulisan ini disusun dari catatan trial sesi 200+ anak terakhir.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</article>
+
+<!-- ================== RELATED ================== -->
+<section class="related">
+  <div class="wrap">
+    <h2 class="related__title">Lanjut baca yang ini</h2>
+    <div class="related__grid">
+
+      <article class="rel-card">
+        <div class="ph"><span class="ph__label">cover · jenis kelas</span></div>
+        <div class="rel-card__body">
+          <div class="rel-card__cat">Jenis Kelas</div>
+          <h3 class="rel-card__title">Beda privat, semi-privat, dan grup — yang mana cocok untuk anak kamu?</h3>
+          <div class="rel-card__meta">22 Mei · 6 menit</div>
+        </div>
+      </article>
+
+      <article class="rel-card">
+        <div class="ph ph--coral"><span class="ph__label">cover · anak takut air</span></div>
+        <div class="rel-card__body">
+          <div class="rel-card__cat">Tips Praktis</div>
+          <h3 class="rel-card__title">Anak takut air? Ini cara adaptasinya — pelan, tanpa paksa.</h3>
+          <div class="rel-card__meta">19 Mei · 5 menit</div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================== FOOTER ================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a class="logo" href="#">
+          <span class="logo__mark" aria-hidden="true"></span>
+          <span>Fellaswimming</span>
+        </a>
+        <p>Sekolah renang Sidoarjo yang menulis dulu, baru jualan.</p>
+      </div>
+      <div class="footer__col">
+        <h5>Kelas</h5>
+        <ul><li><a href="#">Privat</a></li><li><a href="#">Semi-Privat</a></li><li><a href="#">Grup</a></li><li><a href="#">Jadwal</a></li></ul>
+      </div>
+      <div class="footer__col">
+        <h5>Belajar</h5>
+        <ul><li><a href="#">Artikel</a></li><li><a href="#">Profil pelatih</a></li><li><a href="#">Testimoni</a></li><li><a href="#">FAQ</a></li></ul>
+      </div>
+      <div class="footer__col">
+        <h5>Hubungi</h5>
+        <ul><li><a href="#">WA · 0812-xxxx-xxxx</a></li><li><a href="#">hai@fellaswimming.com</a></li><li><a href="#">@fellaswimming</a></li></ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Fellaswimming · Sidoarjo, Indonesia.</span>
+      <span class="mono">v2.0 · artikel detail</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

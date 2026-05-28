@@ -1293,22 +1293,43 @@ Components Used: shadcn Dialog, Input, Label, Textarea, Switch, Select, Button.
 
 ## 9. Design System
 
+> **Visual source of truth:** the hi-fi prototypes in `docs/design/project/` (HTML/CSS). When in doubt about a token, layout, or interaction, open the matching `.html` file (`landing.html`, `daftar.html`, `admin.html`, etc.) and read the CSS directly. The tokens below mirror those prototypes.
+
 ### Color Tokens
 
 Configured in `src/app/globals.css` via Tailwind v4 `@theme` block. CSS custom properties; **no `tailwind.config.ts` file** (Tailwind v4 CSS-first).
+
+Each brand color (primary, secondary, accent, sun) ships with four variants — base, dark (for chunky button under-shadows and contrast text on tints), soft (transparent overlay for badge backgrounds), and tint (~96% lightness for section/card fills).
 
 ```css
 /* src/app/globals.css */
 @import "tailwindcss";
 
 @theme {
-  /* Brand colors (OKLCH for Tailwind v4 best practice) */
-  --color-primary: oklch(0.71 0.14 230);          /* ~#0EA5E9 sky-500 */
-  --color-primary-hover: oklch(0.62 0.15 230);    /* ~#0284C7 sky-600 */
-  --color-secondary: oklch(0.73 0.13 184);        /* ~#14B8A6 teal-500 */
-  --color-accent: oklch(0.72 0.16 15);            /* ~#FB7185 rose-400 */
+  /* === Brand: Primary (Sky) === */
+  --color-primary: oklch(0.71 0.14 230);          /* ~#0EA5E9 */
+  --color-primary-dark: oklch(0.55 0.16 230);     /* under-shadow + dark text on tint */
+  --color-primary-soft: oklch(0.71 0.14 230 / 0.10); /* badge background */
+  --color-primary-tint: oklch(0.96 0.03 230);     /* section/card fill */
 
-  /* Neutrals */
+  /* === Brand: Secondary (Turquoise) === */
+  --color-secondary: oklch(0.73 0.13 184);        /* ~#14B8A6 */
+  --color-secondary-dark: oklch(0.55 0.13 184);
+  --color-secondary-soft: oklch(0.73 0.13 184 / 0.14);
+  --color-secondary-tint: oklch(0.96 0.03 184);
+
+  /* === Brand: Accent (Coral) === */
+  --color-accent: oklch(0.72 0.16 15);            /* ~#FB7185 — warmth touches */
+  --color-accent-dark: oklch(0.56 0.16 15);
+  --color-accent-soft: oklch(0.72 0.16 15 / 0.14);
+  --color-accent-tint: oklch(0.96 0.03 15);
+
+  /* === Brand: Sun (Warm yellow) — sparing highlights, stars, hero badge === */
+  --color-sun: oklch(0.84 0.13 80);
+  --color-sun-dark: oklch(0.55 0.14 80);
+  --color-sun-tint: oklch(0.97 0.04 80);
+
+  /* === Neutrals === */
   --color-background: #FAF8F5;                     /* Warm sand */
   --color-surface: #FFFFFF;
   --color-surface-muted: #F5F1EC;
@@ -1317,18 +1338,25 @@ Configured in `src/app/globals.css` via Tailwind v4 `@theme` block. CSS custom p
   --color-foreground-muted: #5C6573;
   --color-foreground-subtle: #8C95A3;
 
-  /* Semantic */
-  --color-success: #10B981;
+  /* === Semantic === */
+  --color-success: oklch(0.66 0.16 150);           /* ~#10B981 */
+  --color-success-dark: oklch(0.45 0.16 150);
+  --color-success-tint: oklch(0.95 0.06 150);
   --color-warning: #F59E0B;
   --color-error: #EF4444;
   --color-info: #3B82F6;
 
-  /* Typography */
-  --font-heading: "General Sans", sans-serif;
-  --font-body: "Nunito", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  /* === Admin sidebar (dark navy on warm content area) === */
+  --color-sidebar-bg: #1A2332;
+  --color-sidebar-fg: rgba(255, 255, 255, 0.85);
+  --color-sidebar-fg-muted: rgba(255, 255, 255, 0.55);
 
-  /* Type scale */
+  /* === Typography === */
+  --font-heading: "General Sans", "Nunito", system-ui, sans-serif;
+  --font-body: "Nunito", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* === Type scale (1.25 modular) === */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
@@ -1339,36 +1367,38 @@ Configured in `src/app/globals.css` via Tailwind v4 `@theme` block. CSS custom p
   --text-4xl: 3.052rem;
   --text-display: 3.815rem;
 
-  /* Spacing scale (Tailwind v4 generates from base) */
-  --spacing: 0.25rem;                              /* 4px base; multipliers via Tailwind classes */
+  /* === Spacing (Tailwind v4 base) === */
+  --spacing: 0.25rem;                              /* 4px base */
 
-  /* Border radius */
-  --radius-sm: 8px;
-  --radius: 12px;
-  --radius-lg: 16px;
+  /* === Border radius (v2 — bigger, friendlier) === */
+  --radius-sm: 12px;                               /* inputs, small chips */
+  --radius: 18px;                                  /* default card */
+  --radius-lg: 24px;                               /* large cards, hero photos */
+  --radius-xl: 32px;                               /* CTA panel, hero callouts */
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 1px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
-  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.06);
+  /* === Shadows (soft, warm-tinted on #1A2332 rgb base) === */
+  --shadow-sm: 0 1px 2px rgba(26, 35, 50, 0.05);
+  --shadow-md: 0 6px 16px -6px rgba(26, 35, 50, 0.10), 0 2px 4px -2px rgba(26, 35, 50, 0.05);
+  --shadow-lg: 0 18px 36px -14px rgba(26, 35, 50, 0.14), 0 6px 10px -4px rgba(26, 35, 50, 0.06);
+  --shadow-pop: 0 24px 48px -16px oklch(0.71 0.14 230 / 0.28); /* hover pop on featured card */
 
-  /* Easing */
+  /* === Easing === */
   --ease-fluid: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
 }
 
 /* Body defaults */
 html { font-family: var(--font-body); color: var(--color-foreground); background: var(--color-background); }
-h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); }
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); font-weight: 700; line-height: 1.12; letter-spacing: -0.015em; }
 code, pre { font-family: var(--font-mono); }
 ```
 
 Tailwind class usage examples:
 - `bg-primary text-white` → primary button background
 - `text-foreground-muted` → secondary text
-- `border border-border rounded` → standard card border
-- `shadow-sm` → default card elevation
+- `bg-primary-tint border-2 border-border` → soft section panel with chunky border
+- `shadow-sm` → default card elevation; `shadow-pop` → featured (Semi-Privat) card hover
 
 ### Typography Tokens
 
@@ -1430,30 +1460,101 @@ Then in `globals.css` redefine the font tokens to use the loaded variables:
 
 ### Spacing Tokens
 
-Tailwind v4 uses a single `--spacing` base unit (4px). Use Tailwind utility classes for multiples: `p-1` (4px), `p-2` (8px), `p-4` (16px), `p-6` (24px), `p-8` (32px), `p-12` (48px), `p-16` (64px), `p-24` (96px), etc.
+Tailwind v4 uses a single `--spacing` base unit (4px). Use Tailwind utility classes for multiples: `p-1` (4px), `p-2` (8px), `p-4` (16px), `p-6` (24px), `p-8` (32px), `p-12` (48px), `p-16` (64px), `p-24` (96px), `p-26` (104px), etc.
 
-Section spacing standard:
-- Inter-section vertical: `py-16 md:py-24` (64px mobile, 96px desktop)
+Section spacing standard (matches prototypes):
+- Inter-section vertical: `py-16 lg:py-[104px]` (64px mobile, 104px desktop)
 - Intra-section block: `gap-6 md:gap-8`
 - Related items: `gap-3 md:gap-4`
+- Wrap padding: `px-5 md:px-10 lg:px-16` (20 / 40 / 64px)
 
 ### Component Specifications
 
-**Button.** From shadcn `button` component. Variants extended in `src/components/ui/button.tsx`:
-- `primary` (default): `bg-primary text-white hover:bg-primary-hover focus:ring-primary/30 rounded-sm px-6 py-3 font-medium`
-- `secondary`: `bg-surface text-foreground border border-border hover:bg-surface-muted rounded-sm`
-- `ghost`: `bg-transparent text-primary hover:bg-primary/8`
-- Sizes: `sm` (h-9), `default` (h-11), `lg` (h-12)
+**Button — chunky 3D press (brand signature).** Extends shadcn `button`. The under-shadow uses the dark variant of each color; on `:active` the button translates down and the under-shadow collapses, simulating a physical press. Implement variants in `src/components/ui/button.tsx`:
 
-**Input.** From shadcn `input`. Default style: `border border-border rounded-sm px-3 py-3 text-base bg-surface focus:ring-2 focus:ring-primary/30 focus:border-primary`
+```tsx
+// primary
+className: "bg-primary text-white font-bold rounded-2xl
+            shadow-[0_4px_0_0_var(--color-primary-dark),0_8px_16px_-6px_oklch(0.71_0.14_230/0.4)]
+            hover:brightness-105
+            active:translate-y-[3px] active:shadow-[0_1px_0_0_var(--color-primary-dark)]
+            transition-[filter,transform] duration-150"
 
-**Card.** `bg-surface rounded-lg shadow-sm p-6 md:p-8`. Optional hover variant adds `hover:shadow-md transition-shadow duration-200`.
+// secondary
+className: "bg-surface text-foreground border-0 rounded-2xl
+            shadow-[0_3px_0_0_var(--color-border),0_1px_2px_rgba(26,35,50,0.04)]
+            hover:bg-surface-muted
+            active:translate-y-[2px] active:shadow-[0_1px_0_0_var(--color-border)]"
 
-**Dialog (Modal).** From shadcn `dialog`. Backdrop: `bg-foreground/40 backdrop-blur-sm`. Content: `bg-surface rounded-lg shadow-lg max-w-lg p-6 md:p-8`.
+// accent — same pattern with --color-accent / --color-accent-dark
+// ghost  — transparent + primary text, no shadow
+```
 
-**Badge.** `inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium`. Variants by status color (success, warning, error, info, neutral).
+- Sizes: `sm` → `h-[42px] px-[18px] text-sm rounded-xl`; default → `h-[52px] px-6 text-base rounded-2xl`; `lg` → `h-[60px] px-8 text-[1.08rem] rounded-[18px]`.
+- Inverted on dark surfaces (footer-CTA gradient panel): white background, `box-shadow: 0 4px 0 oklch(0.82 0.04 230)`.
 
-**Skeleton.** `bg-surface-muted rounded animate-pulse`.
+**Input.** `border border-border rounded-[12px] px-3 py-3 text-base bg-surface focus:ring-2 focus:ring-primary/30 focus:border-primary`. Label sits above input; helper text/error below in `text-sm`. Match the radii in `docs/design/project/daftar.html`.
+
+**Card — bottom-color accent (brand signature).** Replaces the older flat-shadow card. Pattern:
+
+```css
+.card {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-bottom-width: 4px;          /* 4–6px depending on prominence */
+  border-bottom-color: var(--color-primary);  /* or secondary / accent / sun */
+  border-radius: var(--radius-lg);
+  padding: 28px 26px;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+```
+
+Card rotation: optional `transform: rotate(-1.2deg | 0.6deg | -0.4deg)` per nth-child for hand-arranged feel. Always reset to `rotate(0)` on `:hover`. Never exceed ±1.5°.
+
+The **featured card** (Semi-Privat on landing, Recommended in modals) uses a primary-tinted gradient background, full primary border, slight scale-up, and `shadow-pop`. Optional `popular-badge` pill in top-right at +6° rotation with confetti dots ::before/::after.
+
+**Dialog (Modal).** From shadcn `dialog`. Backdrop: `bg-foreground/40 backdrop-blur-sm` (functional, not glassmorphism). Content: `bg-surface rounded-2xl shadow-lg max-w-lg p-6 md:p-8` with a 4px `border-bottom-color` accent matching the modal's role.
+
+**Badge / Eyebrow / Pill.**
+- **Badge** (status, counts): `inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-bold` with soft variants (`bg-primary-soft text-primary-dark`, etc.).
+- **Eyebrow** (above every section heading): pill with surface background, `border: 1.5px solid border` + `border-bottom-width: 3px` colored per section, pulsing dot (`animation: pulse 2.4s ease-in-out infinite`), uppercase mono text 0.74rem at 0.12em tracking.
+- **Popular badge**: solid accent background, white text, `transform: rotate(6deg)`, with two confetti dots via ::before/::after.
+
+**Wave divider.** Reusable component between sections. 56px tall, single SVG path:
+```html
+<div class="wave wave--sand-to-muted" aria-hidden="true">
+  <svg viewBox="0 0 1440 56" preserveAspectRatio="none">
+    <path d="M0,0 L0,28 Q 180,56 360,28 T 720,28 T 1080,28 T 1440,28 L 1440,0 Z"/>
+  </svg>
+</div>
+```
+Direction variants: `--sand-to-muted`, `--muted-to-sand`, `--sand-to-primary`. The wrapping div fills with the destination background; the SVG path fills with the source background.
+
+**Skeleton.** `bg-surface-muted rounded-2xl animate-pulse`.
+
+**Admin sidebar.** Dark navy (`--color-sidebar-bg`), 240px wide, sticky full-height. Items use 10px radius with `oklch(0.71 0.14 230 / 0.22)` background + 1px inset primary border on `.is-active`. Item counts shown as right-aligned mono pills (`bg-white/8` default, `bg-accent` for warn).
+
+**Admin topbar.** Sticky `rgba(250,248,245,0.92)` with `backdrop-filter: blur(6px)`. Icon buttons reuse the chunky-press pattern (1.5px border + 3px bottom border, `active:translate-y-[2px]`).
+
+### Signature Decoration Patterns
+
+Use these deliberately — they are the v2 brand voice. Implementation reference: `docs/design/project/landing.html`.
+
+1. **Wavy underline on accent words** in hero headings. Inline SVG data-URI under the word; turquoise (`%2314b8a6`) for primary accent words, coral (`%23fb7185`) for accent.
+2. **Spinning dashed ring** near hero imagery — `4px dashed oklch(0.78 0.12 80 / 0.55)`, `animation: spin 26s linear infinite`. One per hero region max.
+3. **Floating decoration shapes** at low opacity: bubble (radial gradient), dot, dashed ring. 1 ring + 1–2 bubbles + 1 dot max per region.
+4. **Organic blob radii** on gallery photo placeholders. Variants:
+   - `blob-a`: `40% 60% 60% 40% / 50% 40% 60% 50%`
+   - `blob-b`: `60% 40% 50% 50% / 40% 60% 40% 60%`
+   - `blob-c`: `32px 8px 32px 8px`
+   - `blob-d`: `8px 32px 8px 32px`
+   - `circle`: `50%`
+5. **Confetti dots** inside the footer-CTA gradient panel only. 5 sparse colored circles, low opacity, absolute-positioned.
+6. **Dashed connector line** between numbered steps on desktop. `border-top: 3px dashed oklch(0.85 0.08 230 / 0.6)` behind the cards.
+7. **Step number medallion**: 64px circle with 3px brand-color border, brand text color, `box-shadow: 0 3px 0 brand-color` (mini chunky press).
+8. **Trust strip** under hero CTAs uses dashed top border (`1.5px dashed border`) and three stats with brand-color numerals (primary / secondary / accent).
+9. **Photo placeholder** while real photos are pending: `repeating-linear-gradient(135deg, ...)` in the matching brand tint, with mono-label caption at bottom-left.
 
 ### Tailwind Configuration
 
