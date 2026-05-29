@@ -7,6 +7,7 @@ import { useMemo, useState } from "react";
 import { PendaftaranModal } from "./PendaftaranModal";
 import { StatusBadge } from "./StatusBadge";
 import { avatarFor } from "@/components/admin/shared/avatar";
+import { TableSkeletonRows } from "@/components/admin/shared/skeletons";
 import { registrationsListKey } from "@/hooks/pendaftaranKeys";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { getAdminRegistrationsList } from "@/lib/actions/registration";
@@ -165,7 +166,9 @@ export function PendaftaranTable({
               </tr>
             </thead>
             <tbody>
-              {items.length === 0 ? (
+              {query.isLoading ? (
+                <TableSkeletonRows columns={7} />
+              ) : items.length === 0 ? (
                 <tr>
                   <td
                     colSpan={7}

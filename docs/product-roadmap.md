@@ -397,7 +397,7 @@
   Files: `src/components/admin/testimoni/TestimoniTable.tsx`, `src/components/admin/testimoni/TestimoniModal.tsx`
   Notes: Per § 12 Testimoni CMS table. Drag-reorder rollback on error. Featured toggle rollback. Photo upload failure does not block save. Verify: each edge case triggers expected behavior.
 
-- [ ] **TASK-076** — Empty states and skeletons across admin tables.
+- [x] **TASK-076** — Empty states and skeletons across admin tables.
   Files: `src/components/admin/pendaftaran/PendaftaranTable.tsx`, `src/components/admin/artikel/ArtikelTable.tsx`, `src/components/admin/testimoni/TestimoniTable.tsx`, `src/components/admin/overview/StatCard.tsx`, `src/components/admin/overview/RecentLeadsTable.tsx`
   Notes: Skeleton state during initial load (shadcn Skeleton). Empty state with helpful copy per UI/UX Requirements. Verify: with empty DB, each admin page shows empty-state copy; on load, skeleton renders.
 

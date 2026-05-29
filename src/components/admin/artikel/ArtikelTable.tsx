@@ -17,6 +17,7 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { ArticleStatusBadge } from "@/components/admin/artikel/ArticleStatusBadge";
+import { TableSkeletonRows } from "@/components/admin/shared/skeletons";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -198,7 +199,9 @@ export function ArtikelTable({
               </tr>
             </thead>
             <tbody>
-              {items.length === 0 ? (
+              {query.isLoading ? (
+                <TableSkeletonRows columns={6} />
+              ) : items.length === 0 ? (
                 <tr>
                   <td
                     colSpan={6}
