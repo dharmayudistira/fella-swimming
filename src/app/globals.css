@@ -262,3 +262,16 @@
   background: transparent;
   padding: 0;
 }
+
+/* ---- Tiptap editor (admin artikel) -------------------------------------- */
+/* Placeholder copy shown while the editor is empty. */
+.prose-fs p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--color-foreground-subtle);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+.ProseMirror:focus {
+  outline: none;
+}

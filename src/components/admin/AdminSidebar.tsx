@@ -69,11 +69,8 @@ export function AdminSidebar({ user }: { user: AdminUser }) {
         "px-4 py-5 md:flex",
       )}
     >
-      <div className="flex items-center gap-2 px-2 pb-2">
+      <div className="px-2 pb-2">
         <Logo size="sm" href="/admin" className="!text-white" />
-        <span className="ml-auto rounded-md bg-white/10 px-2 py-0.5 font-mono text-[0.62rem] font-medium uppercase tracking-[0.10em] text-white/65">
-          Admin
-        </span>
       </div>
 
       <SidebarSection label="Operasional" items={OPERATIONAL} pathname={pathname} />
