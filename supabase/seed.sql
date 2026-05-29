@@ -1,6 +1,6 @@
 -- =====================================================
 -- supabase/seed.sql
--- Phase 1 dev/demo content: testimonials + articles.
+-- Dev/demo content: testimonials, articles, and admin-side registrations.
 -- Idempotent via ON CONFLICT — safe to re-run.
 -- Apply via Supabase Studio SQL editor or `supabase db reset`.
 -- =====================================================
@@ -153,3 +153,187 @@ set
   seo_title = excluded.seo_title,
   seo_description = excluded.seo_description,
   published_at = excluded.published_at;
+
+-- ----- Registrations (Phase 3 dev data) ------------------------------------
+-- Seven leads covering every status (baru, dihubungi, trial, daftar,
+-- tidak_lanjut) and every class_type prefix (PRIV, SEMI, GRUP, REG) so the
+-- admin dashboard, pendaftaran list, status badges, and modal all have
+-- realistic content to render.
+--
+-- `display_id` is NOT set here — the BEFORE INSERT trigger
+-- generate_display_id() owns it. created_at is relative to now() so the
+-- "Lead baru hari ini" / "Pendaftaran bulan ini" counters always look
+-- sensible regardless of when the seed runs.
+--
+-- Re-running is safe: ON CONFLICT (id) DO UPDATE refreshes the editable
+-- fields. display_id and created_at stay stable (we never overwrite them
+-- in the DO UPDATE clause).
+
+insert into registrations (
+  id,
+  student_name,
+  student_age,
+  student_gender,
+  student_experience,
+  preferred_class_type,
+  preferred_schedule,
+  preferred_location,
+  parent_name,
+  parent_whatsapp,
+  parent_email,
+  notes,
+  status,
+  internal_notes,
+  contacted_at,
+  created_at
+)
+values
+  -- 1. BARU — privat, baru saja masuk
+  (
+    'd0000001-0000-0000-0000-000000000001',
+    'Arif Pratama',
+    6,
+    'laki_laki',
+    'sedikit_bisa',
+    'privat',
+    'Sabtu pagi atau Minggu sore',
+    'Kolam Anggrek, Sidoarjo',
+    'Risa Wahyuni',
+    '628123456789',
+    null,
+    'Anak masih shy di awal, tapi sebenarnya senang main air di rumah. Boleh kalau pelatihnya perempuan?',
+    'baru',
+    null,
+    null,
+    now() - interval '12 minutes'
+  ),
+  -- 2. BARU — semi-privat, masuk sore ini
+  (
+    'd0000001-0000-0000-0000-000000000002',
+    'Dini Nuraini',
+    5,
+    'perempuan',
+    'belum_bisa',
+    'semi_privat',
+    'Minggu pagi',
+    null,
+    'Bagus Setiawan',
+    '628157788112',
+    'bagus.setiawan@example.com',
+    'Pengen barengan sama sepupunya (8 tahun). Belum tahu jadwal sepupunya, nanti dikabari lagi.',
+    'baru',
+    null,
+    null,
+    now() - interval '2 hours'
+  ),
+  -- 3. DIHUBUNGI — grup, sudah di-WA tapi belum trial
+  (
+    'd0000001-0000-0000-0000-000000000003',
+    'Kayla Hanifa',
+    8,
+    'perempuan',
+    'sudah_bisa_dasar',
+    'grup',
+    'Weekday sore',
+    'Kolam Anggrek, Sidoarjo',
+    'Vina Lestari',
+    '628212233445',
+    null,
+    null,
+    'dihubungi',
+    'Sudah respon di WA, minta info paket bulanan. Kirim brosur paket 12 sesi besok pagi.',
+    now() - interval '1 day',
+    now() - interval '1 day 4 hours'
+  ),
+  -- 4. DIHUBUNGI — semi-privat, baru di-WA hari ini
+  (
+    'd0000001-0000-0000-0000-000000000004',
+    'Reza Mahendra',
+    8,
+    'laki_laki',
+    'sedikit_bisa',
+    'semi_privat',
+    'Sabtu pagi',
+    null,
+    'Mira Sasmita',
+    '628112233445',
+    null,
+    null,
+    'dihubungi',
+    'Coach Anis sudah follow-up via WA. Ortu mau diskusi dulu sama suami.',
+    now() - interval '3 hours',
+    now() - interval '5 hours'
+  ),
+  -- 5. TRIAL — semi-privat, sudah trial pertama
+  (
+    'd0000001-0000-0000-0000-000000000005',
+    'Rama Adyatma',
+    7,
+    'laki_laki',
+    'sedikit_bisa',
+    'semi_privat',
+    'Sabtu sore',
+    'Kolam Anggrek, Sidoarjo',
+    'Sari Mahesa',
+    '628139988776',
+    'sari.mahesa@example.com',
+    'Anak ke-2. Adiknya juga rencananya nyusul kalau Rama cocok.',
+    'trial',
+    'Trial sesi 1 sudah jalan Sabtu kemarin. Coach Anis report anak antusias, lanjut Sabtu depan.',
+    now() - interval '3 days',
+    now() - interval '4 days'
+  ),
+  -- 6. DAFTAR — privat, sudah commit paket
+  (
+    'd0000001-0000-0000-0000-000000000006',
+    'Nadia Felicia',
+    4,
+    'perempuan',
+    'belum_bisa',
+    'privat',
+    'Fleksibel — utamakan weekday sore',
+    'Kolam Anggrek, Sidoarjo',
+    'Putri Anggraini',
+    '628195566334',
+    null,
+    'Pertama kali les renang. Anak masih takut, pengen pelan-pelan dulu.',
+    'daftar',
+    'Sudah bayar paket 8 sesi via transfer. Sesi pertama dijadwalkan Senin minggu depan dengan Coach Mira.',
+    now() - interval '5 days',
+    now() - interval '6 days'
+  ),
+  -- 7. TIDAK_LANJUT — grup → belum yakin, sudah pasif 1 minggu
+  (
+    'd0000001-0000-0000-0000-000000000007',
+    'Citra Larasati',
+    6,
+    'perempuan',
+    'sedikit_bisa',
+    'belum_yakin',
+    null,
+    null,
+    'Anggun Wijaya',
+    '628134455667',
+    null,
+    'Belum yakin kelas privat atau grup, pengen tanya-tanya dulu.',
+    'tidak_lanjut',
+    'WA dua kali tidak dibalas. Coba lagi minggu depan, kalau tetap pasif tutup leadnya.',
+    now() - interval '6 days',
+    now() - interval '8 days'
+  )
+on conflict (id) do update
+set
+  student_name = excluded.student_name,
+  student_age = excluded.student_age,
+  student_gender = excluded.student_gender,
+  student_experience = excluded.student_experience,
+  preferred_class_type = excluded.preferred_class_type,
+  preferred_schedule = excluded.preferred_schedule,
+  preferred_location = excluded.preferred_location,
+  parent_name = excluded.parent_name,
+  parent_whatsapp = excluded.parent_whatsapp,
+  parent_email = excluded.parent_email,
+  notes = excluded.notes,
+  status = excluded.status,
+  internal_notes = excluded.internal_notes,
+  contacted_at = excluded.contacted_at;
