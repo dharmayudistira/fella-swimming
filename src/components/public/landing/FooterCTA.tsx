@@ -64,12 +64,12 @@ export function FooterCTA() {
             jadwal trial gratis.
           </p>
         </div>
-        <div className="relative z-10 mt-7 flex flex-wrap gap-3 lg:mt-0">
-          <ChunkyButton asChild size="lg" variant="invertedPrimary" href="/daftar">
+        <div className="relative z-10 mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:mt-0">
+          <ChunkyButton asChild size="lg" variant="invertedPrimary" href="/daftar" className="w-full sm:w-auto">
             Daftar Sekarang
             <ArrowRight className="h-[18px] w-[18px]" strokeWidth={2.5} />
           </ChunkyButton>
-          <ChunkyButton asChild size="lg" variant="invertedSecondary" href="/artikel">
+          <ChunkyButton asChild size="lg" variant="invertedSecondary" href="/artikel" className="w-full sm:w-auto">
             Baca Artikel Dulu
           </ChunkyButton>
         </div>

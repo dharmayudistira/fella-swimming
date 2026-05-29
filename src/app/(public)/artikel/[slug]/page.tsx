@@ -184,12 +184,12 @@ export default async function ArticleDetailPage({
               Sudah dapat gambaran dari artikel ini? Lihat tiga jenis kelas — Privat,
               Semi-Privat, Grup — dengan harga dan ratio yang transparan.
             </p>
-            <div className="flex flex-wrap gap-3">
-              <ChunkyButton asChild variant="primary" href="/#jenis-kelas">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <ChunkyButton asChild variant="primary" href="/#jenis-kelas" className="w-full sm:w-auto">
                 Lihat jenis kelas
                 <ArrowRight className="h-[18px] w-[18px]" strokeWidth={2.5} />
               </ChunkyButton>
-              <ChunkyButton asChild variant="secondary" href="/artikel">
+              <ChunkyButton asChild variant="secondary" href="/artikel" className="w-full sm:w-auto">
                 Baca artikel lainnya
               </ChunkyButton>
             </div>

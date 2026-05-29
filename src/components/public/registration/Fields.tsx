@@ -299,22 +299,20 @@ export function RadioCardStack({
               )}
             />
             <div className="flex-1">
-              <div className="flex flex-wrap items-baseline justify-between gap-x-2.5 gap-y-1">
-                <span
-                  className={cn(
-                    "text-[1rem] font-bold leading-tight text-foreground transition-colors",
-                    accent.title,
-                  )}
-                >
-                  {opt.title}
-                  {opt.tag ? (
-                    <span className="ml-2 inline-block align-middle">
-                      {opt.tag}
-                    </span>
-                  ) : null}
+              <div className="flex flex-col gap-y-1 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-x-2.5">
+                <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                  <span
+                    className={cn(
+                      "text-[1rem] font-bold leading-tight text-foreground transition-colors",
+                      accent.title,
+                    )}
+                  >
+                    {opt.title}
+                  </span>
+                  {opt.tag ?? null}
                 </span>
                 {opt.meta ? (
-                  <span className="whitespace-nowrap font-mono text-[0.82rem] font-semibold text-foreground-muted">
+                  <span className="font-mono text-[0.82rem] font-semibold text-foreground-muted sm:whitespace-nowrap">
                     {opt.meta}
                   </span>
                 ) : null}
