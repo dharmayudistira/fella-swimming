@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { AuthCard, AuthHint } from "@/components/auth/AuthCard";
@@ -46,17 +45,7 @@ export default async function LoginPage({
       title="Selamat datang kembali."
       subtitle="Masuk untuk lihat pendaftaran terbaru dan kelola artikel."
       footer={
-        <AuthHint>
-          Akses admin hanya untuk tim Fellaswimming. Ortu yang mau daftar les
-          renang,{" "}
-          <Link
-            href="/daftar"
-            className="font-bold text-primary hover:underline"
-          >
-            daftar di sini
-          </Link>
-          .
-        </AuthHint>
+        <AuthHint>Akses admin hanya untuk tim Fellaswimming.</AuthHint>
       }
     >
       {callbackError ? (
