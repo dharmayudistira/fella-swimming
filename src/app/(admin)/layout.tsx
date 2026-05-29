@@ -1,7 +1,7 @@
-import { Monitor } from "lucide-react";
 import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
 
+import { AdminMobileFallback } from "@/components/admin/AdminMobileFallback";
 import { AdminSidebar, type AdminUser } from "@/components/admin/AdminSidebar";
 import { createServerClient } from "@/lib/supabase/server";
 
@@ -49,26 +49,15 @@ export default async function AdminLayout({
 
   return (
     <>
-      {/* Desktop shell */}
-      <div className="hidden min-h-screen grid-cols-[240px_1fr] md:grid">
+      {/* Desktop shell — admin is desktop-only (min 1024px / lg) */}
+      <div className="hidden min-h-screen grid-cols-[240px_1fr] lg:grid">
         <AdminSidebar user={adminUser} />
         <div className="flex min-h-screen flex-col">{children}</div>
       </div>
 
-      {/* Mobile gate */}
-      <div className="flex min-h-screen items-center justify-center px-6 py-12 md:hidden">
-        <div className="flex max-w-[360px] flex-col items-center gap-4 rounded-[20px] border border-border border-b-[4px] border-b-primary bg-surface p-7 text-center shadow-md">
-          <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary-tint text-primary-dark">
-            <Monitor className="h-6 w-6" strokeWidth={2.2} />
-          </span>
-          <h1 className="text-[1.2rem] font-bold leading-tight">
-            Admin Fellaswimming hanya untuk desktop.
-          </h1>
-          <p className="text-[0.92rem] text-foreground-muted">
-            Buka panel admin di laptop atau monitor minimal 768px. Kalau lagi di
-            HP, simpan tab ini dan buka lagi nanti.
-          </p>
-        </div>
+      {/* Below 1024px: route the user to open /admin on a desktop instead. */}
+      <div className="lg:hidden">
+        <AdminMobileFallback />
       </div>
     </>
   );
