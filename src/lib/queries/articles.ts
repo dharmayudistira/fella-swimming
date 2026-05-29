@@ -1,5 +1,6 @@
 import "server-only";
 
+import { createPublicClient } from "@/lib/supabase/public";
 import { createServerClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/database.types";
 
@@ -45,7 +46,7 @@ export async function getPublishedArticles({
   limit = 12,
   offset = 0,
 }: GetPublishedArticlesParams = {}): Promise<GetPublishedArticlesResult> {
-  const supabase = await createServerClient();
+  const supabase = createPublicClient();
   const { data, error, count } = await supabase
     .from("articles")
     .select(LIST_COLUMNS, { count: "exact" })
@@ -60,6 +61,27 @@ export async function getPublishedArticles({
   return { items: data ?? [], total: count ?? 0 };
 }
 
+export type ArticleSitemapEntry = Pick<
+  Database["public"]["Tables"]["articles"]["Row"],
+  "slug" | "updated_at"
+>;
+
+/** All published article slugs + last-modified, for the dynamic sitemap (FR-023). */
+export async function getPublishedArticleSlugs(): Promise<ArticleSitemapEntry[]> {
+  const supabase = createPublicClient();
+  const { data, error } = await supabase
+    .from("articles")
+    .select("slug, updated_at")
+    .eq("status", "published")
+    .order("updated_at", { ascending: false });
+
+  if (error) {
+    console.error("[articles] getPublishedArticleSlugs failed", error);
+    return [];
+  }
+  return data ?? [];
+}
+
 /**
  * Single published article by slug — used by /artikel/[slug].
  * Returns null when not found or not published so the route can 404.
@@ -67,7 +89,7 @@ export async function getPublishedArticles({
 export async function getArticleBySlug(
   slug: string,
 ): Promise<ArticleDetail | null> {
-  const supabase = await createServerClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("articles")
     .select("*")

@@ -79,20 +79,20 @@ export function HeroSection() {
               baru daftar dengan yakin.
             </p>
 
-            <div className="mb-5 flex flex-wrap items-center gap-3">
-              <ChunkyButton asChild size="lg" variant="primary" href="/daftar">
+            <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <ChunkyButton asChild size="lg" variant="primary" href="/daftar" className="w-full sm:w-auto">
                 Daftar Sekarang
                 <ArrowRight className="h-[18px] w-[18px]" strokeWidth={2.5} />
               </ChunkyButton>
-              <ChunkyButton asChild size="lg" variant="secondary" href="#jenis-kelas">
+              <ChunkyButton asChild size="lg" variant="secondary" href="#jenis-kelas" className="w-full sm:w-auto">
                 Lihat Kelas
               </ChunkyButton>
             </div>
 
-            <div className="mb-8 inline-flex items-center gap-2 text-[0.92rem] text-foreground-muted">
+            <div className="mb-8 flex w-full items-center justify-center gap-2 text-center text-[0.92rem] text-foreground-muted sm:inline-flex sm:w-auto sm:justify-start sm:text-left">
               <span
                 aria-hidden
-                className="inline-flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full"
+                className="hidden h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full sm:inline-flex"
                 style={{
                   background: "oklch(0.92 0.10 150)",
                   color: "oklch(0.40 0.15 150)",
@@ -103,7 +103,7 @@ export function HeroSection() {
               Tanpa bayar di muka · konsultasi gratis via WhatsApp
             </div>
 
-            <dl className="flex flex-wrap gap-7 border-t-[1.5px] border-dashed border-border pt-5">
+            <dl className="grid grid-cols-3 gap-4 border-t-[1.5px] border-dashed border-border pt-5 text-center sm:flex sm:flex-wrap sm:gap-7 sm:text-left">
               <div>
                 <dt className="block font-heading text-[1.6rem] font-bold leading-none tracking-[-0.01em] text-primary">
                   5 tahun

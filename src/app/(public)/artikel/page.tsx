@@ -1,18 +1,18 @@
-import type { Metadata } from "next";
-
 import { ArticleList } from "@/components/public/article/ArticleList";
 import { Eyebrow } from "@/components/public/landing/Eyebrow";
 import { getPublishedArticles } from "@/lib/queries/articles";
+import { pageMetadata } from "@/lib/constants/seo";
 
 export const revalidate = 60;
 
 const PAGE_SIZE = 12;
 
-export const metadata: Metadata = {
-  title: "Artikel — Fellaswimming",
+export const metadata = pageMetadata({
+  title: "Artikel",
   description:
     "Tulisan ringan tentang belajar renang anak: usia ideal, beda jenis kelas, tips persiapan trial, dan mitos seputar berenang.",
-};
+  path: "/artikel",
+});
 
 type SearchParams = Promise<{ page?: string }>;
 

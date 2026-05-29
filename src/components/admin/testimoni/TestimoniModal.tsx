@@ -114,6 +114,11 @@ export function TestimoniModal({
         return;
       }
       setValue("photo_url", result.url, { shouldValidate: true });
+    } catch (err) {
+      // Storage/network failure is also non-blocking — note it and let the
+      // admin save the testimonial without a photo.
+      console.error("[TestimoniModal] photo upload failed", err);
+      toast.error("Gagal mengunggah foto. Testimoni tetap bisa disimpan tanpa foto.");
     } finally {
       setPhotoUploading(false);
     }
@@ -328,23 +333,28 @@ export function TestimoniModal({
                 aria-label="Status testimoni"
                 className="mt-1.5 flex gap-1 rounded-[10px] bg-surface-muted p-1"
               >
-                {(["draft", "published"] as const).map((s) => (
-                  <button
-                    key={s}
-                    type="button"
-                    role="radio"
-                    aria-checked={status === s}
-                    onClick={() => setValue("status", s, { shouldDirty: true })}
-                    className={cn(
-                      "flex-1 rounded-[7px] px-2 py-1.5 text-[0.78rem] font-bold transition-colors",
-                      status === s
-                        ? "bg-surface text-foreground shadow-[0_2px_0_var(--color-border)]"
-                        : "text-foreground-muted hover:text-foreground",
-                    )}
-                  >
-                    {s === "published" ? "Terbit" : "Draf"}
-                  </button>
-                ))}
+                {(["draft", "published"] as const).map((s) => {
+                  const active = status === s;
+                  return (
+                    <button
+                      key={s}
+                      type="button"
+                      role="radio"
+                      aria-checked={active}
+                      onClick={() => setValue("status", s, { shouldDirty: true })}
+                      className={cn(
+                        "flex-1 rounded-[7px] px-2 py-1.5 text-[0.78rem] font-bold transition-colors",
+                        active
+                          ? s === "published"
+                            ? "bg-success text-white shadow-[0_2px_0_var(--color-success-dark)]"
+                            : "bg-surface text-foreground shadow-[0_2px_0_var(--color-border)]"
+                          : "text-foreground-muted hover:text-foreground",
+                      )}
+                    >
+                      {s === "published" ? "Terbit" : "Draf"}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -355,7 +365,7 @@ export function TestimoniModal({
           </FieldHint>
 
           {/* Footer */}
-          <div className="-mx-5 -mb-5 mt-1 flex items-center justify-between gap-2 border-t border-border bg-surface-muted px-5 py-3.5">
+          <div className="-mx-5 -mb-5 mt-1 flex items-center justify-between gap-2 rounded-b-xl border-t border-border bg-surface-muted px-5 py-3.5">
             {isEdit && testimonial ? (
               <button
                 type="button"

@@ -6,10 +6,21 @@ import { ArrowRight, ChevronLeft } from "lucide-react";
 
 import { ChunkyButton } from "@/components/shared/ChunkyButton";
 import { ArticleRenderer } from "@/components/public/article/ArticleRenderer";
-import { getArticleBySlug } from "@/lib/queries/articles";
+import {
+  getArticleBySlug,
+  getPublishedArticleSlugs,
+} from "@/lib/queries/articles";
+import { SITE } from "@/lib/constants/seo";
 import { formatDateID } from "@/lib/utils/format";
 
 export const revalidate = 300;
+
+// Prerender every published article at build (FR-009 ISR). New slugs published
+// later are rendered on-demand and cached for `revalidate` (dynamicParams).
+export async function generateStaticParams() {
+  const slugs = await getPublishedArticleSlugs();
+  return slugs.map(({ slug }) => ({ slug }));
+}
 
 type RouteParams = Promise<{ slug: string }>;
 
@@ -23,27 +34,33 @@ export async function generateMetadata({
 
   if (!article) {
     return {
-      title: "Artikel tidak ditemukan — Fellaswimming",
+      title: "Artikel tidak ditemukan",
     };
   }
 
   const title = article.seo_title ?? article.title;
   const description = article.seo_description ?? article.excerpt;
+  const path = `/artikel/${article.slug}`;
 
   return {
-    title: `${title} — Fellaswimming`,
+    title,
     description,
+    alternates: { canonical: path },
     openGraph: {
-      title,
+      title: `${title} — ${SITE.name}`,
       description,
+      url: path,
+      siteName: SITE.name,
+      locale: SITE.locale,
       type: "article",
       images: [{ url: article.cover_image_url, alt: article.cover_image_alt }],
       publishedTime: article.published_at ?? undefined,
+      modifiedTime: article.updated_at,
       authors: [article.author_name],
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: `${title} — ${SITE.name}`,
       description,
       images: [article.cover_image_url],
     },
@@ -61,9 +78,32 @@ export default async function ArticleDetailPage({
   if (!article) notFound();
 
   const date = formatDateID(article.published_at);
+  const canonical = `${SITE.url}/artikel/${article.slug}`;
+
+  // Article structured data (FR / TASK-069) — validates in Google Rich Results.
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.excerpt,
+    image: [article.cover_image_url],
+    datePublished: article.published_at ?? article.created_at,
+    dateModified: article.updated_at,
+    author: { "@type": "Organization", name: article.author_name },
+    publisher: { "@type": "Organization", name: SITE.name },
+    mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+  };
 
   return (
     <article>
+      <script
+        type="application/ld+json"
+        // Escape "<" so an admin-entered title/excerpt can never close the
+        // <script> tag (XSS-safe serialization of trusted DB fields).
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <div className="relative aspect-[16/9] w-full overflow-hidden bg-surface-muted md:hidden">
         <Image
           src={article.cover_image_url}
@@ -144,12 +184,12 @@ export default async function ArticleDetailPage({
               Sudah dapat gambaran dari artikel ini? Lihat tiga jenis kelas — Privat,
               Semi-Privat, Grup — dengan harga dan ratio yang transparan.
             </p>
-            <div className="flex flex-wrap gap-3">
-              <ChunkyButton asChild variant="primary" href="/#jenis-kelas">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <ChunkyButton asChild variant="primary" href="/#jenis-kelas" className="w-full sm:w-auto">
                 Lihat jenis kelas
                 <ArrowRight className="h-[18px] w-[18px]" strokeWidth={2.5} />
               </ChunkyButton>
-              <ChunkyButton asChild variant="secondary" href="/artikel">
+              <ChunkyButton asChild variant="secondary" href="/artikel" className="w-full sm:w-auto">
                 Baca artikel lainnya
               </ChunkyButton>
             </div>

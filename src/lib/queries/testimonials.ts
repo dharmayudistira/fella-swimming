@@ -1,5 +1,6 @@
 import "server-only";
 
+import { createPublicClient } from "@/lib/supabase/public";
 import { createServerClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/database.types";
 
@@ -14,7 +15,7 @@ export type FeaturedTestimonial = Pick<
  * Ordered by display_order ascending so admin can hand-curate position.
  */
 export async function getFeaturedTestimonials(): Promise<FeaturedTestimonial[]> {
-  const supabase = await createServerClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("testimonials")
     .select("id, name, role, rating, text, photo_url, display_order")

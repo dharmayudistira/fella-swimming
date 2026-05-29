@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { ArrowLeft, ArrowRight, Loader2, Send } from "lucide-react";
-import { useMemo, useState, useTransition, type FormEvent } from "react";
+import { useMemo, useRef, useState, useTransition, type FormEvent } from "react";
 import { useForm, type Path } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -112,6 +112,10 @@ export function RegistrationWizard() {
   const [phase, setPhase] = useState<WizardPhase>(1);
   const [pending, startTransition] = useTransition();
   const [displayId, setDisplayId] = useState<string | null>(null);
+  // Synchronous guard against double-submit: `pending` flips a tick after the
+  // click (there's an awaited form.trigger first), so the disabled button
+  // alone leaves a tiny race window.
+  const submittingRef = useRef(false);
 
   const currentStep =
     phase === "done" ? null : STEPS.find((s) => s.index === phase)!;
@@ -140,6 +144,8 @@ export function RegistrationWizard() {
   };
 
   const handleSubmit = async () => {
+    if (submittingRef.current) return;
+
     const values = form.getValues();
     const normalizedWa = normalizeWhatsApp(values.parent_whatsapp);
     if (!normalizedWa) {
@@ -164,18 +170,26 @@ export function RegistrationWizard() {
       notes: values.notes?.trim() || undefined,
     };
 
+    submittingRef.current = true;
     startTransition(async () => {
-      const result = await submitRegistration(payload);
-      if (!result.success) {
-        toast.error(
-          result.error ?? "Pendaftaran gagal dikirim. Coba lagi atau refresh halaman.",
-        );
-        return;
-      }
-      setDisplayId(result.data.display_id);
-      setPhase("done");
-      if (typeof window !== "undefined") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+      try {
+        const result = await submitRegistration(payload);
+        if (!result.success) {
+          toast.error(result.error ?? "Gagal kirim. Coba lagi.");
+          return;
+        }
+        setDisplayId(result.data.display_id);
+        setPhase("done");
+        if (typeof window !== "undefined") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      } catch (error) {
+        // Network/transport failure — the action rejected before returning a
+        // result. No partial write (the insert is atomic). Let the user retry.
+        console.error("[registration] submit failed", error);
+        toast.error("Gagal kirim. Coba lagi.");
+      } finally {
+        submittingRef.current = false;
       }
     });
   };

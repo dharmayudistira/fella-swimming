@@ -5,9 +5,9 @@
 -- Apply via Supabase Studio SQL editor or `supabase db reset`.
 -- =====================================================
 
--- ----- Testimonials (TASK-026) ---------------------------------------------
--- 3 featured published testimonials so the landing /#testimoni section
--- has content out of the box. display_order controls landing render order.
+-- ----- Testimonials (TASK-026, TASK-079) -----------------------------------
+-- 5 featured published testimonials so the landing /#testimoni section
+-- has launch-ready content. display_order controls landing render order.
 
 insert into testimonials (id, name, role, rating, text, featured, status, display_order)
 values
@@ -36,10 +36,30 @@ values
     'Bunda Sari',
     'Anak 6 tahun · Grup',
     5,
-    'Tiga bulan ikut kelas grup, sekarang anak saya udah bisa freestyle dengan napas yang benar. Worth it banget — dan kolamnya bersih.',
+    'Tiga bulan ikut kelas grup, sekarang anak saya udah bisa freestyle dengan napas yang benar. Worth it banget, dan kolamnya bersih.',
     true,
     'published',
     3
+  ),
+  (
+    '44444444-4444-4444-4444-444444444444',
+    'Bunda Rina',
+    'Anak 9 tahun · Grup',
+    5,
+    'Awalnya saya ragu kelas grup bakal efektif. Ternyata anak saya malah lebih semangat karena ada teman seumuran, dan pelatihnya tetap perhatian satu per satu. Tiap pulang ceritanya nggak abis-abis.',
+    true,
+    'published',
+    4
+  ),
+  (
+    '55555555-5555-5555-5555-555555555555',
+    'Ayah Doni',
+    'Anak 5 tahun · Privat',
+    5,
+    'Anak saya susah fokus kalau kelasnya ramai. Coach Rendra telaten banget bikin dia mau dengerin instruksi. Tiga bulan, sekarang udah berani renang satu lintasan penuh tanpa pelampung.',
+    true,
+    'published',
+    5
   )
 on conflict (id) do update
 set
@@ -51,9 +71,10 @@ set
   status = excluded.status,
   display_order = excluded.display_order;
 
--- ----- Articles (TASK-034) -------------------------------------------------
--- 2 published articles seeded so /artikel and /artikel/[slug] have content
--- for the magic moment demo. Each ends with a contextual CTA back to
+-- ----- Articles (TASK-034, TASK-079) ---------------------------------------
+-- 5 published articles seeded so /artikel and /artikel/[slug] have launch
+-- content covering: usia ideal, jenis kelas, tanda coach kompeten, persiapan
+-- trial pertama, mitos berenang. Each ends with a contextual CTA back to
 -- /#jenis-kelas. content_html is the rendered Tiptap output; content jsonb
 -- mirrors the same body for editor round-tripping in Phase 4.
 
@@ -93,16 +114,13 @@ values
 <h2>Yang sering bikin orang tua salah hitung</h2>
 <p>Kadang orang tua memaksa anak mulai di umur 3 karena teman sebayanya sudah ikut. Padahal kalau anak masih takut air, sesi pertama yang traumatis justru bikin dia menghindari kolam selama setahun ke depan. Lebih baik tunggu 6 bulan, mulai dengan kelas privat, dan biarkan dia adaptasi pelan-pelan.</p>
 <h2>Apa yang kami sarankan</h2>
-<p>Kalau anak kamu sudah 4 tahun ke atas dan kelihatan nyaman main air, kelas semi-privat biasanya cocok. Kalau masih takut, mulai dari privat — pelatih bisa fokus 100% di anak kamu.</p>
-<hr>
-<p><strong>Mau cek kelas yang pas untuk anak kamu?</strong> Lihat detail tiga jenis kelas — Privat, Semi-Privat, Grup — di halaman utama. Tim kami juga bisa bantu via WhatsApp kalau masih ragu.</p>
-<p><a href="/#jenis-kelas">Lihat jenis kelas →</a></p>$$,
+<p>Kalau anak kamu sudah 4 tahun ke atas dan kelihatan nyaman main air, kelas semi-privat biasanya cocok. Kalau masih takut, mulai dari privat — pelatih bisa fokus 100% di anak kamu.</p>$$,
     '/images/article-placeholder-sky.svg',
     'Placeholder cover — sky tones',
     'Tim Fellaswimming',
     5,
     'published',
-    'Usia ideal anak mulai les renang — Fellaswimming',
+    'Usia ideal anak mulai les renang',
     'Kapan waktu terbaik anak mulai les renang? Kami jelaskan tanda kesiapan, kenapa 4 tahun jadi titik nyaman, dan rekomendasi kelas pertama.',
     now() - interval '7 days'
   ),
@@ -125,18 +143,99 @@ values
 <li>Anak sudah nyaman main air, punya saudara/teman seumuran → <strong>Semi-Privat</strong>.</li>
 <li>Anak sudah bisa berenang dasar, mau latihan rutin → <strong>Grup</strong>.</li>
 </ul>
-<p>Masih bingung? Daftar dulu pilih "Belum yakin" — tim kami WhatsApp untuk ngobrol singkat soal anak kamu sebelum menentukan kelas.</p>
-<hr>
-<p><strong>Sudah punya gambaran kelas yang cocok?</strong> Lihat detail lengkap masing-masing kelas — harga, jadwal, dan apa yang dipelajari di setiap sesi.</p>
-<p><a href="/#jenis-kelas">Lihat jenis kelas →</a></p>$$,
+<p>Masih bingung? Daftar dulu pilih "Belum yakin" — tim kami WhatsApp untuk ngobrol singkat soal anak kamu sebelum menentukan kelas.</p>$$,
     '/images/article-placeholder-turq.svg',
     'Placeholder cover — turquoise tones',
     'Tim Fellaswimming',
     6,
     'published',
-    'Bedanya kelas Privat, Semi-Privat, dan Grup — Fellaswimming',
+    'Bedanya kelas Privat, Semi-Privat, dan Grup',
     'Privat, Semi-Privat, atau Grup? Panduan singkat memilih kelas renang anak berdasarkan gaya belajar, kesiapan, dan kebutuhan keluarga.',
     now() - interval '3 days'
+  ),
+  (
+    'cccccccc-cccc-cccc-cccc-cccccccccccc',
+    'tanda-pelatih-renang-anak-kompeten',
+    '5 tanda pelatih renang anak yang kompeten',
+    'Sertifikat itu penting, tapi bukan satu-satunya ukuran. Ini lima tanda nyata yang bisa kamu amati langsung di pinggir kolam sebelum memutuskan.',
+    '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Memilih pelatih renang untuk anak nggak cukup lihat sertifikat di dinding. Banyak hal penting justru kelihatan dari cara dia bekerja di pinggir kolam."}]}]}'::jsonb,
+    $$<p>Memilih pelatih renang untuk anak nggak cukup lihat sertifikat di dinding. Banyak hal penting justru kelihatan dari cara dia bekerja di pinggir kolam. Berikut lima tanda yang bisa kamu amati langsung saat trial.</p>
+<h2>1. Sabar saat anak takut</h2>
+<p>Pelatih yang kompeten nggak memaksa anak yang masih takut langsung masuk ke air dalam. Dia tahu rasa takut itu wajar dan menanganinya pelan-pelan, bukan dengan nada tinggi. Kalau di sesi pertama anak menangis lalu dimarahi, itu tanda bahaya.</p>
+<h2>2. Selalu dalam jangkauan tangan</h2>
+<p>Untuk anak pemula, pelatih yang baik tidak pernah jauh dari jangkauan. Dia berada di air bersama anak atau menjaga jarak yang masih bisa meraih anak dalam satu gerakan. Perhatikan ini di trial: matanya selalu ke anak, bukan ke ponsel.</p>
+<h2>3. Instruksi singkat dan jelas</h2>
+<p>Anak usia 4 sampai 8 tahun susah mencerna kalimat panjang. Pelatih berpengalaman memberi instruksi pendek dan konkret, satu langkah pada satu waktu, dan sering memuji hal kecil supaya anak percaya diri.</p>
+<h2>4. Punya sertifikat keselamatan, bukan cuma renang</h2>
+<p>Jago berenang dan bisa mengajar berenang dengan aman itu dua hal berbeda. Cari pelatih yang punya sertifikat keselamatan dasar seperti CPR atau lifeguard, bukan hanya level kompetisi. Di Fellaswimming, semua pelatih sudah punya sertifikasi keselamatan.</p>
+<h2>5. Mau update progres ke orang tua</h2>
+<p>Setelah sesi, pelatih yang baik meluangkan satu dua menit cerita: hari ini anak belajar apa, apa yang sudah maju, apa yang perlu dilatih lagi di rumah. Komunikasi ini bikin kamu tahu progres anak secara nyata, bukan cuma asumsi.</p>$$,
+    '/images/article-placeholder-coral.svg',
+    'Placeholder cover — coral tones',
+    'Tim Fellaswimming',
+    5,
+    'published',
+    '5 tanda pelatih renang anak yang kompeten',
+    'Bukan cuma sertifikat. Lima tanda nyata pelatih renang anak yang kompeten yang bisa kamu amati langsung di pinggir kolam sebelum memutuskan.',
+    now() - interval '5 days'
+  ),
+  (
+    'dddddddd-dddd-dddd-dddd-dddddddddddd',
+    'persiapan-trial-renang-pertama-anak',
+    'Persiapan sebelum trial renang pertama — biar hari H lancar',
+    'Trial pertama menentukan apakah anak jatuh cinta sama air atau malah trauma. Sedikit persiapan dari rumah bikin perbedaan besar.',
+    '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Trial pertama itu momen penting. Kalau berjalan menyenangkan, anak biasanya semangat lanjut. Kalau berantakan, dia bisa menolak ke kolam berminggu-minggu."}]}]}'::jsonb,
+    $$<p>Trial pertama itu momen penting. Kalau berjalan menyenangkan, anak biasanya semangat lanjut. Kalau berantakan, dia bisa menolak ke kolam berminggu-minggu. Kabar baiknya, sebagian besar persiapan bisa kamu lakukan dari rumah.</p>
+<h2>Sehari sebelumnya</h2>
+<ul>
+<li>Ceritakan dengan nada positif: besok kita main air sama pelatih yang ramah. Hindari kata-kata yang bikin tegang seperti "jangan takut ya".</li>
+<li>Pastikan anak tidur cukup. Anak yang ngantuk gampang rewel dan susah fokus.</li>
+<li>Siapkan baju renang, kacamata renang, handuk, dan baju ganti dari malam sebelumnya.</li>
+</ul>
+<h2>Sebelum berangkat</h2>
+<ul>
+<li>Beri makan ringan 1 sampai 2 jam sebelum sesi. Jangan terlalu kenyang, jangan juga perut kosong.</li>
+<li>Datang 10 sampai 15 menit lebih awal supaya anak sempat lihat kolam dan beradaptasi tanpa terburu-buru.</li>
+<li>Ajak anak ke toilet dulu sebelum masuk air.</li>
+</ul>
+<h2>Saat di kolam</h2>
+<p>Biarkan pelatih yang memimpin. Banyak orang tua, dengan maksud baik, malah ikut menginstruksi dari pinggir dan bikin anak bingung harus dengar siapa. Cukup tersenyum dan beri semangat dari jauh. Kalau anak menengok ke kamu, anggukkan kepala supaya dia merasa aman.</p>
+<h2>Setelah selesai</h2>
+<p>Apa pun hasilnya, puji usahanya, bukan hasilnya. "Tadi kamu berani coba, hebat!" lebih menguatkan daripada "Kok belum bisa berenang?". Trial pertama bukan soal langsung jago, tapi soal anak merasa air itu menyenangkan.</p>$$,
+    '/images/article-placeholder-sun.svg',
+    'Placeholder cover — sun tones',
+    'Tim Fellaswimming',
+    4,
+    'published',
+    'Persiapan sebelum trial renang pertama anak',
+    'Checklist persiapan trial renang pertama anak: dari sehari sebelumnya sampai setelah sesi, supaya hari H lancar dan anak jatuh cinta sama air.',
+    now() - interval '10 days'
+  ),
+  (
+    'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee',
+    'mitos-renang-anak-yang-masih-dipercaya',
+    '5 mitos renang anak yang masih banyak dipercaya',
+    'Dari "nanti juga bisa sendiri" sampai "pelampung bikin cepat jago", kami luruskan lima mitos yang sering bikin orang tua salah langkah.',
+    '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Soal renang anak, banyak nasihat turun-temurun yang ternyata keliru. Beberapa malah bisa memperlambat anak atau bikin dia kurang aman di air."}]}]}'::jsonb,
+    $$<p>Soal renang anak, banyak nasihat turun-temurun yang ternyata keliru. Beberapa malah bisa memperlambat anak atau bikin dia kurang aman di air. Yuk kita luruskan lima yang paling sering muncul.</p>
+<h2>Mitos 1: "Nanti juga bisa sendiri"</h2>
+<p>Berenang bukan kemampuan bawaan seperti berjalan. Tanpa diajari teknik napas dan mengapung yang benar, kebanyakan anak hanya belajar bertahan dengan panik, bukan berenang dengan aman.</p>
+<h2>Mitos 2: "Pelampung bikin cepat jago"</h2>
+<p>Pelampung lengan memang bikin anak terlihat berani, tapi melatih posisi tubuh yang salah, yaitu tegak, bukan horizontal. Anak jadi bergantung dan justru lebih lama belajar mengapung sendiri. Pelatih yang baik memakai alat bantu secukupnya lalu melepasnya bertahap.</p>
+<h2>Mitos 3: "Anak yang takut air berarti belum siap"</h2>
+<p>Takut air itu wajar dan bukan tanda anak tidak berbakat. Justru di sinilah kelas privat berperan: pelatih membangun kepercayaan pelan-pelan sampai rasa takutnya hilang. Banyak perenang percaya diri dulunya anak yang paling takut.</p>
+<h2>Mitos 4: "Kalau sudah bisa berenang, aman ditinggal"</h2>
+<p>Tidak ada anak yang benar-benar aman ditinggal sendiri di air, sebagus apa pun renangnya. Pengawasan orang dewasa tetap wajib. Kemampuan berenang mengurangi risiko, bukan menghapusnya.</p>
+<h2>Mitos 5: "Les renang harus tiap hari biar cepat"</h2>
+<p>Untuk anak, dua sampai tiga sesi seminggu sudah ideal. Tubuh dan fokus anak butuh jeda untuk menyerap keterampilan baru. Terlalu sering justru bikin bosan dan capek, dan progres malah melambat.</p>$$,
+    '/images/article-placeholder-sand.svg',
+    'Placeholder cover — sand tones',
+    'Tim Fellaswimming',
+    5,
+    'published',
+    '5 mitos renang anak yang masih banyak dipercaya',
+    'Pelampung bikin cepat jago? Nanti juga bisa sendiri? Kami luruskan lima mitos renang anak yang sering bikin orang tua salah langkah.',
+    now() - interval '1 day'
   )
 on conflict (id) do update
 set

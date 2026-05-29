@@ -31,6 +31,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { ChunkyButton } from "@/components/shared/ChunkyButton";
+import { TableSkeletonRows } from "@/components/admin/shared/skeletons";
 import { testimonialsListKey } from "@/hooks/testimonialKeys";
 import {
   useDeleteTestimonial,
@@ -252,7 +253,9 @@ export function TestimoniTable({
                 </tr>
               </thead>
               <tbody>
-                {items.length === 0 ? (
+                {query.isLoading ? (
+                  <TableSkeletonRows columns={8} />
+                ) : items.length === 0 ? (
                   <tr>
                     <td
                       colSpan={8}

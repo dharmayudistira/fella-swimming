@@ -145,9 +145,17 @@
     scroll-padding-top: 80px;
   }
 
+  /* Respect reduced-motion: neutralize the signature loops (eyebrow-pulse,
+     deco-spin, pin-bob) and collapse transitions to their end state while
+     keeping the UI fully functional (PRD §7 Accessibility). */
   @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
   }
 

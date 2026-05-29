@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import { RegistrationWizard } from "@/components/public/registration/RegistrationWizard";
+import { pageMetadata } from "@/lib/constants/seo";
 
-export const metadata: Metadata = {
-  title: "Daftar — Fellaswimming",
+export const metadata = pageMetadata({
+  title: "Daftar",
   description:
     "Daftar les renang anak di Fellaswimming. 3 langkah singkat, trial pertama gratis, pembayaran setelah trial.",
-};
+  path: "/daftar",
+});
 
 export default function DaftarPage() {
   return (

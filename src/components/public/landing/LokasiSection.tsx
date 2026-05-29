@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Clock, Home, MapPin } from "lucide-react";
 
 import { ChunkyButton } from "@/components/shared/ChunkyButton";
@@ -100,19 +99,14 @@ export function LokasiSection() {
               ))}
             </ul>
 
-            <div className="flex flex-wrap gap-3">
-              <ChunkyButton asChild href={MAPS_OPEN} target="_blank" rel="noopener noreferrer">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <ChunkyButton asChild href={MAPS_OPEN} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
                 Buka di Google Maps
               </ChunkyButton>
-              <ChunkyButton asChild variant="secondary" href={WA_LINK} target="_blank" rel="noopener noreferrer">
+              <ChunkyButton asChild variant="secondary" href={WA_LINK} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
                 Tanya via WhatsApp
               </ChunkyButton>
             </div>
-            <p className="mt-3 text-sm text-foreground-muted">
-              <Link href="/#jenis-kelas" className="font-semibold underline-offset-2 hover:underline">
-                Lihat jenis kelas yang tersedia
-              </Link>
-            </p>
           </div>
         </div>
       </div>

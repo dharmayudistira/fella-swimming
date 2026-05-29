@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Buka di Desktop — Fellaswimming Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --c-primary: oklch(0.71 0.14 230); --c-primary-dark: oklch(0.55 0.16 230); --c-primary-soft: oklch(0.71 0.14 230 / 0.10); --c-primary-tint: oklch(0.96 0.03 230);
+    --c-secondary: oklch(0.73 0.13 184); --c-secondary-dark: oklch(0.55 0.13 184); --c-secondary-tint: oklch(0.96 0.03 184);
+    --c-accent: oklch(0.72 0.16 15); --c-accent-dark: oklch(0.56 0.16 15);
+    --c-sun: oklch(0.84 0.13 80); --c-sun-dark: oklch(0.55 0.14 80);
+    --c-bg: #FAF8F5; --c-surface: #FFFFFF; --c-muted: #F5F1EC; --c-border: #E7E2DA;
+    --c-fg: #1A2332; --c-fg-muted: #5C6573; --c-fg-subtle: #8C95A3;
+    --font-heading: "General Sans", "Nunito", system-ui, sans-serif;
+    --font-body: "Nunito", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; min-height: 100vh; }
+  body {
+    font-family: var(--font-body); color: var(--c-fg); background: var(--c-bg);
+    font-size: 16px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    position: relative; overflow-x: hidden;
+  }
+  body::before { content: ""; position: fixed; top: -140px; left: -120px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, oklch(0.92 0.06 230 / 0.5), transparent 70%); pointer-events: none; z-index: 0; }
+  body::after { content: ""; position: fixed; bottom: -150px; right: -120px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, oklch(0.92 0.06 80 / 0.45), transparent 70%); pointer-events: none; z-index: 0; }
+  h1, h2, h3 { font-family: var(--font-heading); font-weight: 700; line-height: 1.18; letter-spacing: -0.015em; margin: 0; }
+  p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+
+  .screen {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    padding: 22px 20px 28px;
+  }
+
+  /* ---- top brand bar ---- */
+  .topbar { display: flex; align-items: center; gap: 10px; }
+  .brand {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-family: var(--font-heading); font-weight: 700; font-size: 1rem;
+  }
+  .brand__mark {
+    width: 32px; height: 32px; border-radius: 11px;
+    background: radial-gradient(circle at 28% 28%, oklch(0.92 0.07 200), var(--c-primary) 70%);
+    box-shadow: 0 4px 10px -2px oklch(0.71 0.14 230 / 0.4);
+    position: relative;
+  }
+  .brand__mark::after { content: ""; position: absolute; right: 5px; top: 5px; width: 7px; height: 7px; border-radius: 50%; background: oklch(0.95 0.04 80); }
+  .topbar__badge {
+    margin-left: auto;
+    font-family: var(--font-mono); font-size: 0.66rem;
+    color: var(--c-fg-subtle); font-weight: 500;
+    padding: 4px 9px; background: var(--c-muted); border-radius: 6px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+
+  /* ---- main centered card ---- */
+  .wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 26px 0; }
+  .card {
+    width: 100%; max-width: 380px;
+    background: var(--c-surface);
+    border: 1.5px solid var(--c-border);
+    border-bottom-width: 6px;
+    border-bottom-color: var(--c-primary);
+    border-radius: 26px;
+    padding: 30px 26px 26px;
+    box-shadow: 0 24px 48px -20px rgba(26,35,50,.14), 0 8px 16px -8px rgba(26,35,50,.06);
+    text-align: center;
+  }
+
+  /* ---- desktop illustration ---- */
+  .scene { position: relative; width: 168px; height: 138px; margin: 4px auto 22px; }
+  .monitor {
+    position: absolute; left: 18px; top: 6px;
+    width: 132px; height: 92px;
+    background: var(--c-primary-tint);
+    border: 2.5px solid var(--c-fg);
+    border-radius: 14px;
+    box-shadow: 0 10px 22px -10px oklch(0.55 0.16 230 / 0.5);
+    overflow: hidden;
+  }
+  .monitor__bar { height: 18px; background: var(--c-fg); display: flex; align-items: center; gap: 4px; padding: 0 7px; }
+  .monitor__dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.55); }
+  .monitor__rows { padding: 9px 10px; display: flex; flex-direction: column; gap: 6px; }
+  .monitor__row { height: 7px; border-radius: 4px; background: var(--c-primary-soft); }
+  .monitor__row:nth-child(1) { width: 70%; background: var(--c-secondary-tint); }
+  .monitor__row:nth-child(2) { width: 100%; }
+  .monitor__row:nth-child(3) { width: 84%; }
+  .monitor__stand {
+    position: absolute; left: 50%; top: 92px; transform: translateX(-50%);
+    width: 26px; height: 20px; background: var(--c-fg);
+  }
+  .monitor__base {
+    position: absolute; left: 50%; top: 110px; transform: translateX(-50%);
+    width: 64px; height: 9px; border-radius: 5px; background: var(--c-fg);
+  }
+  .phone {
+    position: absolute; right: 2px; bottom: 0;
+    width: 46px; height: 80px;
+    background: var(--c-surface);
+    border: 2.5px solid var(--c-fg);
+    border-radius: 12px;
+    box-shadow: 0 8px 18px -8px rgba(26,35,50,.35);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .phone__x { font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; color: var(--c-accent); line-height: 1; }
+  .phone::after { content: ""; position: absolute; top: 7px; left: 50%; transform: translateX(-50%); width: 14px; height: 3px; border-radius: 3px; background: var(--c-border); }
+
+  .card__eyebrow {
+    font-family: var(--font-mono); font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--c-primary-dark); font-weight: 500;
+    margin-bottom: 10px;
+  }
+  .card__title { font-size: 1.45rem; letter-spacing: -0.02em; margin-bottom: 10px; text-wrap: balance; }
+  .card__body { color: var(--c-fg-muted); font-size: 0.96rem; margin-bottom: 22px; text-wrap: pretty; }
+
+  /* ---- url chip ---- */
+  .urlchip {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--c-muted);
+    border: 1.5px solid var(--c-border);
+    border-radius: 13px;
+    padding: 11px 13px;
+    margin-bottom: 18px;
+    text-align: left;
+  }
+  .urlchip .ic {
+    width: 30px; height: 30px; border-radius: 9px; flex-shrink: 0;
+    background: var(--c-secondary-tint); color: var(--c-secondary-dark);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .urlchip .ic svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .urlchip__url {
+    font-family: var(--font-mono); font-size: 0.82rem; font-weight: 500;
+    color: var(--c-fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .urlchip__url b { color: var(--c-primary-dark); }
+
+  /* ---- buttons ---- */
+  .btn {
+    width: 100%;
+    display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+    height: 50px; padding: 0 20px;
+    border-radius: 14px;
+    font-family: var(--font-body); font-weight: 700;
+    font-size: 0.98rem; cursor: pointer; border: none;
+    background: var(--c-primary); color: #fff;
+    box-shadow: 0 4px 0 0 var(--c-primary-dark), 0 8px 16px -6px oklch(0.71 0.14 230 / 0.4);
+    transition: filter .15s, transform .08s, box-shadow .08s;
+  }
+  .btn svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .btn:hover { filter: brightness(1.04); }
+  .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 0 var(--c-primary-dark); }
+  .btn.is-copied { background: var(--c-success, oklch(0.66 0.16 150)); box-shadow: 0 4px 0 0 oklch(0.45 0.16 150), 0 8px 16px -6px oklch(0.66 0.16 150 / 0.4); }
+
+  .btn--ghost {
+    background: var(--c-surface); color: var(--c-fg);
+    border: 1.5px solid var(--c-border); border-bottom-width: 3px;
+    box-shadow: none; margin-top: 10px;
+    text-decoration: none;
+  }
+  .btn--ghost:hover { filter: none; border-color: var(--c-primary); color: var(--c-primary-dark); }
+  .btn--ghost:active { transform: translateY(2px); }
+
+  /* ---- hint ---- */
+  .hint {
+    margin-top: 22px; padding-top: 18px;
+    border-top: 1.5px dashed var(--c-border);
+    display: flex; gap: 10px; align-items: flex-start;
+    text-align: left;
+  }
+  .hint .ic {
+    width: 26px; height: 26px; border-radius: 8px; flex-shrink: 0;
+    background: var(--c-sun-tint, oklch(0.97 0.04 80)); color: var(--c-sun-dark);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-heading); font-weight: 800; font-size: 0.78rem;
+  }
+  .hint p { font-size: 0.85rem; color: var(--c-fg-muted); }
+  .hint b { color: var(--c-fg); font-weight: 700; }
+
+  .footnote {
+    text-align: center; margin-top: 20px;
+    font-size: 0.84rem; color: var(--c-fg-muted);
+  }
+  .footnote a { color: var(--c-fg); font-weight: 700; }
+  .footnote a:hover { color: var(--c-primary); }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%) translateY(20px);
+    background: var(--c-fg); color: #fff;
+    font-size: 0.86rem; font-weight: 600;
+    padding: 11px 18px; border-radius: 12px;
+    box-shadow: 0 12px 28px -10px rgba(26,35,50,.5);
+    opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 20;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .toast.is-show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+</style>
+</head>
+<body>
+
+<main class="screen" data-screen-label="Admin mobile fallback">
+  <header class="topbar">
+    <span class="brand">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span>Fellaswimming</span>
+    </span>
+    <span class="topbar__badge">Admin</span>
+  </header>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="scene" aria-hidden="true">
+        <div class="monitor">
+          <div class="monitor__bar">
+            <span class="monitor__dot"></span>
+            <span class="monitor__dot"></span>
+            <span class="monitor__dot"></span>
+          </div>
+          <div class="monitor__rows">
+            <div class="monitor__row"></div>
+            <div class="monitor__row"></div>
+            <div class="monitor__row"></div>
+          </div>
+        </div>
+        <div class="monitor__stand"></div>
+        <div class="monitor__base"></div>
+        <div class="phone"><span class="phone__x">×</span></div>
+      </div>
+
+      <p class="card__eyebrow">Khusus desktop</p>
+      <h1 class="card__title">Dashboard-nya butuh layar lebih besar</h1>
+      <p class="card__body">Halaman admin Fellaswimming dirancang untuk laptop atau komputer, supaya tabel pendaftaran dan editor artikel nyaman dikelola. Buka link ini di desktop, ya, Bu.</p>
+
+      <div class="urlchip">
+        <span class="ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </span>
+        <span class="urlchip__url">fellaswimming.com<b>/admin</b></span>
+      </div>
+
+      <button class="btn" id="copyBtn" type="button">
+        <svg id="copyIcon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span id="copyLabel">Salin link untuk desktop</span>
+      </button>
+
+      <a class="btn btn--ghost" href="landing.html">
+        <svg viewBox="0 0 24 24"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 9v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9"/></svg>
+        Kembali ke halaman utama
+      </a>
+
+      <div class="hint">
+        <span class="ic" aria-hidden="true">!</span>
+        <p>Tip: kirim link ini ke laptop lewat WhatsApp atau email kamu sendiri, lalu buka dari sana. Layar minimal <b>1024px</b>.</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="footnote">Bukan tim admin? <a href="daftar.html">Daftar les renang di sini</a></p>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+  <span>Link disalin ke clipboard</span>
+</div>
+
+<script>
+  (function () {
+    var url = "https://fellaswimming.com/admin";
+    var btn = document.getElementById("copyBtn");
+    var label = document.getElementById("copyLabel");
+    var toast = document.getElementById("toast");
+    var resetTimer, toastTimer;
+
+    function showToast() {
+      toast.classList.add("is-show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toast.classList.remove("is-show"); }, 2200);
+    }
+
+    function markCopied() {
+      btn.classList.add("is-copied");
+      label.textContent = "Tersalin!";
+      showToast();
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(function () {
+        btn.classList.remove("is-copied");
+        label.textContent = "Salin link untuk desktop";
+      }, 2200);
+    }
+
+    btn.addEventListener("click", function () {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(markCopied, fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+    });
+
+    function fallbackCopy() {
+      var ta = document.createElement("textarea");
+      ta.value = url; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      try { document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(ta);
+      markCopied();
+    }
+  })();
+</script>
+
+</body>
+</html>

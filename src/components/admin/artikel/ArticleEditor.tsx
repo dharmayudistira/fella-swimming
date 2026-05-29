@@ -109,6 +109,10 @@ export function ArticleEditor({
         return;
       }
       setValue("cover_image_url", result.url, { shouldValidate: true });
+    } catch (err) {
+      // Storage/network failure — surface it and keep the previous cover.
+      console.error("[ArticleEditor] cover upload failed", err);
+      toast.error("Gagal mengunggah cover. Coba lagi.");
     } finally {
       setCoverUploading(false);
     }

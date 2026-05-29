@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import { Nunito, JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
 
+import { Analytics } from "@vercel/analytics/next";
+
 import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/providers/QueryProvider";
+import { SITE } from "@/lib/constants/seo";
 
 import "./globals.css";
 
@@ -44,9 +47,12 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Fellaswimming",
-  description:
-    "Sekolah renang anak di Sidoarjo. Kelas privat, semi-privat, dan grup untuk segala usia.",
+  metadataBase: new URL(SITE.url),
+  title: {
+    default: SITE.title,
+    template: "%s — Fellaswimming",
+  },
+  description: SITE.description,
 };
 
 export default function RootLayout({
@@ -64,6 +70,7 @@ export default function RootLayout({
           {children}
           <Toaster richColors position="top-center" />
         </QueryProvider>
+        <Analytics />
       </body>
     </html>
   );

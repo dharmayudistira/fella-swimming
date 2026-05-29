@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <pattern id="stripe-sun" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(135)">
+      <rect width="40" height="40" fill="oklch(0.93 0.05 80)"/>
+      <rect width="20" height="40" fill="oklch(0.97 0.02 80)"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#stripe-sun)"/>
+  <rect x="60" y="780" width="560" height="56" rx="12" fill="rgba(26,35,50,0.78)"/>
+  <text x="84" y="816" font-family="JetBrains Mono, ui-monospace, monospace" font-size="22" fill="#ffffff" letter-spacing="2">foto · cover artikel · sun</text>
+</svg>
