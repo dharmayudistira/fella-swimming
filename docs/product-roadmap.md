@@ -381,7 +381,7 @@
   Files: `src/app/layout.tsx`
   Notes: Install `@vercel/analytics`. Add `<Analytics />` to root layout. Verify: after deploy, Vercel dashboard → Analytics shows page views.
 
-- [ ] **TASK-072** — Apply edge-case error handling for the registration form.
+- [x] **TASK-072** — Apply edge-case error handling for the registration form.
   Files: `src/components/public/registration/RegistrationWizard.tsx`, `src/lib/actions/registration.ts`
   Notes: Per § 12 Registration Form table. Normalize WA number with leading 0 → 62. Disable submit button after first click to prevent double-submit. On network error, toast with "Gagal kirim. Coba lagi." + retry button. Verify: edge cases trigger expected behaviors.
 
