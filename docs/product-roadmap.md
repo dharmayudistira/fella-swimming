@@ -4,7 +4,7 @@
 > The coding agent MUST mark tasks `- [x]` as they are finished.
 
 **Status:** 80/82 tasks complete
-**Current Phase:** Phase 5 — SEO, Polish, & Launch in progress (068–079, 081 done). Seed now holds 5 published articles + 5 featured testimonials. 081 security review passed (advisor: 0 critical, all WARN; all admin actions auth-check first; service-role isolated) and added migration `0004_security_hardening.sql` (search_path pin + drop redundant anon-insert policy). PENDING APPLY to remote: re-run `seed.sql` + `0004` migration (read-only MCP can't write — owner enabling RW MCP). Real coach/gallery photos still owner-supplied. Remaining: 080 (cross-device manual QA), 082 (production deploy).
+**Current Phase:** Phase 5 — SEO, Polish, & Launch in progress (068–079, 081 done). Seed now holds 5 published articles + 5 featured testimonials. 081 security review passed (advisor: 0 critical, all WARN; all admin actions auth-check first; service-role isolated) and added migration `0004_security_hardening.sql` (search_path pin + drop redundant anon-insert policy). APPLIED to remote 2026-05-29: `0004` migration registered + content seed run (5 published articles, 5 featured testimonials). Advisor re-run confirms the two targeted WARNs cleared (function search_path, anon-insert policy); remaining WARNs are intentional admin-role permissive policies + leaked-password-protection toggle (dashboard Auth setting). Real coach/gallery photos still owner-supplied. Remaining: 080 (cross-device manual QA), 082 (production deploy).
 
 ---
 
