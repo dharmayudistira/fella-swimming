@@ -365,7 +365,7 @@
 **Phase prompt — give this to your coding agent:**
 > "Read docs/product-roadmap.md and find Phase 5. Then read only the Reference sections listed above from docs/prd.md and docs/product-vision.md. Continue from the first unchecked task. After each task, mark it complete in the roadmap. When all tasks are done, create a branch `phase-5/seo-polish-launch`, commit, push, and open a PR titled 'Phase 5: SEO, Polish, & Launch' for review."
 
-- [ ] **TASK-068** — Add SEO metadata to all public pages (FR-022).
+- [x] **TASK-068** — Add SEO metadata to all public pages (FR-022).
   Files: `src/app/(public)/page.tsx`, `src/app/(public)/daftar/page.tsx`, `src/app/(public)/artikel/page.tsx`, `src/app/(public)/artikel/[slug]/page.tsx`, `src/lib/constants/seo.ts`
   Notes: Each page exports `metadata` (or `generateMetadata` for dynamic). Centralize defaults in `src/lib/constants/seo.ts`. Landing: title = "Fellaswimming — Sekolah Renang Sidoarjo", description = tagline, og:image = `/images/og-default.png`. Articles use cover_image_url for og:image. Add canonical URL via `NEXT_PUBLIC_SITE_URL + pathname`. Verify: view page source on each public page → meta tags present.
 

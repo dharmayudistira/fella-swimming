@@ -7,6 +7,7 @@ import { ArrowRight, ChevronLeft } from "lucide-react";
 import { ChunkyButton } from "@/components/shared/ChunkyButton";
 import { ArticleRenderer } from "@/components/public/article/ArticleRenderer";
 import { getArticleBySlug } from "@/lib/queries/articles";
+import { SITE } from "@/lib/constants/seo";
 import { formatDateID } from "@/lib/utils/format";
 
 export const revalidate = 300;
@@ -23,27 +24,33 @@ export async function generateMetadata({
 
   if (!article) {
     return {
-      title: "Artikel tidak ditemukan — Fellaswimming",
+      title: "Artikel tidak ditemukan",
     };
   }
 
   const title = article.seo_title ?? article.title;
   const description = article.seo_description ?? article.excerpt;
+  const path = `/artikel/${article.slug}`;
 
   return {
-    title: `${title} — Fellaswimming`,
+    title,
     description,
+    alternates: { canonical: path },
     openGraph: {
-      title,
+      title: `${title} — ${SITE.name}`,
       description,
+      url: path,
+      siteName: SITE.name,
+      locale: SITE.locale,
       type: "article",
       images: [{ url: article.cover_image_url, alt: article.cover_image_alt }],
       publishedTime: article.published_at ?? undefined,
+      modifiedTime: article.updated_at,
       authors: [article.author_name],
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: `${title} — ${SITE.name}`,
       description,
       images: [article.cover_image_url],
     },

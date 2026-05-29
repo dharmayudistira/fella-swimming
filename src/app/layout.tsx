@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 
 import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/providers/QueryProvider";
+import { SITE } from "@/lib/constants/seo";
 
 import "./globals.css";
 
@@ -44,9 +45,12 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Fellaswimming",
-  description:
-    "Sekolah renang anak di Sidoarjo. Kelas privat, semi-privat, dan grup untuk segala usia.",
+  metadataBase: new URL(SITE.url),
+  title: {
+    default: SITE.title,
+    template: "%s — Fellaswimming",
+  },
+  description: SITE.description,
 };
 
 export default function RootLayout({

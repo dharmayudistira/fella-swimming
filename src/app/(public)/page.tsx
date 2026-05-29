@@ -7,9 +7,12 @@ import { LokasiSection } from "@/components/public/landing/LokasiSection";
 import { PelatihSection } from "@/components/public/landing/PelatihSection";
 import { TestimoniSection } from "@/components/public/landing/TestimoniSection";
 import { WaveDivider } from "@/components/public/landing/WaveDivider";
+import { pageMetadata } from "@/lib/constants/seo";
 
 // ISR — refresh testimonial fetch + any CMS-bound copy at most once per minute.
 export const revalidate = 60;
+
+export const metadata = pageMetadata({ path: "/" });
 
 export default function LandingPage() {
   return (
