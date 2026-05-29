@@ -393,7 +393,7 @@
   Files: `src/components/admin/artikel/TiptapEditor.tsx`, `src/lib/actions/uploads.ts`, `src/lib/actions/articles.ts`, `src/components/admin/artikel/ArticleEditor.tsx`
   Notes: Per § 12 Article CMS table. Image > 5MB rejected with toast. Unsupported MIME rejected. Storage upload failure surfaced. Slug collision validation. Verify: each edge case triggers expected behavior.
 
-- [ ] **TASK-075** — Apply edge-case error handling for testimoni CMS.
+- [x] **TASK-075** — Apply edge-case error handling for testimoni CMS.
   Files: `src/components/admin/testimoni/TestimoniTable.tsx`, `src/components/admin/testimoni/TestimoniModal.tsx`
   Notes: Per § 12 Testimoni CMS table. Drag-reorder rollback on error. Featured toggle rollback. Photo upload failure does not block save. Verify: each edge case triggers expected behavior.
 

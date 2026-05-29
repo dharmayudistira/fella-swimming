@@ -114,6 +114,11 @@ export function TestimoniModal({
         return;
       }
       setValue("photo_url", result.url, { shouldValidate: true });
+    } catch (err) {
+      // Storage/network failure is also non-blocking — note it and let the
+      // admin save the testimonial without a photo.
+      console.error("[TestimoniModal] photo upload failed", err);
+      toast.error("Gagal mengunggah foto. Testimoni tetap bisa disimpan tanpa foto.");
     } finally {
       setPhotoUploading(false);
     }
