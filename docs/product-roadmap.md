@@ -401,7 +401,7 @@
   Files: `src/components/admin/pendaftaran/PendaftaranTable.tsx`, `src/components/admin/artikel/ArtikelTable.tsx`, `src/components/admin/testimoni/TestimoniTable.tsx`, `src/components/admin/overview/StatCard.tsx`, `src/components/admin/overview/RecentLeadsTable.tsx`
   Notes: Skeleton state during initial load (shadcn Skeleton). Empty state with helpful copy per UI/UX Requirements. Verify: with empty DB, each admin page shows empty-state copy; on load, skeleton renders.
 
-- [ ] **TASK-077** — Accessibility pass.
+- [x] **TASK-077** — Accessibility pass.
   Files: (all public components)
   Notes: Per § 7 Accessibility. Add `lang="id"` to html (verify TASK-004). Add skip-to-content link in (public)/layout. Ensure all images have alt. Ensure all form inputs have labels and aria-describedby for errors. Test keyboard navigation through landing and registration. Run Lighthouse accessibility audit, target ≥ 95. Verify: Lighthouse score ≥ 95; manual keyboard tab navigation works.
 
