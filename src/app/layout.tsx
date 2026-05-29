@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Nunito, JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
 
+import { Analytics } from "@vercel/analytics/next";
+
 import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { SITE } from "@/lib/constants/seo";
@@ -68,6 +70,7 @@ export default function RootLayout({
           {children}
           <Toaster richColors position="top-center" />
         </QueryProvider>
+        <Analytics />
       </body>
     </html>
   );

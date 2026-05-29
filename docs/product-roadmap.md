@@ -377,7 +377,7 @@
   Files: `src/app/sitemap.ts`, `src/app/robots.ts`
   Notes: sitemap.ts: include `/`, `/daftar`, `/artikel`, and all published article slugs with `lastmod` = `updated_at`. robots.ts: allow all crawlers, disallow `/admin`, `/login`, `/lupa-password`, `/reset-password`, `/api`. Verify: visit /sitemap.xml and /robots.txt → both render correctly.
 
-- [ ] **TASK-071** — Add Vercel Analytics.
+- [x] **TASK-071** — Add Vercel Analytics.
   Files: `src/app/layout.tsx`
   Notes: Install `@vercel/analytics`. Add `<Analytics />` to root layout. Verify: after deploy, Vercel dashboard → Analytics shows page views.
 
