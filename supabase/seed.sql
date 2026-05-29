@@ -114,10 +114,7 @@ values
 <h2>Yang sering bikin orang tua salah hitung</h2>
 <p>Kadang orang tua memaksa anak mulai di umur 3 karena teman sebayanya sudah ikut. Padahal kalau anak masih takut air, sesi pertama yang traumatis justru bikin dia menghindari kolam selama setahun ke depan. Lebih baik tunggu 6 bulan, mulai dengan kelas privat, dan biarkan dia adaptasi pelan-pelan.</p>
 <h2>Apa yang kami sarankan</h2>
-<p>Kalau anak kamu sudah 4 tahun ke atas dan kelihatan nyaman main air, kelas semi-privat biasanya cocok. Kalau masih takut, mulai dari privat — pelatih bisa fokus 100% di anak kamu.</p>
-<hr>
-<p><strong>Mau cek kelas yang pas untuk anak kamu?</strong> Lihat detail tiga jenis kelas — Privat, Semi-Privat, Grup — di halaman utama. Tim kami juga bisa bantu via WhatsApp kalau masih ragu.</p>
-<p><a href="/#jenis-kelas">Lihat jenis kelas →</a></p>$$,
+<p>Kalau anak kamu sudah 4 tahun ke atas dan kelihatan nyaman main air, kelas semi-privat biasanya cocok. Kalau masih takut, mulai dari privat — pelatih bisa fokus 100% di anak kamu.</p>$$,
     '/images/article-placeholder-sky.svg',
     'Placeholder cover — sky tones',
     'Tim Fellaswimming',
@@ -146,10 +143,7 @@ values
 <li>Anak sudah nyaman main air, punya saudara/teman seumuran → <strong>Semi-Privat</strong>.</li>
 <li>Anak sudah bisa berenang dasar, mau latihan rutin → <strong>Grup</strong>.</li>
 </ul>
-<p>Masih bingung? Daftar dulu pilih "Belum yakin" — tim kami WhatsApp untuk ngobrol singkat soal anak kamu sebelum menentukan kelas.</p>
-<hr>
-<p><strong>Sudah punya gambaran kelas yang cocok?</strong> Lihat detail lengkap masing-masing kelas — harga, jadwal, dan apa yang dipelajari di setiap sesi.</p>
-<p><a href="/#jenis-kelas">Lihat jenis kelas →</a></p>$$,
+<p>Masih bingung? Daftar dulu pilih "Belum yakin" — tim kami WhatsApp untuk ngobrol singkat soal anak kamu sebelum menentukan kelas.</p>$$,
     '/images/article-placeholder-turq.svg',
     'Placeholder cover — turquoise tones',
     'Tim Fellaswimming',
@@ -175,10 +169,7 @@ values
 <h2>4. Punya sertifikat keselamatan, bukan cuma renang</h2>
 <p>Jago berenang dan bisa mengajar berenang dengan aman itu dua hal berbeda. Cari pelatih yang punya sertifikat keselamatan dasar seperti CPR atau lifeguard, bukan hanya level kompetisi. Di Fellaswimming, semua pelatih sudah punya sertifikasi keselamatan.</p>
 <h2>5. Mau update progres ke orang tua</h2>
-<p>Setelah sesi, pelatih yang baik meluangkan satu dua menit cerita: hari ini anak belajar apa, apa yang sudah maju, apa yang perlu dilatih lagi di rumah. Komunikasi ini bikin kamu tahu progres anak secara nyata, bukan cuma asumsi.</p>
-<hr>
-<p><strong>Mau kenalan dengan pelatih yang cocok untuk anak kamu?</strong> Lihat jenis kelas kami dulu, lalu daftar trial dan rasakan sendiri lima tanda di atas.</p>
-<p><a href="/#jenis-kelas">Lihat jenis kelas →</a></p>$$,
+<p>Setelah sesi, pelatih yang baik meluangkan satu dua menit cerita: hari ini anak belajar apa, apa yang sudah maju, apa yang perlu dilatih lagi di rumah. Komunikasi ini bikin kamu tahu progres anak secara nyata, bukan cuma asumsi.</p>$$,
     '/images/article-placeholder-coral.svg',
     'Placeholder cover — coral tones',
     'Tim Fellaswimming',
@@ -210,10 +201,7 @@ values
 <h2>Saat di kolam</h2>
 <p>Biarkan pelatih yang memimpin. Banyak orang tua, dengan maksud baik, malah ikut menginstruksi dari pinggir dan bikin anak bingung harus dengar siapa. Cukup tersenyum dan beri semangat dari jauh. Kalau anak menengok ke kamu, anggukkan kepala supaya dia merasa aman.</p>
 <h2>Setelah selesai</h2>
-<p>Apa pun hasilnya, puji usahanya, bukan hasilnya. "Tadi kamu berani coba, hebat!" lebih menguatkan daripada "Kok belum bisa berenang?". Trial pertama bukan soal langsung jago, tapi soal anak merasa air itu menyenangkan.</p>
-<hr>
-<p><strong>Siap jadwalkan trial pertama?</strong> Lihat jenis kelas kami dan pilih yang paling pas dengan kesiapan anak kamu sekarang.</p>
-<p><a href="/#jenis-kelas">Lihat jenis kelas →</a></p>$$,
+<p>Apa pun hasilnya, puji usahanya, bukan hasilnya. "Tadi kamu berani coba, hebat!" lebih menguatkan daripada "Kok belum bisa berenang?". Trial pertama bukan soal langsung jago, tapi soal anak merasa air itu menyenangkan.</p>$$,
     '/images/article-placeholder-sun.svg',
     'Placeholder cover — sun tones',
     'Tim Fellaswimming',
@@ -239,10 +227,7 @@ values
 <h2>Mitos 4: "Kalau sudah bisa berenang, aman ditinggal"</h2>
 <p>Tidak ada anak yang benar-benar aman ditinggal sendiri di air, sebagus apa pun renangnya. Pengawasan orang dewasa tetap wajib. Kemampuan berenang mengurangi risiko, bukan menghapusnya.</p>
 <h2>Mitos 5: "Les renang harus tiap hari biar cepat"</h2>
-<p>Untuk anak, dua sampai tiga sesi seminggu sudah ideal. Tubuh dan fokus anak butuh jeda untuk menyerap keterampilan baru. Terlalu sering justru bikin bosan dan capek, dan progres malah melambat.</p>
-<hr>
-<p><strong>Sudah siap mulai dengan cara yang benar?</strong> Lihat jenis kelas kami dan pilih pendekatan yang paling cocok untuk anak kamu.</p>
-<p><a href="/#jenis-kelas">Lihat jenis kelas →</a></p>$$,
+<p>Untuk anak, dua sampai tiga sesi seminggu sudah ideal. Tubuh dan fokus anak butuh jeda untuk menyerap keterampilan baru. Terlalu sering justru bikin bosan dan capek, dan progres malah melambat.</p>$$,
     '/images/article-placeholder-sand.svg',
     'Placeholder cover — sand tones',
     'Tim Fellaswimming',
