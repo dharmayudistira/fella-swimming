@@ -13,6 +13,7 @@ import { IMAGE_ACCEPT, validateImageFile } from "@/lib/utils/image-upload";
 import type { Json } from "@/types/database.types";
 
 import { EditorToolbar } from "./EditorToolbar";
+import { LinkDialog } from "./LinkDialog";
 
 export function TiptapEditor({
   initialContent,
@@ -24,6 +25,12 @@ export function TiptapEditor({
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
+  const [linkDialog, setLinkDialog] = useState({
+    open: false,
+    text: "",
+    url: "",
+    isEdit: false,
+  });
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -43,7 +50,7 @@ export function TiptapEditor({
     editorProps: {
       attributes: {
         class: cn(
-          "prose-fs min-h-[340px] px-1 py-3 outline-none",
+          "prose-fs min-h-[340px] px-5 py-4 outline-none",
           "focus:outline-none",
         ),
       },
@@ -87,11 +94,52 @@ export function TiptapEditor({
     }
   };
 
+  const openLinkDialog = () => {
+    if (!editor) return;
+    const { from, to } = editor.state.selection;
+    const selectedText = editor.state.doc.textBetween(from, to, " ");
+    const href = (editor.getAttributes("link").href as string | undefined) ?? "";
+    setLinkDialog({
+      open: true,
+      text: selectedText,
+      url: href,
+      isEdit: Boolean(href),
+    });
+  };
+
+  const applyLink = (text: string, rawUrl: string) => {
+    if (!editor) return;
+    let href = rawUrl.trim();
+    // Default to https:// when the user omits a scheme (but keep relative
+    // links and in-page anchors as-is).
+    if (href && !/^(https?:|mailto:|tel:|\/|#)/i.test(href)) {
+      href = `https://${href}`;
+    }
+    const label = text.trim() || href;
+    editor
+      .chain()
+      .focus()
+      .extendMarkRange("link")
+      .insertContent({
+        type: "text",
+        text: label,
+        marks: [{ type: "link", attrs: { href } }],
+      })
+      .run();
+    setLinkDialog((s) => ({ ...s, open: false }));
+  };
+
+  const removeLink = () => {
+    editor?.chain().focus().extendMarkRange("link").unsetLink().run();
+    setLinkDialog((s) => ({ ...s, open: false }));
+  };
+
   return (
     <div className="overflow-hidden rounded-[16px] border border-border bg-surface">
       <EditorToolbar
         editor={editor}
         onImageButton={handlePickImage}
+        onLinkButton={openLinkDialog}
         imageUploading={uploading}
       />
       <input
@@ -104,6 +152,18 @@ export function TiptapEditor({
         tabIndex={-1}
       />
       <EditorContent editor={editor} />
+
+      {linkDialog.open ? (
+        <LinkDialog
+          open
+          initialText={linkDialog.text}
+          initialUrl={linkDialog.url}
+          isEdit={linkDialog.isEdit}
+          onOpenChange={(open) => setLinkDialog((s) => ({ ...s, open }))}
+          onApply={applyLink}
+          onRemove={removeLink}
+        />
+      ) : null}
     </div>
   );
 }

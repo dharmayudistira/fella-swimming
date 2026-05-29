@@ -323,20 +323,23 @@ export function TestimoniModal({
               <span className="block text-[0.88rem] font-bold text-foreground">
                 Status
               </span>
-              <div className="mt-1.5 flex gap-1">
+              <div
+                role="radiogroup"
+                aria-label="Status testimoni"
+                className="mt-1.5 flex gap-1 rounded-[10px] bg-surface-muted p-1"
+              >
                 {(["draft", "published"] as const).map((s) => (
                   <button
                     key={s}
                     type="button"
+                    role="radio"
+                    aria-checked={status === s}
                     onClick={() => setValue("status", s, { shouldDirty: true })}
-                    aria-pressed={status === s}
                     className={cn(
-                      "flex-1 rounded-[8px] px-2 py-1 text-[0.78rem] font-bold transition-colors",
+                      "flex-1 rounded-[7px] px-2 py-1.5 text-[0.78rem] font-bold transition-colors",
                       status === s
-                        ? s === "published"
-                          ? "bg-success-tint text-success-dark"
-                          : "bg-sun-tint text-sun-dark"
-                        : "text-foreground-muted hover:bg-surface-muted",
+                        ? "bg-surface text-foreground shadow-[0_2px_0_var(--color-border)]"
+                        : "text-foreground-muted hover:text-foreground",
                     )}
                   >
                     {s === "published" ? "Terbit" : "Draf"}
@@ -347,7 +350,7 @@ export function TestimoniModal({
           </div>
 
           <FieldHint>
-            Hanya testimoni dengan Featured aktif &amp; status Published yang
+            Hanya testimoni dengan Unggulan aktif &amp; status Terbit yang
             tampil di landing.
           </FieldHint>
 

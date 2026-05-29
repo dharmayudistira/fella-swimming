@@ -237,13 +237,15 @@ export function ArtikelTable({
                       <Td>
                         <div className="flex items-center gap-3">
                           <span className="relative h-11 w-14 shrink-0 overflow-hidden rounded-[8px] border border-border bg-surface-muted">
-                            <Image
-                              src={article.cover_image_url}
-                              alt={article.cover_image_alt}
-                              fill
-                              sizes="56px"
-                              className="object-cover"
-                            />
+                            {article.cover_image_url ? (
+                              <Image
+                                src={article.cover_image_url}
+                                alt={article.cover_image_alt}
+                                fill
+                                sizes="56px"
+                                className="object-cover"
+                              />
+                            ) : null}
                           </span>
                           <div className="min-w-0">
                             <div className="truncate font-bold text-foreground">

@@ -115,8 +115,11 @@ export function ArticleEditor({
   };
 
   /* --- save --- */
-  const submit = (status: SaveStatus) =>
-    handleSubmit((values) => {
+  const submit = (status: SaveStatus) => () => {
+    // Sync the chosen action into form state BEFORE validation so the
+    // publish-only requirements (publishRefine) evaluate against it.
+    setValue("status", status);
+    void handleSubmit((values) => {
       setSavingStatus(status);
       startTransition(async () => {
         const payload: ArticleInput = {
@@ -143,7 +146,7 @@ export function ArticleEditor({
           return;
         }
         toast.success(
-          status === "published" ? "Artikel diterbitkan." : "Draft tersimpan.",
+          status === "published" ? "Artikel diterbitkan." : "Draf tersimpan.",
         );
         if (!article) {
           router.replace(`/admin/artikel/${result.data.id}/edit`);
@@ -152,7 +155,8 @@ export function ArticleEditor({
         }
         setSavingStatus(null);
       });
-    });
+    })();
+  };
 
   const contentError = errors.content_html?.message;
 

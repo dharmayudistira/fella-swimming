@@ -141,7 +141,9 @@ export async function getAdminArticles({
   }
   const trimmed = search?.trim();
   if (trimmed) {
-    query = query.ilike("title", `%${trimmed}%`);
+    // Escape LIKE metacharacters so "%"/"_" are matched literally.
+    const escaped = trimmed.replace(/[%_\\]/g, "\\$&");
+    query = query.ilike("title", `%${escaped}%`);
   }
 
   const { data, error, count } = await query;

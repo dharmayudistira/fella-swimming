@@ -17,11 +17,14 @@ import {
   ArticleInputSchema,
   type ArticleInput,
 } from "@/lib/validation/article.schema";
-import type { Database } from "@/types/database.types";
+import type { Database, Json } from "@/types/database.types";
 
 type ArticleInsert = Database["public"]["Tables"]["articles"]["Insert"];
 type ArticleUpdate = Database["public"]["Tables"]["articles"]["Update"];
 type SupabaseServer = Awaited<ReturnType<typeof createServerClient>>;
+
+/** Empty Tiptap document — fallback for drafts saved with no body yet. */
+const EMPTY_DOC: Json = { type: "doc", content: [] };
 
 export type ArticleMutationResult =
   | { success: true; data: { id: string; slug: string } }
@@ -157,17 +160,17 @@ export async function createArticle(
   }
 
   const categoryId = await resolveCategoryId(supabase, parsed.data.category);
-  const html = sanitizeArticleHtml(parsed.data.content_html);
+  const html = sanitizeArticleHtml(parsed.data.content_html ?? "");
   const status = parsed.data.status;
 
   const insert: ArticleInsert = {
     title: parsed.data.title,
     slug,
-    excerpt: parsed.data.excerpt,
-    content: parsed.data.content,
+    excerpt: parsed.data.excerpt ?? "",
+    content: parsed.data.content ?? EMPTY_DOC,
     content_html: html,
-    cover_image_url: parsed.data.cover_image_url,
-    cover_image_alt: parsed.data.cover_image_alt,
+    cover_image_url: parsed.data.cover_image_url ?? "",
+    cover_image_alt: parsed.data.cover_image_alt ?? "",
     category_id: categoryId,
     author_name: parsed.data.author_name?.trim() || "Tim Fellaswimming",
     reading_time_minutes: readingTimeMinutes(html),
@@ -252,7 +255,7 @@ export async function updateArticle(
   }
 
   const categoryId = await resolveCategoryId(supabase, parsed.data.category);
-  const html = sanitizeArticleHtml(parsed.data.content_html);
+  const html = sanitizeArticleHtml(parsed.data.content_html ?? "");
   const status = parsed.data.status;
   // published_at marks the FIRST time the article went live and is preserved
   // across edits, unpublish, and re-publish (stable public publish date).
@@ -264,11 +267,11 @@ export async function updateArticle(
   const update: ArticleUpdate = {
     title: parsed.data.title,
     slug,
-    excerpt: parsed.data.excerpt,
-    content: parsed.data.content,
+    excerpt: parsed.data.excerpt ?? "",
+    content: parsed.data.content ?? EMPTY_DOC,
     content_html: html,
-    cover_image_url: parsed.data.cover_image_url,
-    cover_image_alt: parsed.data.cover_image_alt,
+    cover_image_url: parsed.data.cover_image_url ?? "",
+    cover_image_alt: parsed.data.cover_image_alt ?? "",
     category_id: categoryId,
     author_name: parsed.data.author_name?.trim() || "Tim Fellaswimming",
     reading_time_minutes: readingTimeMinutes(html),

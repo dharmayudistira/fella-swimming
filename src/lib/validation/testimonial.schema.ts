@@ -41,8 +41,11 @@ export type TestimonialInput = z.infer<typeof TestimonialInputSchema>;
  * writes each id's index back to `display_order`.
  * ------------------------------------------------------------------ */
 export const ReorderTestimonialsSchema = z.object({
+  // Ids come from our own rows and are used only in parameterized `.eq()`
+  // lookups, so a non-empty string is enough — strict UUID validation would
+  // also reject placeholder-style seed UUIDs (wrong RFC variant bits).
   orderedIds: z
-    .array(z.uuid("ID testimoni tidak valid."))
+    .array(z.string().trim().min(1, "ID testimoni tidak valid."))
     .min(1, "Tidak ada testimoni untuk diurutkan."),
 });
 export type ReorderTestimonialsInput = z.infer<typeof ReorderTestimonialsSchema>;

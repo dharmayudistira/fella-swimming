@@ -29,10 +29,12 @@ import { cn } from "@/lib/utils";
 export function EditorToolbar({
   editor,
   onImageButton,
+  onLinkButton,
   imageUploading,
 }: {
   editor: Editor | null;
   onImageButton: () => void;
+  onLinkButton: () => void;
   imageUploading: boolean;
 }) {
   // Subscribe to the editor's selection/state so active marks re-render.
@@ -54,22 +56,6 @@ export function EditorToolbar({
   });
 
   if (!editor || !state) return null;
-
-  const setLink = () => {
-    const previous = editor.getAttributes("link").href as string | undefined;
-    const url = window.prompt("Tautan ke (URL):", previous ?? "https://");
-    if (url === null) return; // cancelled
-    if (url.trim() === "") {
-      editor.chain().focus().extendMarkRange("link").unsetLink().run();
-      return;
-    }
-    editor
-      .chain()
-      .focus()
-      .extendMarkRange("link")
-      .setLink({ href: url.trim() })
-      .run();
-  };
 
   return (
     <div
@@ -120,7 +106,7 @@ export function EditorToolbar({
       >
         <Strikethrough className="h-[18px] w-[18px]" strokeWidth={2.4} />
       </Btn>
-      <Btn label="Tautan" active={state.link} onClick={setLink}>
+      <Btn label="Tautan" active={state.link} onClick={onLinkButton}>
         <Link2 className="h-[18px] w-[18px]" strokeWidth={2.2} />
       </Btn>
 

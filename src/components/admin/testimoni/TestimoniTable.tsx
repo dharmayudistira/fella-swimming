@@ -160,7 +160,7 @@ export function TestimoniTable({
     toggleFeatured.mutate(t.id, {
       onError: (err) =>
         toast.error(
-          err instanceof Error ? err.message : "Gagal mengubah featured.",
+          err instanceof Error ? err.message : "Gagal mengubah status unggulan.",
         ),
     });
   };
@@ -174,7 +174,7 @@ export function TestimoniTable({
         <p>
           <strong className="font-bold text-secondary-dark">Tips:</strong>{" "}
           Geser baris untuk atur urutan testimoni di landing. Hanya yang
-          Featured aktif &amp; Published yang tampil ke pengunjung.
+          Unggulan aktif &amp; Terbit yang tampil ke pengunjung.
         </p>
       </div>
 
@@ -230,39 +230,40 @@ export function TestimoniTable({
         ) : null}
       </div>
 
-      <section className="overflow-hidden rounded-[16px] border border-border bg-surface">
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-[0.88rem]">
-            <thead>
-              <tr>
-                <Th className="w-9" />
-                <Th className="w-10">#</Th>
-                <Th>Orang Tua</Th>
-                <Th>Testimoni</Th>
-                <Th>Rating</Th>
-                <Th>Status</Th>
-                <Th>Unggulan</Th>
-                <Th className="text-right">Aksi</Th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.length === 0 ? (
+      <DndContext
+        id="testimoni-sortable"
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <section className="overflow-hidden rounded-[16px] border border-border bg-surface">
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-[0.88rem]">
+              <thead>
                 <tr>
-                  <td
-                    colSpan={8}
-                    className="px-6 py-12 text-center text-[0.92rem] text-foreground-muted"
-                  >
-                    {search || tab !== "semua"
-                      ? "Tidak ada testimoni dengan filter ini."
-                      : "Belum ada testimoni. Tambah satu untuk muncul di landing."}
-                  </td>
+                  <Th className="w-9" />
+                  <Th className="w-10">#</Th>
+                  <Th>Orang Tua</Th>
+                  <Th>Testimoni</Th>
+                  <Th>Rating</Th>
+                  <Th>Status</Th>
+                  <Th>Unggulan</Th>
+                  <Th className="text-right">Aksi</Th>
                 </tr>
-              ) : (
-                <DndContext
-                  sensors={sensors}
-                  collisionDetection={closestCenter}
-                  onDragEnd={handleDragEnd}
-                >
+              </thead>
+              <tbody>
+                {items.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={8}
+                      className="px-6 py-12 text-center text-[0.92rem] text-foreground-muted"
+                    >
+                      {search || tab !== "semua"
+                        ? "Tidak ada testimoni dengan filter ini."
+                        : "Belum ada testimoni. Tambah satu untuk muncul di landing."}
+                    </td>
+                  </tr>
+                ) : (
                   <SortableContext
                     items={items.map((t) => t.id)}
                     strategy={verticalListSortingStrategy}
@@ -279,12 +280,12 @@ export function TestimoniTable({
                       />
                     ))}
                   </SortableContext>
-                </DndContext>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </section>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </DndContext>
 
       <TestimoniModal
         testimonial={editing}

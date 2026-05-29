@@ -92,8 +92,56 @@ export default async function AdminHomePage() {
           />
         </section>
 
+        <section className="mt-6" aria-labelledby="quick-actions-heading">
+          <div className="mb-5">
+            <h2
+              id="quick-actions-heading"
+              className="text-[1.5rem] font-bold leading-tight tracking-[-0.02em] text-foreground"
+            >
+              Aksi cepat
+            </h2>
+            <p className="mt-1 text-[0.92rem] text-foreground-muted">
+              Mulai dari sini kalau tidak ada lead yang perlu ditangani.
+            </p>
+          </div>
+          <div className="grid gap-3 md:grid-cols-3">
+            <QuickCard
+              href="/admin/artikel/new"
+              variant="primary"
+              icon={<PlusCircle className="h-[18px] w-[18px]" strokeWidth={2} />}
+              title="Artikel baru"
+              sub="Tulis artikel edukasi untuk ortu."
+            />
+            <QuickCard
+              href="/admin/testimoni"
+              variant="secondary"
+              icon={
+                <MessageSquareQuote
+                  className="h-[18px] w-[18px]"
+                  strokeWidth={2}
+                />
+              }
+              title="Kelola testimoni"
+              sub="Atur urutan & tandai testimoni unggulan."
+            />
+            <QuickCard
+              href="/admin/pendaftaran"
+              variant="accent"
+              icon={
+                <ClipboardList className="h-[18px] w-[18px]" strokeWidth={2} />
+              }
+              title="Triage pendaftaran"
+              sub={
+                stats.pendingFollowUp > 0
+                  ? `${stats.pendingFollowUp} lead perlu dihubungi.`
+                  : "Semua lead sudah ditangani. Mantap."
+              }
+            />
+          </div>
+        </section>
+
         <section
-          className="mt-6 overflow-hidden rounded-[18px] border border-border bg-surface"
+          className="mt-10 overflow-hidden rounded-[18px] border border-border bg-surface"
           aria-labelledby="recent-leads-heading"
         >
           <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-border px-6 py-5">
@@ -119,52 +167,6 @@ export default async function AdminHomePage() {
             </Link>
           </div>
           <RecentLeadsTable leads={recent} />
-        </section>
-
-        <section className="mt-10" aria-labelledby="quick-actions-heading">
-          <div className="mb-5">
-            <h2
-              id="quick-actions-heading"
-              className="text-[1.5rem] font-bold leading-tight tracking-[-0.02em] text-foreground"
-            >
-              Aksi cepat
-            </h2>
-            <p className="mt-1 text-[0.92rem] text-foreground-muted">
-              Mulai dari sini kalau tidak ada lead yang perlu ditangani.
-            </p>
-          </div>
-          <div className="grid gap-3 md:grid-cols-3">
-          <QuickCard
-            href="/admin/artikel/new"
-            variant="primary"
-            icon={<PlusCircle className="h-[18px] w-[18px]" strokeWidth={2} />}
-            title="Artikel baru"
-            sub="Tulis artikel edukasi untuk ortu."
-          />
-          <QuickCard
-            href="/admin/testimoni"
-            variant="secondary"
-            icon={
-              <MessageSquareQuote
-                className="h-[18px] w-[18px]"
-                strokeWidth={2}
-              />
-            }
-            title="Kelola testimoni"
-            sub="Atur urutan & toggle featured testimoni."
-          />
-          <QuickCard
-            href="/admin/pendaftaran"
-            variant="accent"
-            icon={<ClipboardList className="h-[18px] w-[18px]" strokeWidth={2} />}
-            title="Triage pendaftaran"
-            sub={
-              stats.pendingFollowUp > 0
-                ? `${stats.pendingFollowUp} lead perlu dihubungi.`
-                : "Semua lead sudah ditangani. Mantap."
-            }
-          />
-          </div>
         </section>
       </main>
     </>

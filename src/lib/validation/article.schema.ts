@@ -13,17 +13,16 @@ const optionalText = (max: number) =>
     .optional();
 
 /* ------------------------------------------------------------------ *
- * Article FORM schema — the fields react-hook-form manages. The Tiptap
- * JSON `content` is deliberately NOT here: its recursive type breaks RHF's
- * path inference. The editor tracks `content` separately and the server
- * input schema below re-attaches it.
+ * Base fields — intentionally LENIENT so a draft can be saved with just a
+ * title. Only `title` is always required. The stricter requirements for
+ * PUBLISHED articles (excerpt, body, cover, alt) are enforced by
+ * `publishRefine` below, which runs only when status === "published".
  *
- * `category` is the free-text category NAME; the server resolves it to a
- * `category_id` (creating the category if new). `slug` is optional and
- * auto-generated from the title when blank. `content_html` is re-sanitized
- * server-side before persistence.
+ * The Tiptap JSON `content` is deliberately NOT in the form schema (its
+ * recursive type breaks react-hook-form path inference) — the editor tracks
+ * it via a ref and the server input schema re-attaches it.
  * ------------------------------------------------------------------ */
-export const ArticleFormSchema = z.object({
+const articleFields = {
   title: z
     .string()
     .trim()
@@ -42,38 +41,72 @@ export const ArticleFormSchema = z.object({
         ),
     ])
     .optional(),
-  excerpt: z
-    .string()
-    .trim()
-    .min(10, "Ringkasan minimal 10 huruf.")
-    .max(160, "Ringkasan maksimal 160 karakter."),
-  content_html: z.string().min(1, "Isi artikel belum ditulis."),
-  cover_image_url: z
-    .string()
-    .trim()
-    .min(1, "Cover artikel wajib diunggah.")
-    .max(2048, "URL cover terlalu panjang."),
-  cover_image_alt: z
-    .string()
-    .trim()
-    .min(3, "Tulis deskripsi singkat untuk cover (alt text).")
-    .max(280, "Maksimal 280 karakter."),
+  excerpt: optionalText(160),
+  content_html: z.string().optional(),
+  cover_image_url: optionalText(2048),
+  cover_image_alt: optionalText(280),
   category: optionalText(80),
   author_name: optionalText(120),
   seo_title: optionalText(70),
   seo_description: optionalText(200),
   status: z.enum(["draft", "published"]).default("draft"),
-});
+};
+
+type ArticleFieldsShape = {
+  status: "draft" | "published";
+  excerpt?: string;
+  content_html?: string;
+  cover_image_url?: string;
+  cover_image_alt?: string;
+};
+
+/** Publish-only requirements; drafts skip these so they save freely. */
+function publishRefine(data: ArticleFieldsShape, ctx: z.RefinementCtx) {
+  if (data.status !== "published") return;
+  if (!data.excerpt || data.excerpt.trim().length < 10) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["excerpt"],
+      message: "Ringkasan minimal 10 huruf untuk diterbitkan.",
+    });
+  }
+  if (!data.content_html || data.content_html.trim().length === 0) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["content_html"],
+      message: "Isi artikel belum ditulis.",
+    });
+  }
+  if (!data.cover_image_url || data.cover_image_url.trim().length === 0) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["cover_image_url"],
+      message: "Cover wajib diunggah untuk diterbitkan.",
+    });
+  }
+  if (!data.cover_image_alt || data.cover_image_alt.trim().length < 3) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["cover_image_alt"],
+      message: "Tulis deskripsi cover (alt) untuk diterbitkan.",
+    });
+  }
+}
+
+/* The form schema (react-hook-form). */
+export const ArticleFormSchema = z
+  .object(articleFields)
+  .superRefine(publishRefine);
 export type ArticleFormValues = z.infer<typeof ArticleFormSchema>;
 
-/* ------------------------------------------------------------------ *
- * Server input — form fields + the Tiptap JSON document. Used by the
- * CRUD actions; never fed to react-hook-form.
- * ------------------------------------------------------------------ */
-export const ArticleInputSchema = ArticleFormSchema.extend({
-  content: z.custom<Json>(
-    (val) => val !== null && typeof val === "object",
-    { error: "Konten artikel belum lengkap." },
-  ),
-});
+/* Server input — form fields + Tiptap JSON. Never fed to react-hook-form. */
+export const ArticleInputSchema = z
+  .object({
+    ...articleFields,
+    content: z
+      .custom<Json>((val) => val === null || typeof val === "object")
+      .nullable()
+      .optional(),
+  })
+  .superRefine(publishRefine);
 export type ArticleInput = z.infer<typeof ArticleInputSchema>;
