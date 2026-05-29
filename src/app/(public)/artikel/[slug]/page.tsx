@@ -6,11 +6,21 @@ import { ArrowRight, ChevronLeft } from "lucide-react";
 
 import { ChunkyButton } from "@/components/shared/ChunkyButton";
 import { ArticleRenderer } from "@/components/public/article/ArticleRenderer";
-import { getArticleBySlug } from "@/lib/queries/articles";
+import {
+  getArticleBySlug,
+  getPublishedArticleSlugs,
+} from "@/lib/queries/articles";
 import { SITE } from "@/lib/constants/seo";
 import { formatDateID } from "@/lib/utils/format";
 
 export const revalidate = 300;
+
+// Prerender every published article at build (FR-009 ISR). New slugs published
+// later are rendered on-demand and cached for `revalidate` (dynamicParams).
+export async function generateStaticParams() {
+  const slugs = await getPublishedArticleSlugs();
+  return slugs.map(({ slug }) => ({ slug }));
+}
 
 type RouteParams = Promise<{ slug: string }>;
 

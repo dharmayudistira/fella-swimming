@@ -1,5 +1,6 @@
 import "server-only";
 
+import { createPublicClient } from "@/lib/supabase/public";
 import { createServerClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/database.types";
 
@@ -45,7 +46,7 @@ export async function getPublishedArticles({
   limit = 12,
   offset = 0,
 }: GetPublishedArticlesParams = {}): Promise<GetPublishedArticlesResult> {
-  const supabase = await createServerClient();
+  const supabase = createPublicClient();
   const { data, error, count } = await supabase
     .from("articles")
     .select(LIST_COLUMNS, { count: "exact" })
@@ -67,7 +68,7 @@ export type ArticleSitemapEntry = Pick<
 
 /** All published article slugs + last-modified, for the dynamic sitemap (FR-023). */
 export async function getPublishedArticleSlugs(): Promise<ArticleSitemapEntry[]> {
-  const supabase = await createServerClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("articles")
     .select("slug, updated_at")
@@ -88,7 +89,7 @@ export async function getPublishedArticleSlugs(): Promise<ArticleSitemapEntry[]>
 export async function getArticleBySlug(
   slug: string,
 ): Promise<ArticleDetail | null> {
-  const supabase = await createServerClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("articles")
     .select("*")
