@@ -10,6 +10,44 @@ type FooterCol = {
 const WA_NUMBER = process.env.NEXT_PUBLIC_WA_NUMBER ?? "628000000000";
 const WA_LINK = `https://wa.me/${WA_NUMBER}`;
 
+// Placeholder handles — swap for the real accounts before launch.
+const SOCIALS: { label: string; href: string; icon: React.ReactNode }[] = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/fellaswimming",
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden
+        className="h-[18px] w-[18px]"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect x="2" y="2" width="20" height="20" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    label: "TikTok",
+    href: "https://www.tiktok.com/@fellaswimming",
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden
+        className="h-[18px] w-[18px]"
+        fill="currentColor"
+      >
+        <path d="M16.5 3c.26 2.07 1.46 3.36 3.5 3.55v2.43c-1.18.05-2.27-.23-3.5-.83v5.7c0 3.2-2.3 5.65-5.4 5.65-3.1 0-5.4-2.13-5.4-5.23 0-3.02 2.32-5.23 5.23-5.23.3 0 .58.02.87.07v2.62a3.1 3.1 0 0 0-.87-.13c-1.5 0-2.6 1.18-2.6 2.67 0 1.5 1.1 2.7 2.6 2.7 1.6 0 2.73-1.22 2.73-3.12V3h2.84z" />
+      </svg>
+    ),
+  },
+];
+
 const COLS: FooterCol[] = [
   {
     heading: "Kelas",
@@ -53,6 +91,20 @@ export function Footer() {
             <p className="mt-3 max-w-[28ch] text-[0.92rem] text-foreground-muted">
               Sekolah renang Sidoarjo yang menulis dulu, baru jualan. Untuk anak 4–12 tahun.
             </p>
+            <div className="mt-4 flex items-center gap-2.5">
+              {SOCIALS.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface text-foreground-muted transition-colors hover:border-primary hover:text-primary"
+                >
+                  {s.icon}
+                </a>
+              ))}
+            </div>
           </div>
           {COLS.map((col) => (
             <div key={col.heading}>
