@@ -2,6 +2,7 @@
 
 import { Dialog } from "@base-ui/react/dialog";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import {
   Loader2,
   MessageCircle,
@@ -16,6 +17,7 @@ import { STATUS_OPTIONS, StatusBadge, getStatusLabel } from "./StatusBadge";
 import { ChunkyButton } from "@/components/shared/ChunkyButton";
 import { REGISTRATION_DETAIL_KEY } from "@/hooks/pendaftaranKeys";
 import { usePendaftaranMutation } from "@/hooks/usePendaftaranMutation";
+import { ActionError } from "@/lib/actions/errors";
 import { getAdminRegistrationDetail } from "@/lib/actions/registration";
 import type { Registration } from "@/lib/queries/registrations";
 import { cn } from "@/lib/utils";
@@ -26,7 +28,7 @@ import {
   formatRelativeID,
   formatWhatsAppDisplay,
 } from "@/lib/utils/format";
-import { buildWhatsAppLink } from "@/lib/utils/wa";
+import { buildWhatsAppLink, normalizeWhatsApp } from "@/lib/utils/wa";
 import type { RegistrationStatus } from "@/types/database.types";
 
 export function PendaftaranModal({
@@ -58,14 +60,25 @@ export function PendaftaranModal({
             "focus:outline-none",
           )}
         >
-          {leadId ? <ModalContent leadId={leadId} /> : null}
+          {leadId ? (
+            <ModalContent
+              leadId={leadId}
+              onClose={() => onOpenChange(false)}
+            />
+          ) : null}
         </Dialog.Popup>
       </Dialog.Portal>
     </Dialog.Root>
   );
 }
 
-function ModalContent({ leadId }: { leadId: string }) {
+function ModalContent({
+  leadId,
+  onClose,
+}: {
+  leadId: string;
+  onClose: () => void;
+}) {
   const query = useQuery({
     queryKey: REGISTRATION_DETAIL_KEY(leadId),
     queryFn: async (): Promise<Registration> => {
@@ -108,10 +121,17 @@ function ModalContent({ leadId }: { leadId: string }) {
   // `key={lead.id}` remounts ModalBody when navigating between leads, so the
   // local edit state (status, notes) re-seeds from fresh server data without
   // a setState-in-effect cascade.
-  return <ModalBody key={query.data.id} lead={query.data} />;
+  return <ModalBody key={query.data.id} lead={query.data} onClose={onClose} />;
 }
 
-function ModalBody({ lead }: { lead: Registration }) {
+function ModalBody({
+  lead,
+  onClose,
+}: {
+  lead: Registration;
+  onClose: () => void;
+}) {
+  const router = useRouter();
   const [status, setStatus] = useState<RegistrationStatus>(lead.status);
   const [notes, setNotes] = useState<string>(lead.internal_notes ?? "");
   const mutation = usePendaftaranMutation();
@@ -119,10 +139,14 @@ function ModalBody({ lead }: { lead: Registration }) {
   const dirty =
     status !== lead.status || (notes ?? "") !== (lead.internal_notes ?? "");
 
+  // Legacy rows may hold a malformed number; only build a wa.me link when it
+  // normalizes cleanly, otherwise the WA button renders disabled (FR / §12).
+  const normalizedWa = normalizeWhatsApp(lead.parent_whatsapp);
   const whatsappUrl = useMemo(() => {
+    if (!normalizedWa) return null;
     const message = `Halo Bunda ${lead.parent_name} (atau Ayah), ini Fellaswimming. Pendaftaran (ref: ${lead.display_id}) untuk ${lead.student_name} sudah kami terima. Boleh kita atur jadwal trial-nya?`;
-    return buildWhatsAppLink(lead.parent_whatsapp, message);
-  }, [lead.parent_name, lead.parent_whatsapp, lead.display_id, lead.student_name]);
+    return buildWhatsAppLink(normalizedWa, message);
+  }, [normalizedWa, lead.parent_name, lead.display_id, lead.student_name]);
 
   const onSave = () => {
     mutation.mutate(
@@ -136,10 +160,21 @@ function ModalBody({ lead }: { lead: Registration }) {
           toast.success("Perubahan tersimpan.");
         },
         onError: (err) => {
+          // Session expired mid-edit → bounce to login (form state is lost,
+          // acceptable per §12). Optimistic patch already rolled back.
+          if (err instanceof ActionError && err.code === "unauthenticated") {
+            toast.error("Sesi habis. Login ulang, ya.");
+            router.push("/login");
+            return;
+          }
+          // Lead deleted while the modal was open → close and prompt refresh.
+          if (err instanceof ActionError && err.code === "not_found") {
+            toast.error("Lead tidak ditemukan. Refresh halaman.");
+            onClose();
+            return;
+          }
           toast.error(
-            err instanceof Error
-              ? err.message
-              : "Gagal menyimpan. Coba lagi sebentar.",
+            err instanceof Error ? err.message : "Gagal simpan. Coba lagi.",
           );
         },
       },
@@ -271,23 +306,38 @@ function ModalBody({ lead }: { lead: Registration }) {
       </div>
 
       <footer className="flex shrink-0 flex-wrap items-center gap-3 border-t border-border bg-background px-7 py-4">
-        <ChunkyButton
-          asChild
-          variant="secondary"
-          size="sm"
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={cn(
-            "bg-[oklch(0.72_0.18_145)] text-white",
-            "shadow-[0_3px_0_0_oklch(0.55_0.18_145)]",
-            "hover:bg-[oklch(0.74_0.19_145)] hover:text-white",
-            "active:shadow-[0_1px_0_0_oklch(0.55_0.18_145)]",
-          )}
-        >
-          <MessageCircle className="h-4 w-4" strokeWidth={2.4} />
-          Chat di WhatsApp
-        </ChunkyButton>
+        {whatsappUrl ? (
+          <ChunkyButton
+            asChild
+            variant="secondary"
+            size="sm"
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(
+              "bg-[oklch(0.72_0.18_145)] text-white",
+              "shadow-[0_3px_0_0_oklch(0.55_0.18_145)]",
+              "hover:bg-[oklch(0.74_0.19_145)] hover:text-white",
+              "active:shadow-[0_1px_0_0_oklch(0.55_0.18_145)]",
+            )}
+          >
+            <MessageCircle className="h-4 w-4" strokeWidth={2.4} />
+            Chat di WhatsApp
+          </ChunkyButton>
+        ) : (
+          <span title="Nomor WhatsApp tidak valid" className="inline-flex">
+            <ChunkyButton
+              variant="secondary"
+              size="sm"
+              type="button"
+              disabled
+              aria-label="Nomor WhatsApp tidak valid"
+            >
+              <MessageCircle className="h-4 w-4" strokeWidth={2.4} />
+              WhatsApp tidak valid
+            </ChunkyButton>
+          </span>
+        )}
         <ChunkyButton
           variant="primary"
           size="sm"

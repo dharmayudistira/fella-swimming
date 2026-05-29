@@ -2,6 +2,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { ActionError } from "@/lib/actions/errors";
 import { updateRegistrationStatus } from "@/lib/actions/registration";
 import type { Registration } from "@/lib/queries/registrations";
 import type { UpdateRegistrationStatusInput } from "@/lib/validation/registration-admin.schema";
@@ -33,7 +34,7 @@ export function usePendaftaranMutation() {
     ): Promise<Registration> => {
       const result = await updateRegistrationStatus(input);
       if (!result.success) {
-        throw new Error(result.error);
+        throw new ActionError(result.error, result.code);
       }
       return result.data;
     },

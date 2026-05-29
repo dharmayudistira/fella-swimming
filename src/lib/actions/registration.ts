@@ -11,6 +11,7 @@ import {
   type GetRegistrationsListResult,
   type Registration,
 } from "@/lib/queries/registrations";
+import type { ActionErrorCode } from "@/lib/actions/errors";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createServerClient } from "@/lib/supabase/server";
 import {
@@ -101,7 +102,7 @@ export async function getAdminRegistrationsList(
 
 export type AdminRegistrationDetailResult =
   | { success: true; data: Registration }
-  | { success: false; error: string };
+  | { success: false; error: string; code?: ActionErrorCode };
 
 /**
  * Admin-only — fetch full registration detail for the modal. Auth-checks
@@ -115,7 +116,11 @@ export async function getAdminRegistrationDetail(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    return { success: false, error: "Sesi habis. Login ulang, ya." };
+    return {
+      success: false,
+      error: "Sesi habis. Login ulang, ya.",
+      code: "unauthenticated",
+    };
   }
 
   if (!id) {
@@ -124,14 +129,23 @@ export async function getAdminRegistrationDetail(
 
   const data = await getRegistrationById(id);
   if (!data) {
-    return { success: false, error: "Pendaftaran tidak ditemukan." };
+    return {
+      success: false,
+      error: "Pendaftaran tidak ditemukan.",
+      code: "not_found",
+    };
   }
   return { success: true, data };
 }
 
 export type UpdateRegistrationStatusResult =
   | { success: true; data: Registration }
-  | { success: false; error: string; fieldErrors?: Record<string, string[]> };
+  | {
+      success: false;
+      error: string;
+      code?: ActionErrorCode;
+      fieldErrors?: Record<string, string[]>;
+    };
 
 /**
  * Admin-only — update a registration's status and/or internal notes.
@@ -163,14 +177,22 @@ export async function updateRegistrationStatus(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    return { success: false, error: "Sesi habis. Login ulang, ya." };
+    return {
+      success: false,
+      error: "Sesi habis. Login ulang, ya.",
+      code: "unauthenticated",
+    };
   }
 
   const { id, status, internal_notes } = parsed.data;
 
   const current = await getRegistrationById(id);
   if (!current) {
-    return { success: false, error: "Pendaftaran tidak ditemukan." };
+    return {
+      success: false,
+      error: "Pendaftaran tidak ditemukan.",
+      code: "not_found",
+    };
   }
 
   const update: Partial<Registration> = { status };

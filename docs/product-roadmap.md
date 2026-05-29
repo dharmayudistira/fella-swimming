@@ -385,7 +385,7 @@
   Files: `src/components/public/registration/RegistrationWizard.tsx`, `src/lib/actions/registration.ts`
   Notes: Per § 12 Registration Form table. Normalize WA number with leading 0 → 62. Disable submit button after first click to prevent double-submit. On network error, toast with "Gagal kirim. Coba lagi." + retry button. Verify: edge cases trigger expected behaviors.
 
-- [ ] **TASK-073** — Apply edge-case error handling for admin auth and pendaftaran.
+- [x] **TASK-073** — Apply edge-case error handling for admin auth and pendaftaran.
   Files: `src/app/(auth)/login/page.tsx`, `src/components/admin/pendaftaran/PendaftaranModal.tsx`
   Notes: Per § 12 Admin Auth + Admin Pendaftaran tables. Generic login error. Session-expired handling (redirect to /login on protected action failure). WA number invalid: button disabled + tooltip. Verify: edge cases trigger expected behaviors.
 
