@@ -3,6 +3,12 @@ import "server-only";
 import { createServerClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/database.types";
 
+export type ArticleStatus = Database["public"]["Enums"]["article_status"];
+export type Category = Pick<
+  Database["public"]["Tables"]["categories"]["Row"],
+  "id" | "name" | "slug"
+>;
+
 export type ArticleListItem = Pick<
   Database["public"]["Tables"]["articles"]["Row"],
   | "id"
@@ -74,4 +80,105 @@ export async function getArticleBySlug(
     return null;
   }
   return data;
+}
+
+/* ------------------------------------------------------------------ *
+ * Admin queries — return all statuses (RLS gives authenticated admins
+ * full read; anon callers only see published, never drafts).
+ * ------------------------------------------------------------------ */
+
+export type AdminArticleListItem = Pick<
+  Database["public"]["Tables"]["articles"]["Row"],
+  | "id"
+  | "slug"
+  | "title"
+  | "status"
+  | "category_id"
+  | "cover_image_url"
+  | "cover_image_alt"
+  | "reading_time_minutes"
+  | "published_at"
+  | "updated_at"
+>;
+
+const ADMIN_LIST_COLUMNS =
+  "id, slug, title, status, category_id, cover_image_url, cover_image_alt, reading_time_minutes, published_at, updated_at";
+
+export type GetAdminArticlesParams = {
+  status?: ArticleStatus | "all";
+  search?: string;
+  page?: number;
+  pageSize?: number;
+};
+
+export type GetAdminArticlesResult = {
+  items: AdminArticleListItem[];
+  total: number;
+  page: number;
+  pageSize: number;
+};
+
+/** Paginated/filterable admin article list, newest-edited first. */
+export async function getAdminArticles({
+  status = "all",
+  search,
+  page = 1,
+  pageSize = 10,
+}: GetAdminArticlesParams = {}): Promise<GetAdminArticlesResult> {
+  const supabase = await createServerClient();
+  const safePage = Math.max(1, page);
+  const from = (safePage - 1) * pageSize;
+  const to = from + pageSize - 1;
+
+  let query = supabase
+    .from("articles")
+    .select(ADMIN_LIST_COLUMNS, { count: "exact" })
+    .order("updated_at", { ascending: false })
+    .range(from, to);
+
+  if (status !== "all") {
+    query = query.eq("status", status);
+  }
+  const trimmed = search?.trim();
+  if (trimmed) {
+    query = query.ilike("title", `%${trimmed}%`);
+  }
+
+  const { data, error, count } = await query;
+  if (error) {
+    console.error("[articles] getAdminArticles failed", error);
+    return { items: [], total: 0, page: safePage, pageSize };
+  }
+  return { items: data ?? [], total: count ?? 0, page: safePage, pageSize };
+}
+
+/** Full article row by id — for the admin editor (edit mode). */
+export async function getArticleById(id: string): Promise<ArticleDetail | null> {
+  const supabase = await createServerClient();
+  const { data, error } = await supabase
+    .from("articles")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) {
+    console.error("[articles] getArticleById failed", error);
+    return null;
+  }
+  return data;
+}
+
+/** All categories, alphabetical — feeds the editor's free-text autocomplete. */
+export async function getCategories(): Promise<Category[]> {
+  const supabase = await createServerClient();
+  const { data, error } = await supabase
+    .from("categories")
+    .select("id, name, slug")
+    .order("name", { ascending: true });
+
+  if (error) {
+    console.error("[articles] getCategories failed", error);
+    return [];
+  }
+  return data ?? [];
 }
