@@ -68,9 +68,32 @@ export default async function ArticleDetailPage({
   if (!article) notFound();
 
   const date = formatDateID(article.published_at);
+  const canonical = `${SITE.url}/artikel/${article.slug}`;
+
+  // Article structured data (FR / TASK-069) — validates in Google Rich Results.
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.excerpt,
+    image: [article.cover_image_url],
+    datePublished: article.published_at ?? article.created_at,
+    dateModified: article.updated_at,
+    author: { "@type": "Organization", name: article.author_name },
+    publisher: { "@type": "Organization", name: SITE.name },
+    mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+  };
 
   return (
     <article>
+      <script
+        type="application/ld+json"
+        // Escape "<" so an admin-entered title/excerpt can never close the
+        // <script> tag (XSS-safe serialization of trusted DB fields).
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <div className="relative aspect-[16/9] w-full overflow-hidden bg-surface-muted md:hidden">
         <Image
           src={article.cover_image_url}

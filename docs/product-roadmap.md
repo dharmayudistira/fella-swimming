@@ -369,7 +369,7 @@
   Files: `src/app/(public)/page.tsx`, `src/app/(public)/daftar/page.tsx`, `src/app/(public)/artikel/page.tsx`, `src/app/(public)/artikel/[slug]/page.tsx`, `src/lib/constants/seo.ts`
   Notes: Each page exports `metadata` (or `generateMetadata` for dynamic). Centralize defaults in `src/lib/constants/seo.ts`. Landing: title = "Fellaswimming — Sekolah Renang Sidoarjo", description = tagline, og:image = `/images/og-default.png`. Articles use cover_image_url for og:image. Add canonical URL via `NEXT_PUBLIC_SITE_URL + pathname`. Verify: view page source on each public page → meta tags present.
 
-- [ ] **TASK-069** — Add structured data (JSON-LD) for articles.
+- [x] **TASK-069** — Add structured data (JSON-LD) for articles.
   Files: `src/app/(public)/artikel/[slug]/page.tsx`
   Notes: Inline a `<script type="application/ld+json">` with Article schema: headline, image, datePublished, dateModified, author. Use Next.js Script component or inline in metadata. Verify: Google Rich Results Test tool reports valid Article schema.
 
