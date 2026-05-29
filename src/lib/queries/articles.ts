@@ -60,6 +60,27 @@ export async function getPublishedArticles({
   return { items: data ?? [], total: count ?? 0 };
 }
 
+export type ArticleSitemapEntry = Pick<
+  Database["public"]["Tables"]["articles"]["Row"],
+  "slug" | "updated_at"
+>;
+
+/** All published article slugs + last-modified, for the dynamic sitemap (FR-023). */
+export async function getPublishedArticleSlugs(): Promise<ArticleSitemapEntry[]> {
+  const supabase = await createServerClient();
+  const { data, error } = await supabase
+    .from("articles")
+    .select("slug, updated_at")
+    .eq("status", "published")
+    .order("updated_at", { ascending: false });
+
+  if (error) {
+    console.error("[articles] getPublishedArticleSlugs failed", error);
+    return [];
+  }
+  return data ?? [];
+}
+
 /**
  * Single published article by slug — used by /artikel/[slug].
  * Returns null when not found or not published so the route can 404.

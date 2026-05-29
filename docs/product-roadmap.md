@@ -373,7 +373,7 @@
   Files: `src/app/(public)/artikel/[slug]/page.tsx`
   Notes: Inline a `<script type="application/ld+json">` with Article schema: headline, image, datePublished, dateModified, author. Use Next.js Script component or inline in metadata. Verify: Google Rich Results Test tool reports valid Article schema.
 
-- [ ] **TASK-070** — Generate dynamic sitemap and robots.txt (FR-023).
+- [x] **TASK-070** — Generate dynamic sitemap and robots.txt (FR-023).
   Files: `src/app/sitemap.ts`, `src/app/robots.ts`
   Notes: sitemap.ts: include `/`, `/daftar`, `/artikel`, and all published article slugs with `lastmod` = `updated_at`. robots.ts: allow all crawlers, disallow `/admin`, `/login`, `/lupa-password`, `/reset-password`, `/api`. Verify: visit /sitemap.xml and /robots.txt → both render correctly.
 
