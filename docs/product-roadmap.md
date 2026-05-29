@@ -389,7 +389,7 @@
   Files: `src/app/(auth)/login/page.tsx`, `src/components/admin/pendaftaran/PendaftaranModal.tsx`
   Notes: Per § 12 Admin Auth + Admin Pendaftaran tables. Generic login error. Session-expired handling (redirect to /login on protected action failure). WA number invalid: button disabled + tooltip. Verify: edge cases trigger expected behaviors.
 
-- [ ] **TASK-074** — Apply edge-case error handling for article CMS.
+- [x] **TASK-074** — Apply edge-case error handling for article CMS.
   Files: `src/components/admin/artikel/TiptapEditor.tsx`, `src/lib/actions/uploads.ts`, `src/lib/actions/articles.ts`, `src/components/admin/artikel/ArticleEditor.tsx`
   Notes: Per § 12 Article CMS table. Image > 5MB rejected with toast. Unsupported MIME rejected. Storage upload failure surfaced. Slug collision validation. Verify: each edge case triggers expected behavior.
 
